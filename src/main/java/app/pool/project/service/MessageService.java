@@ -16,10 +16,6 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
-//    @Value("${messageImg.path}")
-    private String uploadFolder;
-
-
     public void write(MessageCreate messageCreate) {
 
         Message message = Message.builder()
@@ -27,7 +23,26 @@ public class MessageService {
                 .body(messageCreate.getBody())
                 .messageLink(messageCreate.getMessageLink())
                 .build();
+
+        messageRepository.save(message);
     }
 
+
+    public void get() {
+
+    }
+
+    public void getList() {
+
+    }
+
+    @Transactional
+    public void edit() {
+
+    }
+
+    public void delete() {
+
+    }
 
 }
