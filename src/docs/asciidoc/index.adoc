@@ -1,0 +1,19 @@
+= [POOL] API문서
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+
+== 글 작성
+
+=== 요청
+include::{snippets}/message-create/http-request.adoc[]
+
+include::{snippets}/message-create/request-fields.adoc[]
+
+
+=== 응답
+include::{snippets}/message-create/http-response.adoc[]
