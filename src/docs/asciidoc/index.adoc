@@ -6,14 +6,25 @@
 :toclevels: 2
 :sectlinks:
 
-
-== 글 작성
+== 메시지 작성
 
 === 요청
 include::{snippets}/message-create/http-request.adoc[]
 
 include::{snippets}/message-create/request-fields.adoc[]
 
-
 === 응답
 include::{snippets}/message-create/http-response.adoc[]
+
+== 메시지 단건조회
+
+=== 요청
+include::{snippets}/message-inquiry/http-request.adoc[]
+
+include::{snippets}/message-inquiry/path-parameters.adoc[]
+
+
+=== 응답
+include::{snippets}/message-inquiry/http-response.adoc[]
+
+include::{snippets}/message-inquiry/response-fields.adoc[]
