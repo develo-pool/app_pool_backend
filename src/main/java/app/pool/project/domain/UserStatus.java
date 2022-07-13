@@ -1,4 +1,4 @@
-package app.pool.project.entity;
+package app.pool.project.domain;
 
 public enum UserStatus {
 
