@@ -46,7 +46,7 @@ class MessageServiceTest {
                 .build();
 
         // when
-        messageService.write(messageCreate, messageCreate.getFiles());
+        messageService.write(messageCreate);
 
         // then
         Assertions.assertEquals(1L, messageRepository.count());

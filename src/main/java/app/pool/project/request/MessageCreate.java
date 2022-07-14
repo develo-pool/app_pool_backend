@@ -17,13 +17,11 @@ public class MessageCreate {
     private String title;
     private String body;
     private String messageLink;
-    private List<MultipartFile> files;
 
     @Builder
-    public MessageCreate(String title, String body, String messageLink, List<MultipartFile> files) {
+    public MessageCreate(String title, String body, String messageLink) {
         this.title = title;
         this.body = body;
         this.messageLink = messageLink;
-        this.files = files;
     }
 }

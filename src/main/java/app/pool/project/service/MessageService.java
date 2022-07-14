@@ -2,10 +2,8 @@ package app.pool.project.service;
 
 import app.pool.project.domain.Message;
 import app.pool.project.domain.MessageEditor;
-import app.pool.project.domain.Photo;
 import app.pool.project.exception.MessageNotFound;
 import app.pool.project.repository.MessageRepository;
-import app.pool.project.repository.PhotoRepository;
 import app.pool.project.request.MessageCreate;
 import app.pool.project.request.MessageEdit;
 import app.pool.project.request.MessageSearch;
@@ -14,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,24 +22,14 @@ import java.util.stream.Collectors;
 public class MessageService {
 
     private final MessageRepository messageRepository;
-    private final PhotoRepository photoRepository;
-    private final FileHandler fileHandler;
 
-    public void write(MessageCreate messageCreate, List<MultipartFile> files) throws Exception{
+    public void write(MessageCreate messageCreate){
 
         Message message = Message.builder()
                 .title(messageCreate.getTitle())
                 .body(messageCreate.getBody())
                 .messageLink(messageCreate.getMessageLink())
                 .build();
-
-        List<Photo> photoList = fileHandler.parseFileInfo(files);
-
-        if (!photoList.isEmpty()) {
-            for (Photo photo : photoList) {
-                message.addPhoto(photoRepository.save(photo));
-            }
-        }
 
         messageRepository.save(message);
     }

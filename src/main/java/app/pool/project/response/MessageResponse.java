@@ -12,7 +12,6 @@ public class MessageResponse {
     private final String body;
 //    private PoolUser user;
     private final String messageLink;
-//    private final List<String> messageImg;
 
 
     public MessageResponse(Message message) {

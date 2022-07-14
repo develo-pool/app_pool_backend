@@ -1,5 +1,6 @@
 package app.pool.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,16 +29,19 @@ public class Message {
 //    private User user;
 
     private LocalDateTime createDate;
-
     private CommentStatus status;
 
-    @OneToMany(mappedBy = "message", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
-    private List<Photo> photo = new ArrayList<>();
+    @OrderBy("id")
+    @JsonIgnoreProperties({"message"})
+    @OneToMany(mappedBy = "message")
+    private List<Comment> commentList;
+
 
     @PrePersist
     public void CreateDate() {
         this.createDate = LocalDateTime.now();
     }
+
 
     @Builder
     public Message(String title, String body, String messageLink) {
@@ -59,11 +63,4 @@ public class Message {
         messageLink = messageEditor.getMessageLink();
     }
 
-    public void addPhoto(Photo photo) {
-        this.photo.add(photo);
-
-        if (photo.getMessage() != this) {
-            photo.setMessage(this);
-        }
-    }
 }

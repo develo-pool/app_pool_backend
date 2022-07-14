@@ -260,4 +260,40 @@ class MessageControllerTest {
 //                .andDo(print());
 //    }
 
+    @Test
+    @DisplayName("/messages 여러개 조회")
+    void test10() throws Exception{
+        // given
+        Message message1 = messageRepository.save(Message.builder()
+                .title("제목1")
+                .body("본문1")
+                .messageLink("링크1")
+                .build());
+
+        Message message2 = messageRepository.save(Message.builder()
+                .title("제목2")
+                .body("본문2")
+                .messageLink("링크2")
+                .build());
+
+
+        // expected
+        mockMvc.perform(get("/messages")
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", Matchers.is(2)))
+                .andExpect(jsonPath("$[0].id").value(message1.getId()))
+                .andExpect(jsonPath("$[0].title").value("제목1"))
+                .andExpect(jsonPath("$[0].body").value("본문1"))
+                .andExpect(jsonPath("$[0].messageLink").value("링크1"))
+                .andExpect(jsonPath("$[1].id").value(message2.getId()))
+                .andExpect(jsonPath("$[1].title").value("제목2"))
+                .andExpect(jsonPath("$[1].body").value("본문2"))
+                .andExpect(jsonPath("$[1].messageLink").value("링크2"))
+                .andDo(print());
+
+
+    }
+
 }

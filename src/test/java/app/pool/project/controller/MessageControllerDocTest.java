@@ -57,15 +57,10 @@ public class MessageControllerDocTest {
     @DisplayName("메시지 작성")
     void test1() throws Exception {
         // given
-        List<MultipartFile> imageFiles = List.of(
-                new MockMultipartFile("test1", "test1.PNG", MediaType.IMAGE_PNG_VALUE, "test1".getBytes()),
-                new MockMultipartFile("test2", "test2.PNG", MediaType.IMAGE_PNG_VALUE, "test2".getBytes())
-        );
         MessageCreate request = MessageCreate.builder()
                 .title("제목입니다.")
                 .body("본문입니다.")
                 .messageLink("https://github.com/Lee-DoHa")
-                .files(imageFiles)
                 .build();
 
         String json = objectMapper.writeValueAsString(request);
@@ -84,9 +79,7 @@ public class MessageControllerDocTest {
                                 PayloadDocumentation.fieldWithPath("body").description("본문")
                                         .attributes(key("constraint").value("메시지의 본문을 입력해주세요.")),
                                 PayloadDocumentation.fieldWithPath("messageLink").description("링크")
-                                        .attributes(key("constraint").value("메시지의 링크를 첨부해주세요.")),
-                                PayloadDocumentation.fieldWithPath("files").description("이미지파일")
-                                        .attributes(key("constraint").value("메시지의 이미지를 첨부해주세요."))
+                                        .attributes(key("constraint").value("메시지의 링크를 첨부해주세요."))
                         )
                 ));
     }
