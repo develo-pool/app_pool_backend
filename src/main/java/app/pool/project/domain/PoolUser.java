@@ -1,77 +1,90 @@
 package app.pool.project.domain;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import lombok.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-@Setter
-public class PoolUser implements UserDetails {
+@Builder
+@AllArgsConstructor
+public class PoolUser extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "poolUser_id")
+    private long id; // primary key
 
-    private String nickName;
-    private String password;
-    private String phoneNumber;
-//    private List<Category> category;
+    @Column(unique = true)
+    private String username; // 아이디
+
+    private String password; // 비밀번호
+
+    @Column(unique = true)
+    private String nickName; // 회원 닉네임 (중복 불가)
+
+    private String phoneNumber; // 휴대폰 번호
 
     @Enumerated(EnumType.STRING)
-    private UserStatus status; // 회원 상태(BRAND_USER, USER)
-
-//    @Enumerated(EnumType.STRING)
-//    private AuthStatus authenticate; // 문자인증 상태(NOT_YET, DONE)
+    private UserStatus userStatus; // 회원 상태(BRAND_USER, USER, INIT_USER)
 
     @Enumerated(EnumType.STRING)
     private GenderStatus gender; // 성별(MALE, FEMALE)
 
-//    @Enumerated(EnumType.STRING)
-//    private NotificationStatus notification; // 알림 수신동의 상태(BRAND_USER, USER)
-
-    private LocalDateTime createDate;
+    @Column(length = 1000)
+    private String refreshToken;
 
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+
+    //== 회원 탈퇴 시 게시글, 댓글 삭제 ==//
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messageList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
+
+
+
+    //== 연관 관계 메서드==//
+    public void addMessage(Message message) {
+        // message의 writer 설정은 message에서 함.
+        messageList.add(message);
     }
 
-    @Override
-    public String getUsername() {
-        return nickName;
+    public void addComment(Comment comment) {
+        // comment의 writer 설정은 comment에서 함.
+        commentList.add(comment);
     }
 
-    @Override
-    public String getPassword() {
-        return password;
+
+
+    //== 정보 수정==//
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
+    public void destroyRefreshToken() {
+        this.refreshToken = null;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
+    public void updatePassword(PasswordEncoder passwordEncoder, String password) {
+        this.password = passwordEncoder.encode(password);
     }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
+    public void updateNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
+
+
+    //== 패스워드 암호화 ==//
+    public void encodePassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(password);
     }
+
+
 }
