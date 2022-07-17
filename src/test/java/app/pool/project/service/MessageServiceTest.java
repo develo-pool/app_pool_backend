@@ -1,12 +1,12 @@
 //package app.pool.project.service;
 //
-//import app.pool.project.domain.Message;
+//import app.pool.project.message.Message;
 //import app.pool.project.exception.MessageNotFound;
-//import app.pool.project.repository.MessageRepository;
-//import app.pool.project.request.MessageCreate;
-//import app.pool.project.request.MessageEdit;
-//import app.pool.project.request.MessageSearch;
-//import app.pool.project.response.MessageResponse;
+//import app.pool.project.message.repository.MessageRepository;
+//import app.pool.project.message.dto.MessageCreate;
+//import app.pool.project.message.dto.MessageEdit;
+//import app.pool.project.message.dto.MessageSearch;
+//import app.pool.project.message.dto.MessageResponse;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.DisplayName;

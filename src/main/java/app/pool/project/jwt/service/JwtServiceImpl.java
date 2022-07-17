@@ -1,6 +1,6 @@
 package app.pool.project.jwt.service;
 
-import app.pool.project.repository.UserRepository;
+import app.pool.project.user.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import lombok.AccessLevel;

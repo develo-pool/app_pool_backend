@@ -1,8 +1,8 @@
 //package app.pool.project.repository;
 //
-//import app.pool.project.domain.GenderStatus;
-//import app.pool.project.domain.PoolUser;
-//import app.pool.project.domain.UserStatus;
+//import app.pool.project.user.GenderStatus;
+//import app.pool.project.user.PoolUser;
+//import app.pool.project.user.UserStatus;
 //import org.junit.jupiter.api.AfterEach;
 //import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package app.pool.project.login.handler;
 
-import app.pool.project.repository.UserRepository;
+import app.pool.project.user.repository.UserRepository;
 import app.pool.project.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

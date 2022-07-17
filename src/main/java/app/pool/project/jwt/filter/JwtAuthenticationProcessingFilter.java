@@ -1,8 +1,8 @@
 package app.pool.project.jwt.filter;
 
-import app.pool.project.domain.PoolUser;
+import app.pool.project.user.PoolUser;
 import app.pool.project.jwt.service.JwtService;
-import app.pool.project.repository.UserRepository;
+import app.pool.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -72,7 +72,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private void saveAuthentication(PoolUser poolUser) {
         UserDetails user = User.builder()
-                .username(poolUser.getUsername())
+                .username(poolUser.getPhoneNumber())
                 .password(poolUser.getPassword())
                 .roles(poolUser.getUserStatus().name())
                 .build();

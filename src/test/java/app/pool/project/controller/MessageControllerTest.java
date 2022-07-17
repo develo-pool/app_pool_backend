@@ -1,9 +1,9 @@
 //package app.pool.project.controller;
 //
-//import app.pool.project.domain.Message;
-//import app.pool.project.repository.MessageRepository;
-//import app.pool.project.request.MessageCreate;
-//import app.pool.project.request.MessageEdit;
+//import app.pool.project.message.Message;
+//import app.pool.project.message.repository.MessageRepository;
+//import app.pool.project.message.dto.MessageCreate;
+//import app.pool.project.message.dto.MessageEdit;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.hamcrest.Matchers;
 //import org.junit.jupiter.api.Assertions;

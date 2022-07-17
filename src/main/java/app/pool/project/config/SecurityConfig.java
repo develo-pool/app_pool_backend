@@ -4,9 +4,9 @@ import app.pool.project.jwt.filter.JwtAuthenticationProcessingFilter;
 import app.pool.project.login.handler.LoginFailureHandler;
 import app.pool.project.login.handler.LoginSuccessJWTProvideHandler;
 import app.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
-import app.pool.project.repository.UserRepository;
+import app.pool.project.user.repository.UserRepository;
 import app.pool.project.jwt.service.JwtService;
-import app.pool.project.service.LoginService;
+import app.pool.project.user.service.LoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +24,7 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     private final ObjectMapper objectMapper;
