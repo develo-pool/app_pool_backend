@@ -1,8 +1,8 @@
 package app.pool.project.comment.repository;
 
 import app.pool.project.comment.Comment;
+import app.pool.project.comment.QComment;
 import app.pool.project.comment.service.CommentSearch;
-import app.pool.project.domain.QComment;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

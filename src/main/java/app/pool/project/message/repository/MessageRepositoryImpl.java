@@ -1,7 +1,7 @@
 package app.pool.project.message.repository;
 
 import app.pool.project.message.Message;
-import app.pool.project.domain.QMessage;
+import app.pool.project.message.QMessage;
 import app.pool.project.message.dto.MessageSearch;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
