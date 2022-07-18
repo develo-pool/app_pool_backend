@@ -38,7 +38,7 @@ public class Message extends BaseTimeEntity {
     private CommentStatus status;
 
 
-    //== 메시지 삭제 시, 댓글 전체 삭제 ==//
+    //== 메시지 삭제 시, 댓글 전부 삭제 ==//
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList = new ArrayList<>();
 
