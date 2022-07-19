@@ -43,7 +43,7 @@ public class Message extends BaseTimeEntity {
     private List<Comment> commentList = new ArrayList<>();
 
 
-    //== 연관관계 메서드 ==//
+    //== 연관관계 메서드입니다. ==//
     public void confirmWriter(PoolUser poolUser) {
         this.writer = writer;
         writer.addMessage(this);
