@@ -1,4 +1,4 @@
-package app.pool.project.response;
+package app.pool.project.message.response;
 
 import lombok.Builder;
 import lombok.Getter;

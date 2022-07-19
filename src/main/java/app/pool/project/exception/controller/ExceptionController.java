@@ -1,7 +1,7 @@
-package app.pool.project.controller;
+package app.pool.project.exception.controller;
 
 import app.pool.project.exception.PoolException;
-import app.pool.project.response.ErrorResponse;
+import app.pool.project.message.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
