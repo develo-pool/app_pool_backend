@@ -1,6 +1,5 @@
 HELP.md
 .gradle
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -61,10 +60,8 @@ MANIFEST.MF
 _site/
 activemq-data
 bin
-build
 !/**/src/**/bin
 !/**/src/**/build
-build.log
 dependency-reduced-pom.xml
 dump.rdb
 interpolated*.xml
