@@ -14,7 +14,7 @@ configurations {
         extendsFrom annotationProcessor
     }
 
-    asciidoctorExt
+    asciidoctorExtensions
 }
 
 repositories {
@@ -22,8 +22,7 @@ repositories {
 }
 
 ext {
-    asciidocVersion = "2.0.6.RELEASE"
-    snippetsDir = 'build/generated-snippets'
+    snippetsDir = file("${buildDir}/build/generated-snippets")
 }
 
 dependencies {
@@ -40,8 +39,8 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.auth0:java-jwt:3.18.2'
 
-    asciidoctorExt "org.springframework.restdocs:spring-restdocs-asciidoctor:${asciidocVersion}"
-    testImplementation "org.springframework.restdocs:spring-restdocs-mockmvc:${asciidocVersion}"
+    asciidoctorExtensions 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc:2.0.6.RELEASE'
 
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
     annotationProcessor("jakarta.persistence:jakarta.persistence-api")
@@ -55,13 +54,15 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 }
 
-tasks.named('test') {
+test {
+    outputs.dir snippetsDir
     useJUnitPlatform()
+    finalizedBy 'asciidoctor'
 }
 
 asciidoctor {
     inputs.dir snippetsDir
-    configurations 'asciidoctorExt'
+    configurations 'asciidoctorExtensions'
     dependsOn test
 }
 
