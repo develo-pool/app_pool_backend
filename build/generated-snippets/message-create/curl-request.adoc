@@ -1,0 +1,7 @@
+[source,bash]
+----
+$ curl 'https://api.pool.network/messages' -i -X POST \
+    -H 'Content-Type: application/json' \
+    -H 'Accept: application/json' \
+    -d '{"title":"제목입니다.","body":"본문입니다.","messageLink":"https://github.com/Lee-DoHa"}'
+----
