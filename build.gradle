@@ -23,7 +23,7 @@ repositories {
 
 ext {
     asciidocVersion = "2.0.6.RELEASE"
-    snippetsDir = file('build/generated-snippets')
+    snippetsDir = 'build/generated-snippets'
 }
 
 dependencies {
