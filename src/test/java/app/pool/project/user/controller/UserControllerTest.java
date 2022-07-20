@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +55,11 @@ class UserControllerTest {
     private String username = "username";
     private String password = "password1234@";
     private String nickName = "doha";
+    private String phoneNumber = "01053197659";
+    private String gender = "MALE";
+    private Integer birthday = 981029;
+    private Boolean termAgreement = Boolean.TRUE;
+    private Boolean privacyAgreement = Boolean.TRUE;
 
     private void clear() {
         em.flush();
@@ -90,13 +96,13 @@ class UserControllerTest {
     @Test
     public void test_signUp() throws Exception {
         //given
-        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName));
+        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement));
 
         //when
         signUp(signUpData);
 
         //then
-        PoolUser poolUser = userRepository.findByUsername(username).orElseThrow(() -> new Exception("회원 없습니다."));
+        PoolUser poolUser = userRepository.findByUsername(username).orElseThrow(() -> new Exception("회원아 없습니다."));
         assertThat(poolUser.getNickName()).isEqualTo(nickName);
         assertThat(userRepository.findAll().size()).isEqualTo(1);
     }
