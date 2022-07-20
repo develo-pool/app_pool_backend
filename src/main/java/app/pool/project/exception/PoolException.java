@@ -23,4 +23,6 @@ public abstract class PoolException extends RuntimeException{
     public void addValidation(String fieldName, String message) {
         validation.put(fieldName, message);
     }
+
+    public abstract PoolExceptionType getExceptionType();
 }

@@ -20,4 +20,9 @@ public class InvalidRequest extends PoolException{
     public int getStatusCode() {
         return 400;
     }
+
+    @Override
+    public PoolExceptionType getExceptionType() {
+        return null;
+    }
 }

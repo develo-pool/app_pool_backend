@@ -12,4 +12,9 @@ public class MessageNotFound extends PoolException{
     public int getStatusCode() {
         return 404;
     }
+
+    @Override
+    public PoolExceptionType getExceptionType() {
+        return null;
+    }
 }
