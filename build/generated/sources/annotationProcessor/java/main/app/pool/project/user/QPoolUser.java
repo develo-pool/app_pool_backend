@@ -22,12 +22,14 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
 
     public final app.pool.project.domain.QBaseTimeEntity _super = new app.pool.project.domain.QBaseTimeEntity(this);
 
+    public final NumberPath<Integer> birthday = createNumber("birthday", Integer.class);
+
     public final ListPath<app.pool.project.comment.Comment, app.pool.project.comment.QComment> commentList = this.<app.pool.project.comment.Comment, app.pool.project.comment.QComment>createList("commentList", app.pool.project.comment.Comment.class, app.pool.project.comment.QComment.class, PathInits.DIRECT2);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
-    public final EnumPath<GenderStatus> gender = createEnum("gender", GenderStatus.class);
+    public final StringPath gender = createString("gender");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -42,7 +44,11 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
 
     public final StringPath phoneNumber = createString("phoneNumber");
 
+    public final BooleanPath privacyAgreement = createBoolean("privacyAgreement");
+
     public final StringPath refreshToken = createString("refreshToken");
+
+    public final BooleanPath termAgreement = createBoolean("termAgreement");
 
     public final StringPath username = createString("username");
 

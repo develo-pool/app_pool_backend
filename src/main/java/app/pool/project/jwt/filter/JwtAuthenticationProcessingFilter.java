@@ -72,7 +72,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     private void saveAuthentication(PoolUser poolUser) {
         UserDetails user = User.builder()
-                .username(poolUser.getPhoneNumber())
+                .username(poolUser.getUsername())
                 .password(poolUser.getPassword())
                 .roles(poolUser.getUserStatus().name())
                 .build();

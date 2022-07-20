@@ -20,7 +20,7 @@ public class LoginService implements UserDetailsService {
         PoolUser poolUser = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("아이디가 없습니다."));
         return User.builder()
-                .username(poolUser.getPhoneNumber())
+                .username(poolUser.getUsername())
                 .password(poolUser.getPassword())
                 .roles(poolUser.getUserStatus().name())
                 .build();

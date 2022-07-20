@@ -35,8 +35,14 @@ public class PoolUser extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus; // 회원 상태(BRAND_USER, USER, INIT_USER)
 
-    @Enumerated(EnumType.STRING)
-    private GenderStatus gender; // 성별(MALE, FEMALE)
+    private String gender; // 성별(MALE, FEMALE)
+
+    @Column(length = 6)
+    private Integer birthday; // 생년월일(6글자)
+
+    private Boolean termAgreement; // 이용약관 동의 여부
+
+    private Boolean privacyAgreement; // 개인정보 처리방침 동의 여부
 
     @Column(length = 1000)
     private String refreshToken;
