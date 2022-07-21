@@ -1,6 +1,6 @@
 package app.pool.project.exception;
 
-public class MessageNotFound extends PoolException{
+public class MessageNotFound extends BaseException {
 
     private static final String MESSAGE = "존재하지 않는 메시지입니다.";
 
@@ -14,7 +14,7 @@ public class MessageNotFound extends PoolException{
     }
 
     @Override
-    public PoolExceptionType getExceptionType() {
+    public BaseExceptionType getExceptionType() {
         return null;
     }
 }

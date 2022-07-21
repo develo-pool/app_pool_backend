@@ -2,7 +2,7 @@ package app.pool.project.exception;
 
 import org.springframework.http.HttpStatus;
 
-public interface PoolExceptionType {
+public interface BaseExceptionType {
     int getErrorCode();
 
     HttpStatus getHttpStatus();

@@ -6,16 +6,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Getter
-public abstract class PoolException extends RuntimeException{
+public abstract class BaseException extends RuntimeException{
 
     private final Map<String, String> validation = new HashMap<>();
 
-    public PoolException(String message) {
+    public BaseException(String message) {
         super(message);
     }
 
-    public PoolException(String message, Throwable cause) {
+    public BaseException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    public BaseException() {
+
     }
 
     public abstract int getStatusCode();
@@ -24,5 +28,5 @@ public abstract class PoolException extends RuntimeException{
         validation.put(fieldName, message);
     }
 
-    public abstract PoolExceptionType getExceptionType();
+    public abstract BaseExceptionType getExceptionType();
 }

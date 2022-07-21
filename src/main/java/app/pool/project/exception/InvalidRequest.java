@@ -1,6 +1,6 @@
 package app.pool.project.exception;
 
-public class InvalidRequest extends PoolException{
+public class InvalidRequest extends BaseException {
 
     private static final String MESSAGE = "잘못된 요청입니다.";
 
@@ -22,7 +22,7 @@ public class InvalidRequest extends PoolException{
     }
 
     @Override
-    public PoolExceptionType getExceptionType() {
+    public BaseExceptionType getExceptionType() {
         return null;
     }
 }

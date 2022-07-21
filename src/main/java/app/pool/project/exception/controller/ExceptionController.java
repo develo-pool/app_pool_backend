@@ -1,6 +1,6 @@
 package app.pool.project.exception.controller;
 
-import app.pool.project.exception.PoolException;
+import app.pool.project.exception.BaseException;
 import app.pool.project.message.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ExceptionController {
 
     @ResponseBody
-    @ExceptionHandler(PoolException.class)
-    public ResponseEntity<ErrorResponse> poolException(PoolException e) {
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<ErrorResponse> poolException(BaseException e) {
         int statusCode = e.getStatusCode();
 
         ErrorResponse body = ErrorResponse.builder()
