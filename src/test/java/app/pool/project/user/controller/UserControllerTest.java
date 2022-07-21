@@ -52,9 +52,9 @@ class UserControllerTest {
     PasswordEncoder passwordEncoder;
 
     private static String SIGN_UP_URL = "/signUp";
-    private String username = "username";
+    private String username = "username1";
     private String password = "password1234@";
-    private String nickName = "doha";
+    private String nickName = "doha1";
     private String phoneNumber = "01053197659";
     private String gender = "MALE";
     private Integer birthday = 981029;
@@ -102,7 +102,7 @@ class UserControllerTest {
         signUp(signUpData);
 
         //then
-        PoolUser poolUser = userRepository.findByUsername(username).orElseThrow(() -> new Exception("회원아 없습니다."));
+        PoolUser poolUser = userRepository.findByUsername(username).orElseThrow(() -> new Exception("회원이 없습니다."));
         assertThat(poolUser.getNickName()).isEqualTo(nickName);
         assertThat(userRepository.findAll().size()).isEqualTo(1);
     }

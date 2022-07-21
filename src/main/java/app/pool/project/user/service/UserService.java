@@ -13,6 +13,7 @@ public interface UserService {
      * 정보수정
      * 회원탈퇴
      * 정보조회
+     * 문자인증
      */
 
     void signUp(UserSignUpDto userSignUpDto) throws Exception;
