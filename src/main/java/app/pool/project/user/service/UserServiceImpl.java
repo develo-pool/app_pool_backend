@@ -1,5 +1,7 @@
 package app.pool.project.user.service;
 
+import app.pool.project.exception.PoolUserException;
+import app.pool.project.exception.PoolUserExceptionType;
 import app.pool.project.user.PoolUser;
 import app.pool.project.user.dto.UserInfoDto;
 import app.pool.project.user.dto.UserSignUpDto;
@@ -27,7 +29,7 @@ public class UserServiceImpl implements UserService{
         poolUser.encodePassword(passwordEncoder);
 
         if(userRepository.findByUsername(userSignUpDto.username()).isPresent()) {
-            throw new Exception("이미 존재하는 아이디입니다.");
+            throw new PoolUserException(PoolUserExceptionType.ALREADY_EXIST_USERNAME);
         }
 
         userRepository.save(poolUser);
@@ -35,16 +37,16 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void update(UserUpdateDto userUpdateDto) throws Exception {
-        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new Exception("회원이 존재하지 않습니다."));
+        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         userUpdateDto.nickName().ifPresent(poolUser::updateNickName);
     }
 
     @Override
     public void updatePassword(String checkPassword, String toBePassword) throws Exception {
-        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new Exception("회원이 존재하지 않습니다."));
+        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         if(!poolUser.matchPassword(passwordEncoder, checkPassword)) {
-            throw new Exception("비밀번호가 일치하지 않습니다.");
+            throw new PoolUserException(PoolUserExceptionType.WRONG_PASSWORD);
         }
 
         poolUser.updatePassword(passwordEncoder, toBePassword);
@@ -52,10 +54,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void withdraw(String checkPassword) throws Exception {
-        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new Exception("회원이 존재하지 않습니다."));
+        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         if(!poolUser.matchPassword(passwordEncoder, checkPassword)) {
-            throw new Exception("비밀번호가 일치하지 않습니다.");
+            throw new PoolUserException(PoolUserExceptionType.WRONG_PASSWORD);
         }
 
         userRepository.delete(poolUser);
@@ -63,13 +65,13 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserInfoDto getInfo(Long id) throws Exception {
-        PoolUser findPoolUser = userRepository.findById(id).orElseThrow(() -> new Exception("회원이 없습니다."));
+        PoolUser findPoolUser = userRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         return new UserInfoDto(findPoolUser);
     }
 
     @Override
     public UserInfoDto getMyInfo() throws Exception {
-        PoolUser findPoolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new Exception("회원이 없습니다."));
+        PoolUser findPoolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         return new UserInfoDto(findPoolUser);
     }
 }
