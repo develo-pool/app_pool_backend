@@ -7,7 +7,7 @@ import javax.validation.constraints.Pattern;
 
 public record UserSignUpDto(String username,
                             String password,
-                            String nickname,
+                            String nickName,
                             String phoneNumber,
                             String gender, Integer birthday,
                             Boolean termAgreement, Boolean privacyAgreement) {
@@ -16,7 +16,7 @@ public record UserSignUpDto(String username,
         return PoolUser.builder()
                 .username(username)
                 .password(password)
-                .nickName(nickname)
+                .nickName(nickName)
                 .phoneNumber(phoneNumber)
                 .gender(gender)
                 .birthday(birthday)
