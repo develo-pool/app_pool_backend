@@ -38,7 +38,7 @@ public class PoolUser extends BaseTimeEntity {
     private String gender; // 성별(MALE, FEMALE)
 
     @Column(length = 6)
-    private Integer birthday; // 생년월일(6글자)
+    private String birthday; // 생년월일(6글자)
 
     private Boolean termAgreement; // 이용약관 동의 여부
 

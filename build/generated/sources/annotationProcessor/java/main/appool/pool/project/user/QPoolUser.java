@@ -22,7 +22,7 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
 
     public final appool.pool.project.domain.QBaseTimeEntity _super = new appool.pool.project.domain.QBaseTimeEntity(this);
 
-    public final NumberPath<Integer> birthday = createNumber("birthday", Integer.class);
+    public final StringPath birthday = createString("birthday");
 
     public final ListPath<appool.pool.project.comment.Comment, appool.pool.project.comment.QComment> commentList = this.<appool.pool.project.comment.Comment, appool.pool.project.comment.QComment>createList("commentList", appool.pool.project.comment.Comment.class, appool.pool.project.comment.QComment.class, PathInits.DIRECT2);
 

@@ -57,7 +57,7 @@ class UserControllerTest {
     private String nickName = "doha1";
     private String phoneNumber = "01053197659";
     private String gender = "MALE";
-    private Integer birthday = 981029;
+    private String birthday = "981029";
     private Boolean termAgreement = Boolean.TRUE;
     private Boolean privacyAgreement = Boolean.TRUE;
 
