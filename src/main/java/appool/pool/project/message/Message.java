@@ -33,6 +33,9 @@ public class Message extends BaseTimeEntity {
     private String body;
 
     @Column(nullable = true)
+    private String filePath;
+
+    @Column(nullable = true)
     private String messageLink;
 
     private CommentStatus status;
@@ -64,13 +67,24 @@ public class Message extends BaseTimeEntity {
         return MessageEditor.builder()
                 .title(title)
                 .body(body)
-                .messageLink(messageLink);
+                .messageLink(messageLink)
+                .filePath(filePath);
     }
 
-    public void edit(MessageEditor messageEditor) {
-        title = messageEditor.getTitle();
-        body = messageEditor.getBody();
-        messageLink = messageEditor.getMessageLink();
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateBody(String body) {
+        this.body = body;
+    }
+
+    public void updateMessageLink(String messageLink) {
+        this.messageLink = messageLink;
+    }
+
+    public void updateFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
 }
