@@ -1,6 +1,7 @@
 package appool.pool.project.message.controller;
 
 import appool.pool.project.message.dto.MessageCreate;
+import appool.pool.project.message.dto.MessageEdit;
 import appool.pool.project.message.dto.MessageSearch;
 import appool.pool.project.message.dto.MessageResponse;
 import appool.pool.project.message.service.MessageService;
@@ -24,25 +25,25 @@ public class MessageController {
         messageService.write(request);
     }
 
-//    @GetMapping("/messages/{messageId}")
-//    public MessageResponse get(@PathVariable Long messageId) {
-//        return messageService.get(messageId);
-//    }
+    @GetMapping("/messages/{messageId}")
+    public MessageResponse get(@PathVariable Long messageId) {
+        return messageService.get(messageId);
+    }
 
     @GetMapping("/messages")
     public List<MessageResponse> getList(@ModelAttribute MessageSearch messageSearch) {
         return messageService.getList(messageSearch);
     }
 
-//    @PatchMapping("/messages/{messageId}")
-//    public void edit(@PathVariable Long messageId, @RequestBody @Valid MessageEdit request) {
-//        messageService.edit(messageId, request);
-//    }
-//
-//    @DeleteMapping("/messages/{messageId}")
-//    public void delete(@PathVariable Long messageId) {
-//        messageService.delete(messageId);
-//    }
+    @PatchMapping("/messages/{messageId}")
+    public void edit(@PathVariable Long messageId, @RequestBody @Valid MessageEdit request) {
+        messageService.edit(messageId, request);
+    }
+
+    @DeleteMapping("/messages/{messageId}")
+    public void delete(@PathVariable Long messageId) {
+        messageService.delete(messageId);
+    }
 
 
 }
