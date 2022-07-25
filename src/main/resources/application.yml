@@ -23,3 +23,6 @@ spring:
 
   profiles:
     include: jwt
+
+file:
+  dir: /Users/johnn/Desktop/img/
