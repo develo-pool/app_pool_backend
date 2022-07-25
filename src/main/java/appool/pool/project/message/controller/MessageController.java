@@ -23,7 +23,7 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-    public void message(@RequestBody @Valid MessageCreate request) {
+    public void message(@ModelAttribute @Valid MessageCreate request) {
         messageService.write(request);
     }
 
