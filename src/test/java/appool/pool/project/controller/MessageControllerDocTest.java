@@ -43,36 +43,36 @@ public class MessageControllerDocTest {
         objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
     }
 
-    @Test
-    @DisplayName("메시지 작성")
-    void test1() throws Exception {
-        // given
-        MessageCreate request = MessageCreate.builder()
-                .title("제목입니다.")
-                .body("본문입니다.")
-                .messageLink("https://github.com/Lee-DoHa")
-                .build();
-
-        String json = objectMapper.writeValueAsString(request);
-
-        // expected
-        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/messages")
-                    .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(json))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isOk())
-                .andDo(document("message-create",
-                        PayloadDocumentation.requestFields(
-                                PayloadDocumentation.fieldWithPath("title").description("제목")
-                                        .attributes(key("constraint").value("메시지의 제목을 입력해주세요.")),
-                                PayloadDocumentation.fieldWithPath("body").description("본문")
-                                        .attributes(key("constraint").value("메시지의 본문을 입력해주세요.")),
-                                PayloadDocumentation.fieldWithPath("messageLink").description("링크")
-                                        .attributes(key("constraint").value("메시지의 링크를 첨부해주세요."))
-                        )
-                ));
-    }
+//    @Test
+//    @DisplayName("메시지 작성")
+//    void test1() throws Exception {
+//        // given
+//        MessageCreate request = MessageCreate.
+//                .title("제목입니다.")
+//                .body("본문입니다.")
+//                .messageLink("https://github.com/Lee-DoHa")
+//                .build();
+//
+//        String json = objectMapper.writeValueAsString(request);
+//
+//        // expected
+//        this.mockMvc.perform(RestDocumentationRequestBuilders.post("/messages")
+//                    .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .content(json))
+//                .andDo(MockMvcResultHandlers.print())
+//                .andExpect(status().isOk())
+//                .andDo(document("message-create",
+//                        PayloadDocumentation.requestFields(
+//                                PayloadDocumentation.fieldWithPath("title").description("제목")
+//                                        .attributes(key("constraint").value("메시지의 제목을 입력해주세요.")),
+//                                PayloadDocumentation.fieldWithPath("body").description("본문")
+//                                        .attributes(key("constraint").value("메시지의 본문을 입력해주세요.")),
+//                                PayloadDocumentation.fieldWithPath("messageLink").description("링크")
+//                                        .attributes(key("constraint").value("메시지의 링크를 첨부해주세요."))
+//                        )
+//                ));
+//    }
 //
 //    @Test
 //    @DisplayName("메시지 단건 조회")

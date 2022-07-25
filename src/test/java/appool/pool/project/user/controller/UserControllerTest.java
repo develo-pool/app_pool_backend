@@ -1,6 +1,6 @@
 package appool.pool.project.user.controller;
 
-import appool.pool.project.exception.PoolUserExceptionType;
+import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.dto.UserSignUpDto;
 import appool.pool.project.user.repository.UserRepository;

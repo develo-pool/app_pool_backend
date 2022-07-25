@@ -31,6 +31,8 @@ public class QMessage extends EntityPathBase<Message> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
+    public final StringPath filePath = createString("filePath");
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
     //inherited
