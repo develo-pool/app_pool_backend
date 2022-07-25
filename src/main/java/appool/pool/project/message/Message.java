@@ -47,7 +47,7 @@ public class Message extends BaseTimeEntity {
 
 
     //== 연관관계 메서드입니다. ==//
-    public void confirmWriter(PoolUser poolUser) {
+    public void confirmWriter(PoolUser writer) {
         this.writer = writer;
         writer.addMessage(this);
     }
