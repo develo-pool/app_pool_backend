@@ -1,30 +1,30 @@
 package appool.pool.project.message.dto;
 
 import appool.pool.project.message.Message;
+import appool.pool.project.user.dto.UserInfoDto;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
+@Data
+@NoArgsConstructor
 public class MessageResponse {
 
-    private final Long id;
-    private final String title;
-    private final String body;
-    private final String messageLink;
+    private Long postId;
+    private String title;
+    private String body;
+    private String messageLink;
+    private String filePath;
 
+    private UserInfoDto writerDto;
 
     public MessageResponse(Message message) {
-        this.id = message.getId();
+        this.postId = message.getId();
         this.title = message.getTitle();
         this.body = message.getBody();
         this.messageLink = message.getMessageLink();
-    }
-
-    @Builder
-    public MessageResponse(Long id, String title, String body, String messageLink) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-        this.messageLink = messageLink;
+        this.filePath = message.getFilePath();
+        this.writerDto = new UserInfoDto(message.getWriter());
     }
 }

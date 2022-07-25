@@ -48,14 +48,7 @@ public class MessageService {
 
 
     public MessageResponse get(Long id) {
-        Message message = messageRepository.findById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
-
-        return MessageResponse.builder()
-                .id(message.getId())
-                .title(message.getTitle())
-                .body(message.getBody())
-                .messageLink(message.getMessageLink())
-                .build();
+        return new MessageResponse(messageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
     }
 
     public List<MessageResponse> getList(MessageSearch messageSearch) {
