@@ -3,13 +3,19 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:pool
-    username: sa
-    password:
-  h2:
-    console:
-      path: /h2-console
-      enabled: true
-      settings:
-        web-allow-others: true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://my-rds-instance.ckalsgvhdig0.ap-northeast-2.rds.amazonaws.com:3306/my_rds_name
+    username: admin
+    password: infopool
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#  h2:
+#    console:
+#      path: /h2-console
+#      enabled: true
+#      settings:
+#        web-allow-others: true
+
