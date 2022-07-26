@@ -1,9 +1,12 @@
 package appool.pool.project.message.service;
 
+import appool.pool.project.message.Message;
+import appool.pool.project.message.dto.MessageCreate;
 import appool.pool.project.user.UserStatus;
 import appool.pool.project.user.dto.UserSignUpDto;
 import appool.pool.project.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
@@ -18,7 +21,9 @@ import javax.persistence.EntityManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -64,6 +69,53 @@ class MessageServiceTest {
                                 .build(),
                         null)
         );
+        SecurityContextHolder.setContext(emptyContext);
+        clear();
+    }
+
+
+    @Test
+    public void 메시지_저장_성공_업로드_파일_없음() throws Exception {
+        // given
+        String title = "제목 테스트";
+        String body = "본문 테스트";
+        String messageLink = "링크 테스트";
+        MessageCreate messageCreate = new MessageCreate(title, body, messageLink, Optional.empty());
+
+        // when
+        messageService.write(messageCreate);
+        clear();
+
+        // then
+        Message findMessage = em.createQuery("select p from Message p", Message.class).getSingleResult();
+        Message message = em.find(Message.class, findMessage.getId());
+        assertThat(message.getBody()).isEqualTo(body);
+        assertThat(message.getWriter().getUsername()).isEqualTo(USERNAME);
+        assertThat(message.getFilePath()).isNull();
+
+    }
+
+    @Test
+    public void 메시지_저장_성공_업로드_파일_있음() throws Exception {
+        // given
+        String title = "제목 테스트";
+        String body = "본문 테스트";
+        String messageLink = "링크 테스트";
+        MessageCreate messageCreate = new MessageCreate(title, body, messageLink, Optional.ofNullable(getMockUploadFile()));
+
+        // when
+        messageService.write(messageCreate);
+        clear();
+
+        // then
+        Message findMessage = em.createQuery("select p from Message p", Message.class).getSingleResult();
+        Message message = em.find(Message.class, findMessage.getId());
+        assertThat(message.getBody()).isEqualTo(body);
+        assertThat(message.getWriter().getUsername()).isEqualTo(USERNAME);
+        assertThat(message.getFilePath()).isNotNull();
+
+        deleteFile(message.getFilePath());
+
     }
 
 }
