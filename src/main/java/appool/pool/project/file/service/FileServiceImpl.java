@@ -20,10 +20,10 @@ public class FileServiceImpl implements FileService {
     @Override
     public String save(MultipartFile multipartFile) {
 
-        int extIdx = multipartFile.getOriginalFilename().lastIndexOf(".");
-        String extension = multipartFile.getOriginalFilename().substring(extIdx+1);
+//        int extIdx = multipartFile.getOriginalFilename().lastIndexOf(".");
+//        String extension = multipartFile.getOriginalFilename().substring(extIdx+1);
 
-        String filePath = fileDir + UUID.randomUUID()+"."+extension;
+        String filePath = fileDir + UUID.randomUUID();
         try {
             multipartFile.transferTo(new File(filePath));
         } catch (IOException e) {

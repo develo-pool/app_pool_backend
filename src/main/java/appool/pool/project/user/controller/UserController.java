@@ -70,4 +70,17 @@ public class UserController {
         return new ResponseEntity(info, HttpStatus.OK);
     }
 
+    /**
+     * username, nickname 중복검사
+     */
+    @GetMapping("/user-usernames/{username}/exists")
+    public ResponseEntity<Boolean> checkUsernameDuplicate(@PathVariable String username) {
+        return ResponseEntity.ok(userService.checkUsernameDuplicate(username));
+    }
+
+    @GetMapping("/user-nickNames/{nickName}/exists")
+    public ResponseEntity<Boolean> checkNickNameDuplicate(@PathVariable String nickName) {
+        return ResponseEntity.ok(userService.checkNickNameDuplicate(nickName));
+    }
+
 }

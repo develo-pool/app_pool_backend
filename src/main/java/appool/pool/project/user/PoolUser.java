@@ -33,7 +33,7 @@ public class PoolUser extends BaseTimeEntity {
     private String phoneNumber; // 휴대폰 번호
 
     @Enumerated(EnumType.STRING)
-    private UserStatus userStatus; // 회원 상태(BRAND_USER, USER, INIT_USER)
+    private UserStatus userStatus; // 회원 상태(BRAND_USER, USER)
 
     private String gender; // 성별(MALE, FEMALE)
 

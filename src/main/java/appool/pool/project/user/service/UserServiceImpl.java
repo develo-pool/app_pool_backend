@@ -74,4 +74,16 @@ public class UserServiceImpl implements UserService{
         PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         return new UserInfoDto(findPoolUser);
     }
+
+    @Override
+    public boolean checkUsernameDuplicate(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean checkNickNameDuplicate(String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
+
+
 }

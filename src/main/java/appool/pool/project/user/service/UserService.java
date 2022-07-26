@@ -27,5 +27,7 @@ public interface UserService {
 
     UserInfoDto getMyInfo() throws Exception;
 
+    boolean checkUsernameDuplicate(String username);
 
+    boolean checkNickNameDuplicate(String nickName);
 }
