@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
+@Table(name = "POOLUSER")
 public class PoolUser extends BaseTimeEntity {
 
     @Id
