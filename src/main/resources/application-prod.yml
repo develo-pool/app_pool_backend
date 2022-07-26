@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_DATABASE_URL}:3306/my-rds-instance
+    url: jdbc:mysql://${MYSQL_DATABASE_URL}:3306/my_rds_name
     username: ${MYSQL_DATABASE_USERNAME}
     password: ${MYSQL_DATABASE_PASSWORD}
 
