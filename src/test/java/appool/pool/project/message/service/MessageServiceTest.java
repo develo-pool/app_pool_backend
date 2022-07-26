@@ -53,7 +53,7 @@ class MessageServiceTest {
     }
 
     private MockMultipartFile getMockUploadFile() throws IOException {
-        return new MockMultipartFile("file", "file.png", "image/png", new FileInputStream("/Users/johnn/Desktop/img/diva.png"));
+        return new MockMultipartFile("diva", "diva.png", "image/png", new FileInputStream("/Users/johnn/Desktop/img/diva.png"));
     }
 
     @BeforeEach
