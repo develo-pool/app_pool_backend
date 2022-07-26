@@ -35,7 +35,6 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'com.auth0:java-jwt:3.18.2'
 
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'mysql:mysql-connector-java'
 
 

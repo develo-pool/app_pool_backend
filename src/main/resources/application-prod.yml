@@ -1,13 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_DATABASE_URL}:3306/my_rds_name
+    url: jdbc:mysql://${MYSQL_DATABASE_URL}:3306/my_rds_name?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8
     username: ${MYSQL_DATABASE_USERNAME}
     password: ${MYSQL_DATABASE_PASSWORD}
-
-  sql:
-    init:
-      schema-locations: classpath:schema.sql
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
