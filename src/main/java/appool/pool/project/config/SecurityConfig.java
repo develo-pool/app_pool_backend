@@ -38,16 +38,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .formLogin().disable()
                 .httpBasic().disable()
-                .csrf().disable()
+                .csrf().ignoringAntMatchers("/h2-console/**").disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/signUp","/**", "/user**", "/user/**").permitAll()
+                .antMatchers("/login", "/signUp","/**", "/user**", "/user/**", "/h2-console/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class);
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), JsonUsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
