@@ -1,13 +1,13 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_DATABASE_URL}:3306/my_rds_name?createDatabaseIfNotExist=true
     username: ${MYSQL_DATABASE_USERNAME}
     password: ${MYSQL_DATABASE_PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     show-sql: true
     hibernate:
       fomat_sql: true
-      ddl-auto: none
+    database: mysql
+    generate-ddl: true
