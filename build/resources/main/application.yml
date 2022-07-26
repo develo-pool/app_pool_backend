@@ -11,7 +11,7 @@ spring:
       max-request-size: 20MB
 
   profiles:
-    include: jwt
+    include: jwt, develop, prod
     active: ${profile}
 
 file:
