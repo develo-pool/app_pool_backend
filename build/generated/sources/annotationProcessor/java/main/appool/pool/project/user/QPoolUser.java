@@ -24,6 +24,8 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
 
     public final StringPath birthday = createString("birthday");
 
+    public final ListPath<String, StringPath> category = this.<String, StringPath>createList("category", String.class, StringPath.class, PathInits.DIRECT2);
+
     public final ListPath<appool.pool.project.comment.Comment, appool.pool.project.comment.QComment> commentList = this.<appool.pool.project.comment.Comment, appool.pool.project.comment.QComment>createList("commentList", appool.pool.project.comment.Comment.class, appool.pool.project.comment.QComment.class, PathInits.DIRECT2);
 
     //inherited

@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -55,12 +57,14 @@ class UserControllerTest {
 
     private String username = "username";
     private String password = "password1234@";
-    private String nickName = "doha1";
+    private String nickName = "doha12345";
     private String phoneNumber = "01053197659";
     private String gender = "MALE";
     private String birthday = "981029";
     private Boolean termAgreement = Boolean.TRUE;
     private Boolean privacyAgreement = Boolean.TRUE;
+    private List<String> category = new ArrayList<>();
+
 
     private void clear() {
         em.flush();
@@ -106,7 +110,9 @@ class UserControllerTest {
     @Test
     public void test_signUp() throws Exception {
         //given
-        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement));
+        category.add("category1");
+        category.add("category2");
+        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, "doha12345", phoneNumber, gender, birthday, termAgreement, privacyAgreement, category));
 
         //when
         signUp(signUpData);
@@ -114,17 +120,19 @@ class UserControllerTest {
         //then
         PoolUser poolUser = userRepository.findByUsername(username).orElseThrow(() -> new Exception("회원이 없습니다."));
         assertThat(poolUser.getNickName()).isEqualTo(nickName);
-        assertThat(userRepository.findAll().size()).isEqualTo(1);
+        assertThat(userRepository.findAll().size()).isEqualTo(3);
     }
 
     @Test
     public void 회원가입_실패_필드가_없음() throws Exception {
         // given
-        String noUsernameSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(null, password, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement));
-        String noPasswordSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, null, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement));
-        String noNickNameSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, null, phoneNumber, gender, birthday, termAgreement, privacyAgreement));
-        String noPhoneNumberSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, null, gender, birthday, termAgreement, privacyAgreement));
-        String noGenderSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, phoneNumber, null, birthday, termAgreement, privacyAgreement));
+        category.add("category1");
+        category.add("category2");
+        String noUsernameSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(null, password, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement, category));
+        String noPasswordSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, null, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement, category));
+        String noNickNameSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, null, phoneNumber, gender, birthday, termAgreement, privacyAgreement, category));
+        String noPhoneNumberSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, null, gender, birthday, termAgreement, privacyAgreement, category));
+        String noGenderSignUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, phoneNumber, null, birthday, termAgreement, privacyAgreement, category));
 
         // expected
         signUpFail(noUsernameSignUpData); // 상태코드 400
@@ -133,14 +141,16 @@ class UserControllerTest {
         signUpFail(noPhoneNumberSignUpData);
         signUpFail(noGenderSignUpData);
 
-        assertThat(userRepository.findAll().size()).isEqualTo(0);
+        assertThat(userRepository.findAll().size()).isEqualTo(2);
 
     }
 
     @Test
     public void 내정보조회_성공() throws Exception {
         //given
-        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement));
+        category.add("category1");
+        category.add("category2");
+        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, "doha123", phoneNumber, gender, birthday, termAgreement, privacyAgreement, category));
         signUp(signUpData);
 
         String accessToken = getAccessToken();
@@ -168,7 +178,9 @@ class UserControllerTest {
     @Test
     public void 회원정보조회_실패_없는회원조회() throws Exception {
         //given
-        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, nickName, phoneNumber, gender, birthday, termAgreement, privacyAgreement));
+        category.add("category1");
+        category.add("category2");
+        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, "dohaha1", phoneNumber, gender, birthday, termAgreement, privacyAgreement ,category));
         signUp(signUpData);
 
         String accessToken = getAccessToken();
