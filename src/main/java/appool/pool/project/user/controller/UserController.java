@@ -22,9 +22,10 @@ public class UserController {
      */
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
-    public void signUp(@Valid @RequestBody UserSignUpDto userSignUpDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public String signUp(@Valid @RequestBody UserSignUpDto userSignUpDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
         userService.signUp(userSignUpDto);
         request.login(userSignUpDto.username(), userSignUpDto.password());
+        return String.valueOf(response);
     }
 
     /**
