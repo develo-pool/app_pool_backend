@@ -50,6 +50,7 @@ public class PoolUser extends BaseTimeEntity {
 
     @Column(name = "category")
     @ElementCollection(targetClass = String.class)
+    @Builder.Default
     private List<String> category = new ArrayList<>();
 
 

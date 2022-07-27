@@ -30,4 +30,5 @@ public interface UserService {
     boolean checkUsernameDuplicate(String username);
 
     boolean checkNickNameDuplicate(String nickName);
+
 }
