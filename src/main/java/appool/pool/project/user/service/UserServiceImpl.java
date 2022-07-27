@@ -1,5 +1,6 @@
 package appool.pool.project.user.service;
 
+import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import appool.pool.project.user.exception.PoolUserException;
 import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.PoolUser;
@@ -35,7 +36,9 @@ public class UserServiceImpl implements UserService{
         }
 
         userRepository.save(poolUser);
+
     }
+
 
     @Override
     public void update(UserUpdateDto userUpdateDto) throws Exception {

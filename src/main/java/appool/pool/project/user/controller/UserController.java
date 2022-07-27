@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -21,8 +22,9 @@ public class UserController {
      */
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
-    public void signUp(@Valid @RequestBody UserSignUpDto userSignUpDto) throws Exception{
+    public void signUp(@Valid @RequestBody UserSignUpDto userSignUpDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
         userService.signUp(userSignUpDto);
+        request.login(userSignUpDto.username(), userSignUpDto.password());
     }
 
     /**
@@ -82,6 +84,8 @@ public class UserController {
     public ResponseEntity<Boolean> checkNickNameDuplicate(@PathVariable String nickName) {
         return ResponseEntity.ok(userService.checkNickNameDuplicate(nickName));
     }
+
+
 
 
 }
