@@ -48,6 +48,10 @@ public class PoolUser extends BaseTimeEntity {
     @Column(length = 1000)
     private String refreshToken;
 
+    @Column(name = "category")
+    @ElementCollection(targetClass = String.class)
+    private List<String> category;
+
 
 
 

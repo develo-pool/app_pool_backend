@@ -3,6 +3,7 @@ package appool.pool.project.user.dto;
 import appool.pool.project.user.PoolUser;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public record UserSignUpDto(@NotBlank(message = "아이디는 필수 입력 사항입니다.") String username,
                             @NotBlank(message = "비밀번호는 필수 입력 사항입니다.") String password,
@@ -11,7 +12,8 @@ public record UserSignUpDto(@NotBlank(message = "아이디는 필수 입력 사�
                             @NotBlank(message = "성별은 필수 입력 사항입니다.") String gender,
                             String birthday,
                             Boolean termAgreement,
-                            Boolean privacyAgreement) {
+                            Boolean privacyAgreement,
+                            List<String> category) {
 
     public PoolUser toEntity() {
         return PoolUser.builder()
@@ -23,6 +25,7 @@ public record UserSignUpDto(@NotBlank(message = "아이디는 필수 입력 사�
                 .birthday(birthday)
                 .termAgreement(termAgreement)
                 .privacyAgreement(privacyAgreement)
+                .category(category)
                 .build();
     }
 }
