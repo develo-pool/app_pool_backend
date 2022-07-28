@@ -1,5 +1,6 @@
 package appool.pool.project.user.controller;
 
+import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import appool.pool.project.user.dto.*;
 import appool.pool.project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +17,15 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+    private final JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter;
 
     /**
      * 회원가입
      */
     @PostMapping("/signUp")
     @ResponseStatus(HttpStatus.OK)
-    public String signUp(@Valid @RequestBody UserSignUpDto userSignUpDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
+    public void signUp(@Valid @RequestBody UserSignUpDto userSignUpDto, HttpServletRequest request, HttpServletResponse response) throws Exception{
         userService.signUp(userSignUpDto);
-        request.login(userSignUpDto.username(), userSignUpDto.password());
-        return String.valueOf(response);
     }
 
     /**
