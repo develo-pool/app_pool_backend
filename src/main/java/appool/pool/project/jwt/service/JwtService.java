@@ -1,5 +1,7 @@
 package appool.pool.project.jwt.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
@@ -13,7 +15,7 @@ public interface JwtService {
 
     void destroyRefreshToken(String username);
 
-    void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken);
+    void sendAccessAndRefreshToken(HttpServletResponse response, String accessToken, String refreshToken, UserDetails userDetails);
 
     void sendAccessToken(HttpServletResponse response, String accessToken);
 
