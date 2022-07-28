@@ -1,5 +1,6 @@
 package appool.pool.project.jwt.service;
 
+import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -45,6 +46,8 @@ public class JwtServiceImpl implements JwtService{
     private static final String REFRESH_TOKEN_SUBJECT = "RefreshToken";
     private static final String USERNAME_CLAIM = "username";
     private static final String BEARER = "Bearer ";
+    private static final String NICKNAME = "nickName";
+    private static final String ROLE = "role";
 
     private final UserRepository userRepository;
 
@@ -92,7 +95,11 @@ public class JwtServiceImpl implements JwtService{
         setAccessTokenHeader(response, accessToken);
         setRefreshTokenHeader(response, refreshToken);
 
-        response.setHeader(username, username);
+        Optional<PoolUser> poolUser = userRepository.findByUsername(username);
+
+        response.setHeader(USERNAME_CLAIM, username);
+        response.setHeader(NICKNAME, poolUser.get().getNickName());
+        response.setHeader(ROLE, poolUser.get().getUserStatus().toString());
 
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put(ACCESS_TOKEN_SUBJECT, accessToken);

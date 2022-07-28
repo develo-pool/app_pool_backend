@@ -1,5 +1,6 @@
 package appool.pool.project.login.handler;
 
+import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -31,7 +33,6 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
 
 
 
-
         userRepository.findByUsername(username).ifPresent(
                 poolUser -> poolUser.updateRefreshToken(refreshToken)
         );
@@ -46,4 +47,10 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return userDetails.getUsername();
     }
+
+
+
+
+
+
 }
