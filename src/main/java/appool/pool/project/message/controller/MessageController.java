@@ -24,8 +24,9 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-    public void message(@ModelAttribute @Valid MessageCreate request) {
+    public String message(@ModelAttribute @Valid MessageCreate request) {
         messageService.write(request);
+        return request.uploadFile().toString();
     }
 
     @GetMapping("/messages/{messageId}")
