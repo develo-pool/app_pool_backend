@@ -40,7 +40,7 @@ public class MessageService {
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
         messageCreate.uploadFile().ifPresent(
-                file -> message.updateFilePath(fileService.save(file))
+                file -> message.updateFilePath(fileService.uploadImage(file))
         );
 
         messageRepository.save(message);
