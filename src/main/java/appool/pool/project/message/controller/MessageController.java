@@ -24,7 +24,7 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-    public void message(@ModelAttribute @Valid MessageCreate request) {
+    public void message(@RequestPart @Valid MessageCreate request) {
         messageService.write(request);
     }
 
