@@ -11,8 +11,9 @@ spring:
       max-request-size: 20MB
 
   profiles:
-    include: jwt, develop, prod
+    include: jwt, develop, prod, aws, credentials
     active: ${profile}
+
 
 file:
   dir: /Users/johnn/Desktop/img/
