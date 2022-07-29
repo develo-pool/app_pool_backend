@@ -39,7 +39,9 @@ public class MessageService {
         message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
-        message.updateFilePath(fileService.uploadImage(messageCreate.uploadFile()));
+        messageCreate.uploadFile().ifPresent(
+                file -> message.updateFilePath(fileService.uploadImage(file))
+        );
 
         messageRepository.save(message);
     }
