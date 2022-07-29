@@ -22,6 +22,7 @@ public record MessageCreate(@NotBlank(message = "제목을 입력해주세요") 
                 .title(title)
                 .body(body)
                 .messageLink(messageLink)
+                .filePath(uploadFile.toString())
                 .build();
     }
 }

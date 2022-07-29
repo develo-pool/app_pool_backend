@@ -7,6 +7,7 @@ import appool.pool.project.message.dto.MessageResponse;
 import appool.pool.project.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,8 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-    public String message(@ModelAttribute @Valid MessageCreate request) {
+    public void message(@ModelAttribute @Valid MessageCreate request) {
         messageService.write(request);
-        return request.uploadFile().toString();
     }
 
     @GetMapping("/messages/{messageId}")

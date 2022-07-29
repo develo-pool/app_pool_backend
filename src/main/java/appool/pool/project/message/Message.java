@@ -58,10 +58,11 @@ public class Message extends BaseTimeEntity {
     }
 
     @Builder
-    public Message(String title, String body, String messageLink) {
+    public Message(String title, String body, String messageLink, String filePath) {
         this.title = title;
         this.body = body;
         this.messageLink = messageLink;
+        this.filePath = filePath;
     }
 
     public MessageEditor.MessageEditorBuilder toEditor() {
