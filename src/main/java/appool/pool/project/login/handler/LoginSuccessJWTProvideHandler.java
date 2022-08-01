@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -40,6 +41,11 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
         log.info("로그인에 성공합니다. username: {}", username);
         log.info("AccessToken을 발급합니다. AccessToken: {}", accessToken);
         log.info("RefreshToken을 발급합니다. RefreshToken: {}", refreshToken);
+
+        HttpSession session = request.getSession();
+        session.setAttribute("user", authentication.getPrincipal());
+        session.setAttribute("accessToken", accessToken);
+        session.setAttribute("refreshToken", refreshToken);
 
     }
 
