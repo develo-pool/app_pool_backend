@@ -23,12 +23,10 @@ public class BrandUserService {
   private final BrandUserRepository brandUserRepository;
   private final UserRepository userRepository;
 
-  public void submit(BrandUserCreateDto brandUserCreateDto) {
+  public void submit(BrandUserCreateDto brandUserCreateDto) throws Exception{
       BrandUser brandUser = brandUserCreateDto.toEntity();
       brandUser.confirmUser(userRepository.findByUsername(SecurityUtil.getLoginUsername())
               .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
-      Optional<PoolUser> poolUser = userRepository.findByUsername(brandUser.getPoolUser().getUsername());
-      poolUser.get().addBrandUserAuthority();
 
       brandUserRepository.save(brandUser);
   }

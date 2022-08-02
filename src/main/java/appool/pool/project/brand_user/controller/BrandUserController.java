@@ -19,7 +19,7 @@ public class BrandUserController {
 
     @PostMapping("/brand/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void submit(@Valid @RequestBody BrandUserCreateDto brandUserCreateDto) {
+    public void submit(@Valid @RequestBody BrandUserCreateDto brandUserCreateDto) throws Exception{
         brandUserService.submit(brandUserCreateDto);
     }
 
