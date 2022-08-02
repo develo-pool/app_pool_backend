@@ -18,7 +18,7 @@ public class BrandUserController {
     private final BrandUserService brandUserService;
 
     @PostMapping("/brand/create")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void submit(@Valid @RequestBody BrandUserCreateDto brandUserCreateDto) {
         brandUserService.submit(brandUserCreateDto);
     }
