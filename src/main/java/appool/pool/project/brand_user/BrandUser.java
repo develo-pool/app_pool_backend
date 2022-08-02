@@ -41,6 +41,11 @@ public class BrandUser extends BaseTimeEntity {
     private PoolUser poolUser;
 
 
+    public void confirmUser(PoolUser poolUser) {
+        this.poolUser = poolUser;
+        poolUser.addBrandUser(this);
+    }
+
 
 
 }

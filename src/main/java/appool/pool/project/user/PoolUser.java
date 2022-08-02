@@ -80,6 +80,10 @@ public class PoolUser extends BaseTimeEntity {
         commentList.add(comment);
     }
 
+    public void addBrandUser(BrandUser brandUser) {
+        this.brandUser = brandUser;
+    }
+
 
 
     //== 정보 수정==//
