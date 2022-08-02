@@ -5,7 +5,6 @@ import appool.pool.project.message.exception.MessageException;
 import appool.pool.project.message.exception.MessageExceptionType;
 import appool.pool.project.user.exception.PoolUserException;
 import appool.pool.project.user.exception.PoolUserExceptionType;
-import appool.pool.project.file.service.FileService;
 import appool.pool.project.message.Message;
 import appool.pool.project.message.dto.MessageEdit;
 import appool.pool.project.message.repository.MessageRepository;
@@ -30,7 +29,6 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
-    private final FileService fileService;
 
     public void write(MessageCreate messageCreate) throws FileException {
 
@@ -39,9 +37,6 @@ public class MessageService {
         message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
-        messageCreate.uploadFile().ifPresent(
-                file -> message.updateFilePath(fileService.uploadImage(file))
-        );
 
         messageRepository.save(message);
     }
@@ -67,14 +62,14 @@ public class MessageService {
         messageEdit.body().ifPresent(message::updateTitle);
         messageEdit.messageLink().ifPresent(message::updateMessageLink);
 
-        if(message.getFilePath() != null) {
-            fileService.delete(message.getFilePath());
-        }
+//        if(message.getFilePath() != null) {
+//            fileService.delete(message.getFilePath());
+//        }
 
-        messageEdit.uploadFile().ifPresentOrElse(
-                multipartFile -> message.updateFilePath(fileService.save(multipartFile)),
-                () -> message.updateFilePath(null)
-        );
+//        messageEdit.uploadFile().ifPresentOrElse(
+//                multipartFile -> message.updateFilePath(fileService.save(multipartFile)),
+//                () -> message.updateFilePath(null)
+//        );
     }
 
     public void delete(Long id) {
@@ -83,9 +78,9 @@ public class MessageService {
 
         checkAuthority(message, MessageExceptionType.NOT_AUTHORITY_DELETE_MESSAGE);
 
-        if(message.getFilePath() != null){
-            fileService.delete(message.getFilePath());
-        }
+//        if(message.getFilePath() != null){
+//            fileService.delete(message.getFilePath());
+//        }
 
         messageRepository.delete(message);
     }
