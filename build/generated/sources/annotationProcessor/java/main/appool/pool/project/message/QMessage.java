@@ -64,7 +64,7 @@ public class QMessage extends EntityPathBase<Message> {
 
     public QMessage(Class<? extends Message> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.writer = inits.isInitialized("writer") ? new appool.pool.project.user.QPoolUser(forProperty("writer")) : null;
+        this.writer = inits.isInitialized("writer") ? new appool.pool.project.user.QPoolUser(forProperty("writer"), inits.get("writer")) : null;
     }
 
 }

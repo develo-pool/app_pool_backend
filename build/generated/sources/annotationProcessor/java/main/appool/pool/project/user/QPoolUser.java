@@ -18,11 +18,15 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
 
     private static final long serialVersionUID = -1036781178L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QPoolUser poolUser = new QPoolUser("poolUser");
 
     public final appool.pool.project.domain.QBaseTimeEntity _super = new appool.pool.project.domain.QBaseTimeEntity(this);
 
     public final StringPath birthday = createString("birthday");
+
+    public final appool.pool.project.brand_user.QBrandUser brandUser;
 
     public final ListPath<String, StringPath> category = this.<String, StringPath>createList("category", String.class, StringPath.class, PathInits.DIRECT2);
 
@@ -57,15 +61,24 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
     public final EnumPath<UserStatus> userStatus = createEnum("userStatus", UserStatus.class);
 
     public QPoolUser(String variable) {
-        super(PoolUser.class, forVariable(variable));
+        this(PoolUser.class, forVariable(variable), INITS);
     }
 
     public QPoolUser(Path<? extends PoolUser> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QPoolUser(PathMetadata metadata) {
-        super(PoolUser.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QPoolUser(PathMetadata metadata, PathInits inits) {
+        this(PoolUser.class, metadata, inits);
+    }
+
+    public QPoolUser(Class<? extends PoolUser> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.brandUser = inits.isInitialized("brandUser") ? new appool.pool.project.brand_user.QBrandUser(forProperty("brandUser"), inits.get("brandUser")) : null;
     }
 
 }

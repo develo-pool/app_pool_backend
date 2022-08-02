@@ -57,7 +57,7 @@ public class QComment extends EntityPathBase<Comment> {
     public QComment(Class<? extends Comment> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.message = inits.isInitialized("message") ? new appool.pool.project.message.QMessage(forProperty("message"), inits.get("message")) : null;
-        this.writer = inits.isInitialized("writer") ? new appool.pool.project.user.QPoolUser(forProperty("writer")) : null;
+        this.writer = inits.isInitialized("writer") ? new appool.pool.project.user.QPoolUser(forProperty("writer"), inits.get("writer")) : null;
     }
 
 }

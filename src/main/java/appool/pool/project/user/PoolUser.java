@@ -1,5 +1,6 @@
 package appool.pool.project.user;
 
+import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.comment.Comment;
 import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.message.Message;
@@ -63,6 +64,9 @@ public class PoolUser extends BaseTimeEntity {
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> commentList = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "brandUser_id")
+    private BrandUser brandUser;
 
 
     //== 연관 관계 메서드==//
