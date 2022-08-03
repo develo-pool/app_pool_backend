@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,10 +28,8 @@ public class MessageController {
     private final AWSS3UploadService awss3UploadService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/messages")
-    public void message(@RequestPart @Valid MessageCreate request, @RequestPart @Valid List<MultipartFile> multipartFile) {
-        List<String> filePaths = awss3UploadService.uploadImage(multipartFile);
-        request.filePath().addAll(filePaths);
+    @PostMapping(value = "/messages")
+    public void message(@RequestPart @Valid MessageCreate request) {
         messageService.write(request);
     }
 
