@@ -28,6 +28,7 @@ public class BrandUserService {
       brandUser.confirmUser(userRepository.findByUsername(SecurityUtil.getLoginUsername())
               .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
+      brandUser.getPoolUser().addBrandUserAuthority();
       brandUserRepository.save(brandUser);
   }
 
