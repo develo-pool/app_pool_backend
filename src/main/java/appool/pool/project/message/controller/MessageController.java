@@ -28,7 +28,7 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart List<MultipartFile> multipartFile) {
+    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart @Valid List<MultipartFile> multipartFile) {
         List<String> filePaths = awss3UploadService.uploadImage(multipartFile);
         request.filePath().addAll(filePaths);
         messageService.write(request);
