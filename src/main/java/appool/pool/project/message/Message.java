@@ -4,10 +4,7 @@ import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.comment.Comment;
 import appool.pool.project.comment.CommentStatus;
 import appool.pool.project.user.PoolUser;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +13,8 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Builder
+@AllArgsConstructor
 @Table(name = "MESSAGE")
 public class Message extends BaseTimeEntity {
     @Id
@@ -33,8 +32,10 @@ public class Message extends BaseTimeEntity {
     @Column(nullable = false)
     private String body;
 
-    @Column(nullable = true)
-    private String filePath;
+    @Column(nullable = true, name = "filePath")
+    @ElementCollection(targetClass = String.class)
+    @Builder.Default
+    private List<String> filePath = new ArrayList<>();
 
     @Column(nullable = true)
     private String messageLink;
@@ -44,6 +45,7 @@ public class Message extends BaseTimeEntity {
 
     //== 메시지 삭제 시, 댓글 전부 삭제 ==//
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<Comment> commentList = new ArrayList<>();
 
 
@@ -57,20 +59,13 @@ public class Message extends BaseTimeEntity {
         commentList.add(comment);
     }
 
-    @Builder
-    public Message(String title, String body, String messageLink, String filePath) {
-        this.title = title;
-        this.body = body;
-        this.messageLink = messageLink;
-        this.filePath = filePath;
-    }
+
 
     public MessageEditor.MessageEditorBuilder toEditor() {
         return MessageEditor.builder()
                 .title(title)
                 .body(body)
-                .messageLink(messageLink)
-                .filePath(filePath);
+                .messageLink(messageLink);
     }
 
     public void updateTitle(String title) {
@@ -83,10 +78,6 @@ public class Message extends BaseTimeEntity {
 
     public void updateMessageLink(String messageLink) {
         this.messageLink = messageLink;
-    }
-
-    public void updateFilePath(String filePath) {
-        this.filePath = filePath;
     }
 
 }

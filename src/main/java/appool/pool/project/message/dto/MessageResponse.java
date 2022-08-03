@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class MessageResponse {
@@ -15,7 +17,7 @@ public class MessageResponse {
     private String title;
     private String body;
     private String messageLink;
-    private String filePath;
+    private List<String> filePath;
 
     private UserInfoDto writerDto;
 

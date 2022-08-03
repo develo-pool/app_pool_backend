@@ -1,6 +1,7 @@
 package appool.pool.project.message.service;
 
 import appool.pool.project.file.exception.FileException;
+import appool.pool.project.file.service.AWSS3UploadService;
 import appool.pool.project.message.exception.MessageException;
 import appool.pool.project.message.exception.MessageExceptionType;
 import appool.pool.project.user.exception.PoolUserException;
@@ -29,13 +30,15 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final AWSS3UploadService awss3UploadService;
 
     public void write(MessageCreate messageCreate) throws FileException {
-
         Message message = messageCreate.toEntity();
 
         message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
+
+
 
 
         messageRepository.save(message);

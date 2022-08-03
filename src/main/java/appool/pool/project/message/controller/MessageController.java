@@ -1,5 +1,6 @@
 package appool.pool.project.message.controller;
 
+import appool.pool.project.file.service.AWSS3UploadService;
 import appool.pool.project.message.dto.MessageCreate;
 import appool.pool.project.message.dto.MessageEdit;
 import appool.pool.project.message.dto.MessageSearch;
@@ -11,6 +12,7 @@ import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -22,10 +24,13 @@ import java.util.List;
 public class MessageController {
 
     private final MessageService messageService;
+    private final AWSS3UploadService awss3UploadService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/messages")
-    public void message(@ModelAttribute @Valid MessageCreate request) {
+    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart List<MultipartFile> multipartFile) {
+        List<String> filePaths = awss3UploadService.uploadImage(multipartFile);
+        request.filePath().addAll(filePaths);
         messageService.write(request);
     }
 
