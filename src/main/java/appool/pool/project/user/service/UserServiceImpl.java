@@ -9,12 +9,14 @@ import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.InvalidParameterException;
 import java.util.HashMap;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -97,13 +99,18 @@ public class UserServiceImpl implements UserService{
             throw new InvalidParameterException();
         }
 
-        PoolUser poolUser = userRepository.findByRefreshToken(requestDto.getRefreshToken()).orElseThrow();
+        Optional<String> username = jwtService.extractUsername(requestDto.getAccessToken());
+
+        PoolUser poolUser = userRepository.findByUsername(username.get()).get();
+
+
 
         String accessToken = jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName());
         String refreshToken = jwtService.createRefreshToken();
         poolUser.updateRefreshToken(refreshToken);
         return new TokenResponseDto(accessToken, refreshToken);
     }
+
 
 
 
