@@ -13,15 +13,12 @@ public class UserInfoDto {
     private String username;
     private String nickName;
     private UserStatus userStatus;
-    private Boolean termAgreement;
-    private Boolean privacyAgreement;
+
 
     @Builder
     public UserInfoDto(PoolUser poolUser) {
         this.username = poolUser.getUsername();
         this.nickName = poolUser.getNickName();
         this.userStatus = poolUser.getUserStatus();
-        this.termAgreement = poolUser.getTermAgreement();
-        this.privacyAgreement = poolUser.getPrivacyAgreement();
     }
 }
