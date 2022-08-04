@@ -1,12 +1,11 @@
 package appool.pool.project.user.service;
 
+import appool.pool.project.jwt.service.JwtService;
 import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
+import appool.pool.project.user.dto.*;
 import appool.pool.project.user.exception.PoolUserException;
 import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.PoolUser;
-import appool.pool.project.user.dto.UserInfoDto;
-import appool.pool.project.user.dto.UserSignUpDto;
-import appool.pool.project.user.dto.UserUpdateDto;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.InvalidParameterException;
 import java.util.HashMap;
 
 @Service
@@ -23,6 +23,7 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
 
     @Override
@@ -88,6 +89,20 @@ public class UserServiceImpl implements UserService{
     @Override
     public boolean checkNickNameDuplicate(String nickName) {
         return userRepository.existsByNickName(nickName);
+    }
+
+    @Override
+    public TokenResponseDto reIssue(TokenRequestDto requestDto) {
+        if (!jwtService.isTokenValid(requestDto.getRefreshToken())) {
+            throw new InvalidParameterException();
+        }
+
+        PoolUser poolUser = userRepository.findByRefreshToken(requestDto.getRefreshToken()).orElseThrow();
+
+        String accessToken = jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName());
+        String refreshToken = jwtService.createRefreshToken();
+        poolUser.updateRefreshToken(refreshToken);
+        return new TokenResponseDto(accessToken, refreshToken);
     }
 
 

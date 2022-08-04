@@ -1,9 +1,7 @@
 package appool.pool.project.user.service;
 
 
-import appool.pool.project.user.dto.UserInfoDto;
-import appool.pool.project.user.dto.UserSignUpDto;
-import appool.pool.project.user.dto.UserUpdateDto;
+import appool.pool.project.user.dto.*;
 
 public interface UserService {
 
@@ -30,5 +28,7 @@ public interface UserService {
     boolean checkUsernameDuplicate(String username);
 
     boolean checkNickNameDuplicate(String nickName);
+
+    TokenResponseDto reIssue(TokenRequestDto requestDto);
 
 }
