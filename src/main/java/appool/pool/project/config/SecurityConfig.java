@@ -49,10 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
                 .and()
                 .headers().addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN
-                ))
-                .and()
-                .logout()
-                .invalidateHttpSession(true);
+                ));
 
         http.addFilterAfter(jsonUsernamePasswordLoginFilter(), LogoutFilter.class);
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), JsonUsernamePasswordAuthenticationFilter.class);

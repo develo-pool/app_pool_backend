@@ -6,7 +6,8 @@ import java.util.Optional;
 
 public interface JwtService {
 
-    String createAccessToken(String username, String nickName);
+    String createAccessToken(String username, String nickName, String role);
+
     String createRefreshToken();
 
     void updateRefreshToken(String username, String refreshToken);

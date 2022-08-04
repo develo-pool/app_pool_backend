@@ -99,12 +99,10 @@ public class UserServiceImpl implements UserService{
             throw new PoolUserException(PoolUserExceptionType.TOKEN_INVALID);
         }
 
-        Optional<String> username = jwtService.extractUsername(requestDto.getAccessToken());
-
-        PoolUser poolUser = userRepository.findByUsername(username.get()).get();
+        PoolUser poolUser = userRepository.findByRefreshToken(requestDto.getRefreshToken()).get();
 
 
-        String accessToken = jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName());
+        String accessToken = jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName(), poolUser.getUserStatus().value());
         String refreshToken = jwtService.createRefreshToken();
         poolUser.updateRefreshToken(refreshToken);
         return new TokenResponseDto(accessToken, refreshToken);

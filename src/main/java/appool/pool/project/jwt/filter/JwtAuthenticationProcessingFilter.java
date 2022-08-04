@@ -88,7 +88,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
 
         userRepository.findByRefreshToken(refreshToken).ifPresent(
-                poolUser -> jwtService.sendAccessToken(response, jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName()))
+                poolUser -> jwtService.sendAccessToken(response, jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName(), poolUser.getUserStatus().value()))
         );
 
     }

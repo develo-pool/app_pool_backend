@@ -55,12 +55,13 @@ public class JwtServiceImpl implements JwtService{
 
     //== 3 ==//
     @Override
-    public String createAccessToken(String username, String nickName) {
+    public String createAccessToken(String username, String nickName, String role) {
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenValidityInSeconds * 1000))
                 .withClaim(USERNAME_CLAIM, username)
                 .withClaim(NICKNAME, nickName)
+                .withClaim(ROLE, role)
                 .sign(Algorithm.HMAC512(secret));
     }
 
