@@ -104,7 +104,6 @@ public class UserServiceImpl implements UserService{
         PoolUser poolUser = userRepository.findByUsername(username.get()).get();
 
 
-
         String accessToken = jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName());
         String refreshToken = jwtService.createRefreshToken();
         poolUser.updateRefreshToken(refreshToken);
