@@ -30,7 +30,6 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
     private final String NO_CHECK_URL = "/login";
-    private final String REFRESHING = "/refresh";
 
     /**
      * 1. 리프레시 토큰이 오는 경우 -> 유효하면 AccessToken 재발급 후, 필터 진행 x, 바로 튕기기
@@ -40,7 +39,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getRequestURI().equals(NO_CHECK_URL) || request.getRequestURI().equals(REFRESHING)) {
+        if (request.getRequestURI().equals(NO_CHECK_URL)) {
             filterChain.doFilter(request, response);
             return; // 이거 안해주면 아래로 내려가서 계속 필터를 진행해버림
         }
