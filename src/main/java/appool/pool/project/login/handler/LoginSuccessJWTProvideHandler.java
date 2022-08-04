@@ -14,9 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
 
-import static appool.pool.project.user.QPoolUser.poolUser;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -36,6 +34,7 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken, username);
 
         poolUser.updateRefreshToken(refreshToken);
+        log.info(poolUser.getRefreshToken());
 
         log.info("로그인에 성공합니다. username: {}", username);
         log.info("AccessToken을 발급합니다. AccessToken: {}", accessToken);
