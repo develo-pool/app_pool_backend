@@ -1,14 +1,12 @@
 package appool.pool.project.jwt.service;
 
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 public interface JwtService {
 
-    String createAccessToken(String username);
+    String createAccessToken(String username, String nickName);
     String createRefreshToken();
 
     void updateRefreshToken(String username, String refreshToken);

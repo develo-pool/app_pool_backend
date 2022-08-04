@@ -1,6 +1,5 @@
 package appool.pool.project.login.handler;
 
-import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.jwt.service.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
+
+import static appool.pool.project.user.QPoolUser.poolUser;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -27,7 +27,7 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         String username = extractUsername(authentication);
-        String accessToken = jwtService.createAccessToken(username);
+        String accessToken = jwtService.createAccessToken(username, String.valueOf(poolUser.nickName));
         String refreshToken = jwtService.createRefreshToken();
 
         jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken, username);

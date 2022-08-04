@@ -1,5 +1,6 @@
 package appool.pool.project.jwt.filter;
 
+import appool.pool.project.user.CustomUserDetails;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.jwt.service.JwtService;
 import appool.pool.project.user.repository.UserRepository;
@@ -71,7 +72,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     }
 
     private void saveAuthentication(PoolUser poolUser) {
-        UserDetails user = User.builder()
+        UserDetails user =  User.builder()
                 .username(poolUser.getUsername())
                 .password(poolUser.getPassword())
                 .roles(poolUser.getUserStatus().name())
@@ -87,7 +88,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
 
         userRepository.findByRefreshToken(refreshToken).ifPresent(
-                poolUser -> jwtService.sendAccessToken(response, jwtService.createAccessToken(poolUser.getUsername()))
+                poolUser -> jwtService.sendAccessToken(response, jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName()))
         );
 
     }

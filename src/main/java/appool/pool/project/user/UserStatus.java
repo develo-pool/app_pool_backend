@@ -1,6 +1,19 @@
 package appool.pool.project.user;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+
+@RequiredArgsConstructor
 public enum UserStatus {
 
-    BRAND_USER, USER;
+    BRAND_USER("BRAND_USER"),
+    USER("USER");
+
+    private final String type;
+
+    public String value() {
+        return type;
+    }
+
 }

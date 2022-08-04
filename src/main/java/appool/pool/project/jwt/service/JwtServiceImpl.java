@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,11 +53,12 @@ public class JwtServiceImpl implements JwtService{
 
     //== 3 ==//
     @Override
-    public String createAccessToken(String username) {
+    public String createAccessToken(String username, String nickName) {
         return JWT.create()
                 .withSubject(ACCESS_TOKEN_SUBJECT)
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenValidityInSeconds * 1000))
                 .withClaim(USERNAME_CLAIM, username)
+                .withClaim(NICKNAME, nickName)
                 .sign(Algorithm.HMAC512(secret));
     }
 
