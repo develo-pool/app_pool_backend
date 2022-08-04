@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -86,7 +87,13 @@ public class UserController {
         return ResponseEntity.ok(userService.checkNickNameDuplicate(nickName));
     }
 
-
-
+    /**
+     * jwt 토큰 재발급 요청
+     */
+    @PostMapping("/reIssue")
+    public TokenResponseDto reIssue(@RequestBody TokenRequestDto tokenRequestDto){
+        TokenResponseDto tokenResponseDto = userService.reIssue(tokenRequestDto);
+        return tokenResponseDto;
+    }
 
 }
