@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private final JwtService jwtService;
