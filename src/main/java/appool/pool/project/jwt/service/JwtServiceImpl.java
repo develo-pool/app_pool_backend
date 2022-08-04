@@ -1,6 +1,8 @@
 package appool.pool.project.jwt.service;
 
 import appool.pool.project.user.PoolUser;
+import appool.pool.project.user.exception.PoolUserException;
+import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.repository.UserRepository;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -158,9 +160,10 @@ public class JwtServiceImpl implements JwtService{
         try {
             JWT.require(Algorithm.HMAC512(secret)).build().verify(token);
             return true;
-        }catch (Exception e) {
-            log.error("유효하지 않은 Token입니다.", e.getMessage());
-            return false;
+        }catch (PoolUserException e) {
+            throw new PoolUserException(PoolUserExceptionType.TOKEN_INVALID);
         }
     }
+
+
 }

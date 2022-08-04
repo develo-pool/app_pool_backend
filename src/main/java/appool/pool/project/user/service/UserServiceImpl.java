@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public TokenResponseDto reIssue(TokenRequestDto requestDto) {
         if (!jwtService.isTokenValid(requestDto.getRefreshToken())) {
-            throw new InvalidParameterException();
+            throw new PoolUserException(PoolUserExceptionType.TOKEN_INVALID);
         }
 
         Optional<String> username = jwtService.extractUsername(requestDto.getAccessToken());
