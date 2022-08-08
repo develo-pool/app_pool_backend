@@ -21,7 +21,7 @@ public class BrandUserController {
 
     @PostMapping("/brand/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void submit(@Valid @RequestBody BrandUserCreateDto brandUserCreateDto, @RequestPart(required = false) MultipartFile multipartFile) throws Exception{
+    public void submit(@Valid @ModelAttribute BrandUserCreateDto brandUserCreateDto, @RequestPart(required = false) MultipartFile multipartFile) throws Exception{
         brandUserService.submit(brandUserCreateDto, multipartFile);
     }
 
