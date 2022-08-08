@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -30,7 +31,7 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/messages")
-    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart List<MultipartFile> multipartFiles) {
+    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart(required = false) List<MultipartFile> multipartFiles) {
         messageService.write(request, multipartFiles);
     }
 
