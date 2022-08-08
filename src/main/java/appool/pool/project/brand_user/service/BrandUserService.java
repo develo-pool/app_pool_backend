@@ -35,7 +35,7 @@ public class BrandUserService {
       brandUser.getPoolUser().addBrandUserAuthority();
 
       if(multipartFile != null) {
-          brandUser.addProfileImage(s3Uploader.uploadImageOne(multipartFile));
+          brandUser.addProfileImage(s3Uploader.getThumbnailPath(s3Uploader.uploadImageOne(multipartFile)));
       }
 
       brandUserRepository.save(brandUser);
