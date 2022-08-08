@@ -1,7 +1,7 @@
 package appool.pool.project.message.service;
 
 import appool.pool.project.file.exception.FileException;
-import appool.pool.project.file.service.AWSS3UploadService;
+import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.exception.MessageException;
 import appool.pool.project.message.exception.MessageExceptionType;
 import appool.pool.project.user.exception.PoolUserException;
@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,17 +31,17 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
-    private final AWSS3UploadService awss3UploadService;
+    private final S3Uploader s3Uploader;
 
-    public void write(MessageCreate messageCreate) throws FileException {
+    public void write(MessageCreate messageCreate, List<MultipartFile> multipartFiles) throws FileException {
         Message message = messageCreate.toEntity();
 
         message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
-
-
-
+        if(multipartFiles != null) {
+            message.getFilePath().add(s3Uploader.uploadImage(multipartFiles).toString());
+        }
         messageRepository.save(message);
     }
 
