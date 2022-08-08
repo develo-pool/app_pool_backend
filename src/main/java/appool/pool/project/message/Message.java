@@ -60,7 +60,6 @@ public class Message extends BaseTimeEntity {
     }
 
 
-
     public MessageEditor.MessageEditorBuilder toEditor() {
         return MessageEditor.builder()
                 .title(title)
