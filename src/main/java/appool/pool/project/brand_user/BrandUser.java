@@ -41,7 +41,6 @@ public class BrandUser extends BaseTimeEntity {
     @OneToOne(mappedBy = "brandUser")
     private PoolUser poolUser;
 
-
     public void confirmUser(PoolUser poolUser) {
         this.poolUser = poolUser;
         poolUser.addBrandUser(this);

@@ -55,8 +55,6 @@ public class PoolUser extends BaseTimeEntity {
     private List<String> category = new ArrayList<>();
 
 
-
-
     //== 회원 탈퇴 시 게시글, 댓글 삭제 ==//
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Message> messageList = new ArrayList<>();
@@ -83,7 +81,6 @@ public class PoolUser extends BaseTimeEntity {
     public void addBrandUser(BrandUser brandUser) {
         this.brandUser = brandUser;
     }
-
 
 
     //== 정보 수정==//
