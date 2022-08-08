@@ -28,6 +28,7 @@ import java.util.UUID;
 public class S3Uploader {
 
     private final AmazonS3 amazonS3;
+    private final AmazonS3Client amazonS3Client;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -83,7 +84,7 @@ public class S3Uploader {
     }
 
     public String getThumbnailPath(String path) {
-        return amazonS3.getUrl(bucket, path).toString();
+        return amazonS3Client.getUrl(bucket, path).toString();
     }
 
 }
