@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,8 +21,8 @@ public class BrandUserController {
 
     @PostMapping("/brand/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public void submit(@Valid @RequestBody BrandUserCreateDto brandUserCreateDto) throws Exception{
-        brandUserService.submit(brandUserCreateDto);
+    public void submit(@Valid @RequestBody BrandUserCreateDto brandUserCreateDto, @RequestPart(required = false) MultipartFile multipartFile) throws Exception{
+        brandUserService.submit(brandUserCreateDto, multipartFile);
     }
 
     @GetMapping("/brand/{id}")

@@ -7,8 +7,7 @@ import java.util.List;
 public record BrandUserCreateDto(String brandUsername,
                                  String brandInfo,
                                  List<String> brandCategory,
-                                 Boolean brandAgreement,
-                                 String brandProfileImage
+                                 Boolean brandAgreement
                                  ) {
 
     public BrandUser toEntity() {
@@ -17,7 +16,6 @@ public record BrandUserCreateDto(String brandUsername,
                 .brandInfo(brandInfo)
                 .brandCategory(brandCategory)
                 .brandAgreement(brandAgreement)
-                .brandProfileImage(brandProfileImage)
                 .build();
     }
 }
