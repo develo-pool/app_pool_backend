@@ -1,6 +1,6 @@
 package appool.pool.project.message.controller;
 
-import appool.pool.project.file.service.AWSS3UploadService;
+import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.dto.MessageCreate;
 import appool.pool.project.message.dto.MessageEdit;
 import appool.pool.project.message.dto.MessageSearch;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -25,12 +26,17 @@ import java.util.List;
 public class MessageController {
 
     private final MessageService messageService;
-    private final AWSS3UploadService awss3UploadService;
+    private final S3Uploader s3Uploader;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/messages")
-    public void message(@RequestPart @Valid MessageCreate request) {
-        messageService.write(request);
+    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart List<MultipartFile> multipartFiles) {
+        messageService.write(request, multipartFiles);
+    }
+
+    @PostMapping("/image")
+    public ResponseEntity<List<String>> upload(@RequestPart List<MultipartFile> multipartFile) {
+        return ResponseEntity.ok(s3Uploader.uploadImage(multipartFile));
     }
 
     @GetMapping("/messages/{messageId}")
