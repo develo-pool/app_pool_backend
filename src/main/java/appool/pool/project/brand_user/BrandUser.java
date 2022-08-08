@@ -35,6 +35,7 @@ public class BrandUser extends BaseTimeEntity {
 
     private Boolean brandAgreement;
 
+    @Column(nullable = true, name = "brandProfileImage")
     private String brandProfileImage;
 
     @OneToOne(mappedBy = "brandUser")
@@ -46,6 +47,8 @@ public class BrandUser extends BaseTimeEntity {
         poolUser.addBrandUser(this);
     }
 
-
+    public void addProfileImage(String brandProfileImage) {
+        this.brandProfileImage = brandProfileImage;
+    }
 
 }
