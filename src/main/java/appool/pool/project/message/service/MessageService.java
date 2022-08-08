@@ -40,7 +40,7 @@ public class MessageService {
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
         if(multipartFiles != null) {
-            message.getFilePath().add(s3Uploader.uploadImage(multipartFiles).toString());
+            message.getFilePath().add(s3Uploader.getThumbnailPath(s3Uploader.uploadImage(multipartFiles).toString()));
         }
 
         messageRepository.save(message);

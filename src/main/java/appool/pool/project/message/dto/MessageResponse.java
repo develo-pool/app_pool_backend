@@ -2,10 +2,7 @@ package appool.pool.project.message.dto;
 
 import appool.pool.project.message.Message;
 import appool.pool.project.user.dto.UserInfoDto;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -18,7 +15,6 @@ public class MessageResponse {
     private String body;
     private String messageLink;
     private List<String> filePath;
-
     private UserInfoDto writerDto;
 
     public MessageResponse(Message message) {

@@ -82,4 +82,8 @@ public class S3Uploader {
         }
     }
 
+    public String getThumbnailPath(String path) {
+        return amazonS3.getUrl(bucket, path).toString();
+    }
+
 }
