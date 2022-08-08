@@ -121,5 +121,9 @@ public class PoolUser extends BaseTimeEntity {
         this.userStatus = UserStatus.BRAND_USER;
     }
 
+    public void addWaitingAuthority() {
+        this.userStatus = UserStatus.WAITING;
+    }
+
 
 }

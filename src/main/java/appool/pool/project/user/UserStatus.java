@@ -8,7 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 public enum UserStatus {
 
     BRAND_USER("BRAND_USER"),
+    WAITING("WAITING"),
     USER("USER");
+
 
     private final String type;
 

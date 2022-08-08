@@ -32,7 +32,7 @@ public class BrandUserService {
       brandUser.confirmUser(userRepository.findByUsername(SecurityUtil.getLoginUsername())
               .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
-      brandUser.getPoolUser().addBrandUserAuthority();
+      brandUser.getPoolUser().addWaitingAuthority();
 
       if(multipartFile != null) {
           brandUser.addProfileImage(s3Uploader.getThumbnailPath(s3Uploader.uploadImageOne(multipartFile)));
