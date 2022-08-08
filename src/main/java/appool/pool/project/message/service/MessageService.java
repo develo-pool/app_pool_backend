@@ -39,22 +39,12 @@ public class MessageService {
         message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
-        if(multipartFiles != null){
+        if(multipartFiles != null) {
             message.getFilePath().add(s3Uploader.uploadImage(multipartFiles).toString());
         }
 
         messageRepository.save(message);
     }
-
-    public void writeNoImage(MessageCreate messageCreate) {
-        Message message = messageCreate.toEntity();
-
-        message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
-                .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
-
-        messageRepository.save(message);
-    }
-
 
     public MessageResponse get(Long id) {
         return new MessageResponse(messageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
