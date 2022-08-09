@@ -38,7 +38,8 @@ public class BrandUser extends BaseTimeEntity {
     @Column(nullable = true, name = "brandProfileImage")
     private String brandProfileImage;
 
-    @OneToOne(mappedBy = "brandUser")
+    @OneToOne
+    @JoinColumn(name = "poolUser_id")
     private PoolUser poolUser;
 
     public void confirmUser(PoolUser poolUser) {
