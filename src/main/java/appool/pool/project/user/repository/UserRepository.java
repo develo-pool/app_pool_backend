@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<PoolUser, Long> {
 
     boolean existsByNickName(String nickName);
 
+    boolean existsByPhoneNumber(String phoneNumber);
+
     Optional<PoolUser> findByRefreshToken(String refreshToken);
 }
  
