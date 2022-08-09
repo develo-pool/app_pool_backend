@@ -78,7 +78,7 @@ public class UserController {
     }
 
     /**
-     * username, nickname 중복검사
+     * 중복검사
      */
     @GetMapping("/user-usernames/{username}/exists")
     public ResponseEntity<Boolean> checkUsernameDuplicate(@PathVariable String username) {
@@ -88,6 +88,22 @@ public class UserController {
     @GetMapping("/user-nickNames/{nickName}/exists")
     public ResponseEntity<Boolean> checkNickNameDuplicate(@PathVariable String nickName) {
         return ResponseEntity.ok(userService.checkNickNameDuplicate(nickName));
+    }
+
+    @GetMapping("/user-phoneNumbers/{phoneNumber}/exists")
+    public ResponseEntity<Boolean> checkPhoneNumberDuplicate(@PathVariable String phoneNumber) {
+        return ResponseEntity.ok(userService.checkPhoneNumberDuplicate(phoneNumber));
+    }
+
+    @PostMapping("/checkMember")
+    public ResponseEntity<Boolean> checkMember(@RequestBody String username, @RequestBody String phoneNumber) {
+        return ResponseEntity.ok(userService.checkMemberInfo(username, phoneNumber));
+    }
+
+    @PutMapping("/user/newPassword")
+    @ResponseStatus(HttpStatus.OK)
+    public void newPassword(@Valid @RequestBody String newPassword) throws Exception{
+        userService.newPassword(newPassword);
     }
 
     /**
