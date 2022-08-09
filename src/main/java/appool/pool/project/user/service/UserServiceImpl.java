@@ -1,5 +1,7 @@
 package appool.pool.project.user.service;
 
+import appool.pool.project.follow.repository.FollowRepository;
+import appool.pool.project.follow.service.FollowService;
 import appool.pool.project.jwt.service.JwtService;
 import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import appool.pool.project.user.dto.*;
@@ -26,6 +28,8 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final FollowRepository followRepository;
+
 
 
     @Override
@@ -74,13 +78,26 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserInfoDto getInfo(Long id) throws Exception {
         PoolUser findPoolUser = userRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-        return new UserInfoDto(findPoolUser);
+        UserInfoDto userInfoDto = UserInfoDto.builder()
+                .username(findPoolUser.getUsername())
+                .nickName(findPoolUser.getNickName())
+                .userStatus(findPoolUser.getUserStatus())
+                .build();
+
+        return userInfoDto;
     }
 
     @Override
     public UserInfoDto getMyInfo() throws Exception {
         PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-        return new UserInfoDto(findPoolUser);
+
+        UserInfoDto userInfoDto = UserInfoDto.builder()
+                .username(findPoolUser.getUsername())
+                .nickName(findPoolUser.getNickName())
+                .userStatus(findPoolUser.getUserStatus())
+                .userFollowingCount(followRepository.findFollowingCountById(findPoolUser.getId()))
+                .build();
+        return userInfoDto;
     }
 
     @Override
