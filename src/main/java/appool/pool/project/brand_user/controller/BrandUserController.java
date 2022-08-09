@@ -4,6 +4,7 @@ import appool.pool.project.brand_user.dto.BrandUserCreateDto;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.brand_user.service.BrandUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 public class BrandUserController {
 
     private final BrandUserService brandUserService;
+    private static final int PAGE_DEFAULT_SIZE = 10;
 
     @PostMapping("/brand/create")
     @ResponseStatus(HttpStatus.CREATED)
@@ -35,6 +37,11 @@ public class BrandUserController {
     public ResponseEntity getMyBrandInfo(HttpServletResponse response) {
         BrandUserInfoDto info = brandUserService.getMyBrandInfo();
         return new ResponseEntity(info, HttpStatus.OK);
+    }
+
+    @GetMapping("/brands")
+    public List<BrandUserInfoDto> getBrandList(Long cursor) {
+        return brandUserService.getBrands(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
 
