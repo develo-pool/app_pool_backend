@@ -18,11 +18,17 @@ public class MessageResponse {
     private UserInfoDto writerDto;
 
     public MessageResponse(Message message) {
+        UserInfoDto userInfoDto = UserInfoDto.builder()
+                .username(message.getWriter().getUsername())
+                .nickName(message.getWriter().getNickName())
+                .userStatus(message.getWriter().getUserStatus())
+                .build();
+
         this.postId = message.getId();
         this.title = message.getTitle();
         this.body = message.getBody();
         this.messageLink = message.getMessageLink();
         this.filePath = message.getFilePath();
-        this.writerDto = new UserInfoDto(message.getWriter());
+        this.writerDto = userInfoDto;
     }
 }
