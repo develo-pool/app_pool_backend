@@ -13,12 +13,14 @@ import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -80,6 +82,22 @@ public class BrandUserService {
               .build();
       return brandUserInfoDto;
   }
+
+
+  public List<BrandUserInfoDto> getBrands(Long cursor, Pageable pageable) {
+      return getBrandList(cursor, pageable).stream()
+              .map(BrandUserInfoDto::new)
+              .collect(Collectors.toList());
+
+  }
+
+  public List<BrandUser> getBrandList(Long id, Pageable page) {
+      return id.equals(0L)
+              ? brandUserRepository.brandList(page)
+              : brandUserRepository.brandListLess(id, page);
+  }
+
+
 
   public boolean checkBrandUsernameDuplicate(String brandUsername) {
       return brandUserRepository.existsByBrandUsername(brandUsername);
