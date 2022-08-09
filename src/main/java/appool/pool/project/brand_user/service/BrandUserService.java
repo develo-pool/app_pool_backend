@@ -5,7 +5,9 @@ import appool.pool.project.brand_user.dto.BrandUserCreateDto;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.file.service.S3Uploader;
+import appool.pool.project.follow.repository.FollowRepository;
 import appool.pool.project.user.PoolUser;
+import appool.pool.project.user.dto.UserInfoDto;
 import appool.pool.project.user.exception.PoolUserException;
 import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.repository.UserRepository;
@@ -26,6 +28,7 @@ public class BrandUserService {
   private final BrandUserRepository brandUserRepository;
   private final UserRepository userRepository;
   private final S3Uploader s3Uploader;
+  private final FollowRepository followRepository;
 
   public void submit(BrandUserCreateDto brandUserCreateDto, MultipartFile multipartFile) throws Exception{
       BrandUser brandUser = brandUserCreateDto.toEntity();
@@ -43,13 +46,39 @@ public class BrandUserService {
 
   public BrandUserInfoDto getBrandInfo(Long id) {
       BrandUser brandUser = brandUserRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      return new BrandUserInfoDto(brandUser);
+      Optional<PoolUser> poolUser = userRepository.findById(brandUser.getId());
+      Optional<PoolUser> loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+
+      BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
+              .brandUsername(brandUser.getBrandUsername())
+              .brandInfo(brandUser.getBrandInfo())
+              .brandProfileImage(brandUser.getBrandProfileImage())
+              .userInfoDto(
+                      UserInfoDto.builder()
+                              .follow(followRepository.findFollowByFromUserIdAndToUserId(loginUser.get().getId(), poolUser.get().getId()) != null)
+                              .userFollowerCount(followRepository.findFollowerCountById(poolUser.get().getId()))
+                              .build()
+              )
+              .build();
+
+      return brandUserInfoDto;
   }
 
   public BrandUserInfoDto getMyBrandInfo() {
       PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
       BrandUser brandUser = brandUserRepository.findByBrandUsername(findPoolUser.getBrandUser().getBrandUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      return new BrandUserInfoDto(brandUser);
+
+      BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
+              .brandUsername(brandUser.getBrandUsername())
+              .brandInfo(brandUser.getBrandInfo())
+              .brandProfileImage(brandUser.getBrandProfileImage())
+              .userInfoDto(
+                      UserInfoDto.builder()
+                              .userFollowerCount(followRepository.findFollowerCountById(findPoolUser.getId()))
+                              .build()
+              )
+              .build();
+      return brandUserInfoDto;
   }
 
   public boolean checkBrandUsernameDuplicate(String brandUsername) {
