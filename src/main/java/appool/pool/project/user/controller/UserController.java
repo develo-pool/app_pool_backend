@@ -1,9 +1,11 @@
 package appool.pool.project.user.controller;
 
+import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import appool.pool.project.user.dto.*;
 import appool.pool.project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ public class UserController {
 
     private final UserService userService;
     private final JsonUsernamePasswordAuthenticationFilter jsonUsernamePasswordAuthenticationFilter;
+    private static final int PAGE_DEFAULT_SIZE = 10;
 
     /**
      * 회원가입
@@ -94,6 +97,11 @@ public class UserController {
     public TokenResponseDto reIssue(@RequestBody TokenRequestDto tokenRequestDto){
         TokenResponseDto tokenResponseDto = userService.reIssue(tokenRequestDto);
         return tokenResponseDto;
+    }
+
+    @GetMapping("/followings")
+    public List<BrandUserInfoDto> getFollowingUserList(Long cursor) {
+        return userService.getFollowingUsers(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
 }
