@@ -85,9 +85,16 @@ public class BrandUserService {
 
 
   public List<BrandUserInfoDto> getBrands(Long cursor, Pageable pageable) {
-      return getBrandList(cursor, pageable).stream()
+      PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+
+      List<BrandUserInfoDto> brandUserList = getBrandList(cursor, pageable).stream()
               .map(BrandUserInfoDto::new)
               .collect(Collectors.toList());
+      brandUserList.forEach(f -> f.setUserInfoDto(UserInfoDto.builder()
+                      .userFollowerCount(followRepository.findFollowerCountById(f.getPoolUserId()))
+                      .follow(followRepository.findFollowByFromUserIdAndToUserId(loginUser.getId(), f.getPoolUserId())!= null)
+              .build()));
+      return brandUserList;
 
   }
 
