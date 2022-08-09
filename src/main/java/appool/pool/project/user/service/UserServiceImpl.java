@@ -1,5 +1,8 @@
 package appool.pool.project.user.service;
 
+import appool.pool.project.brand_user.BrandUser;
+import appool.pool.project.brand_user.dto.BrandUserInfoDto;
+import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.follow.repository.FollowRepository;
 import appool.pool.project.follow.service.FollowService;
 import appool.pool.project.jwt.service.JwtService;
@@ -11,6 +14,7 @@ import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.InvalidParameterException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +35,7 @@ public class UserServiceImpl implements UserService{
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final FollowRepository followRepository;
+    private final BrandUserRepository brandUserRepository;
 
 
 
@@ -100,6 +107,8 @@ public class UserServiceImpl implements UserService{
         return userInfoDto;
     }
 
+
+
     @Override
     public boolean checkUsernameDuplicate(String username) {
         return userRepository.existsByUsername(username);
@@ -125,8 +134,27 @@ public class UserServiceImpl implements UserService{
         return new TokenResponseDto(accessToken, refreshToken);
     }
 
+    @Override
+    public List<BrandUserInfoDto> getFollowingUsers(Long cursor, Pageable pageable) {
+        PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
+        List<BrandUserInfoDto> followingUserList = getFollowingList(cursor, pageable).stream()
+                .map(BrandUserInfoDto::new)
+                .collect(Collectors.toList());
+        followingUserList.forEach(f -> f.setUserInfoDto(UserInfoDto.builder()
+                .userFollowerCount(followRepository.findFollowerCountById(f.getPoolUserId()))
+                .follow(followRepository.findFollowByFromUserIdAndToUserId(loginUser.getId(), f.getPoolUserId())!= null)
+                .build()));
 
+        return followingUserList;
+    }
+
+    private List<BrandUser> getFollowingList(Long id, Pageable page) {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+        return id.equals(0L)
+                ? brandUserRepository.followingList(poolUser.get().getId(), page)
+                : brandUserRepository.followingListLess(poolUser.get().getId(), id, page);
+    }
 
 
 }

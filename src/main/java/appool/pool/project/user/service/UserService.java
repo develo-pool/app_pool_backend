@@ -1,7 +1,11 @@
 package appool.pool.project.user.service;
 
 
+import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.user.dto.*;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -30,5 +34,7 @@ public interface UserService {
     boolean checkNickNameDuplicate(String nickName);
 
     TokenResponseDto reIssue(TokenRequestDto requestDto);
+
+    List<BrandUserInfoDto> getFollowingUsers(Long cursor, Pageable pageable);
 
 }

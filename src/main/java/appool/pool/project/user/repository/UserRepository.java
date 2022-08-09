@@ -15,3 +15,4 @@ public interface UserRepository extends JpaRepository<PoolUser, Long> {
 
     Optional<PoolUser> findByRefreshToken(String refreshToken);
 }
+ 
