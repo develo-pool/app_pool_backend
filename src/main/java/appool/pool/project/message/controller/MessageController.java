@@ -9,6 +9,7 @@ import appool.pool.project.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.Response;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class MessageController {
 
     private final MessageService messageService;
     private final S3Uploader s3Uploader;
+    private static final int PAGE_DEFAULT_SIZE = 5;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/messages")
@@ -46,8 +48,8 @@ public class MessageController {
     }
 
     @GetMapping("/messages")
-    public List<MessageResponse> getList(@ModelAttribute MessageSearch messageSearch) {
-        return messageService.getList(messageSearch);
+    public List<MessageResponse> getMainList(Long cursor) {
+        return messageService.getMainList(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
     @PatchMapping("/messages/{messageId}")
