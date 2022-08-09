@@ -4,6 +4,7 @@ import appool.pool.project.file.exception.FileException;
 import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.exception.MessageException;
 import appool.pool.project.message.exception.MessageExceptionType;
+import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.exception.PoolUserException;
 import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.message.Message;
@@ -16,11 +17,13 @@ import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -54,6 +57,19 @@ public class MessageService {
         return messageRepository.getList(messageSearch).stream()
                 .map(MessageResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public List<MessageResponse> getMainList(Long cursor, Pageable pageable) {
+        return getMessageList(cursor, pageable).stream()
+                .map(MessageResponse::new)
+                .collect(Collectors.toList());
+    }
+
+    private List<Message> getMessageList(Long id, Pageable page) {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+        return id.equals(0L)
+                ? messageRepository.mainFeed(poolUser.get().getId(), page)
+                : messageRepository.mainFeedLess(poolUser.get().getId(), id, page);
     }
 
     public void edit(Long id, MessageEdit messageEdit) {
