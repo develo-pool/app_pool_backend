@@ -120,6 +120,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public boolean checkPhoneNumberDuplicate(String phoneNumber) {
+        return userRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    @Override
+    public boolean checkMemberInfo(String username, String phoneNumber) {
+        return (userRepository.existsByUsername(username) && userRepository.existsByPhoneNumber(phoneNumber));
+    }
+
+    @Override
+    public void newPassword(String newPassword) {
+        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        poolUser.updatePassword(passwordEncoder, newPassword);
+    }
+
+    @Override
     public TokenResponseDto reIssue(TokenRequestDto requestDto) {
         if (!jwtService.isTokenValid(requestDto.getRefreshToken())) {
             throw new PoolUserException(PoolUserExceptionType.TOKEN_INVALID);
