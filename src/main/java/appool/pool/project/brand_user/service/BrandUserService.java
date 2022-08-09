@@ -46,7 +46,7 @@ public class BrandUserService {
 
   public BrandUserInfoDto getBrandInfo(Long id) {
       BrandUser brandUser = brandUserRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      Optional<PoolUser> poolUser = userRepository.findById(brandUser.getId());
+      Optional<PoolUser> poolUser = userRepository.findById(brandUser.getPoolUser().getId());
       Optional<PoolUser> loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
 
       BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
