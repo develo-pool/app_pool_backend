@@ -1,10 +1,13 @@
 package appool.pool.project.comment.dto;
 
-import lombok.Data;
 
-@Data
-public class CommentCreate {
-    private String body;
+import appool.pool.project.comment.Comment;
 
-    private Long messageId;
+public record CommentCreate(String body) {
+
+    public Comment toEntity() {
+        return Comment.builder()
+                .body(body)
+                .build();
+    }
 }
