@@ -23,7 +23,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class WelcomeMessageController {
 
-    private final S3Uploader s3Uploader;
     private final WelcomeMessageService welcomeMessageService;
     private final UserRepository userRepository;
 
