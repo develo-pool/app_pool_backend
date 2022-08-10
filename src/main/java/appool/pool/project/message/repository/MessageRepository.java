@@ -20,4 +20,16 @@ public interface MessageRepository extends JpaRepository<Message, Long>, Message
 
     @Query(value = "SELECT * FROM message WHERE writer_id IN (SELECT to_user_id FROM follow WHERE from_user_id = :sessionId) AND message_id < :id ORDER BY message_id DESC", nativeQuery = true)
     List<Message> mainFeedLess(long sessionId, Long id, Pageable pageable);
+
+    @Query(value = "SELECT * FROM message WHERE writer_id = :userId ORDER BY message_id DESC", nativeQuery = true)
+    List<Message> profileFeed(long userId, Pageable pageable);
+
+    @Query(value = "SELECT * FROM message WHERE writer_id = :userId AND message_id < :id ORDER BY message_id DESC", nativeQuery = true)
+    List<Message> profileFeedLess(long userId, Long id, Pageable pageable);
+
+    @Query(value = "SELECT * FROM message WHERE writer_id = :sessionId ORDER BY message_id DESC", nativeQuery = true)
+    List<Message> myProfileFeed(long sessionId, Pageable pageable);
+
+    @Query(value = "SELECT * FROM message WHERE writer_id = :sessionId AND message_id < :id ORDER BY message_id DESC", nativeQuery = true)
+    List<Message> myProfileFeedLess(long sessionId, Long id, Pageable pageable);
 }
