@@ -40,8 +40,6 @@ public class QMessage extends EntityPathBase<Message> {
 
     public final StringPath messageLink = createString("messageLink");
 
-    public final EnumPath<appool.pool.project.comment.CommentStatus> status = createEnum("status", appool.pool.project.comment.CommentStatus.class);
-
     public final StringPath title = createString("title");
 
     public final appool.pool.project.user.QPoolUser writer;

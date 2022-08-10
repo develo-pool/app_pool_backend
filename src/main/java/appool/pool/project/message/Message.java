@@ -2,7 +2,6 @@ package appool.pool.project.message;
 
 import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.comment.Comment;
-import appool.pool.project.comment.CommentStatus;
 import appool.pool.project.user.PoolUser;
 import lombok.*;
 
@@ -39,9 +38,6 @@ public class Message extends BaseTimeEntity {
 
     @Column(nullable = true)
     private String messageLink;
-
-    private CommentStatus status;
-
 
     //== 메시지 삭제 시, 댓글 전부 삭제 ==//
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)

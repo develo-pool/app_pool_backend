@@ -96,7 +96,7 @@ public class UserController {
     }
 
     @PostMapping("/checkMember")
-    public ResponseEntity<Boolean> checkMember(@RequestBody String username, @RequestBody String phoneNumber) {
+    public ResponseEntity<Boolean> checkMember(@RequestBody String username, String phoneNumber) {
         return ResponseEntity.ok(userService.checkMemberInfo(username, phoneNumber));
     }
 

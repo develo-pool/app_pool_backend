@@ -16,6 +16,8 @@ public class MessageResponse {
     private String messageLink;
     private List<String> filePath;
     private UserInfoDto writerDto;
+    private Boolean commentAble;
+    private Boolean isWriter;
 
     public MessageResponse(Message message) {
         UserInfoDto userInfoDto = UserInfoDto.builder()
@@ -30,5 +32,7 @@ public class MessageResponse {
         this.messageLink = message.getMessageLink();
         this.filePath = message.getFilePath();
         this.writerDto = userInfoDto;
+        this.commentAble = false;
+        this.isWriter = false;
     }
 }

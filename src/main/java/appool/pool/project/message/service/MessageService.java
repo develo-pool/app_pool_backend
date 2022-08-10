@@ -60,9 +60,15 @@ public class MessageService {
     }
 
     public List<MessageResponse> getMainList(Long cursor, Pageable pageable) {
-        return getMessageList(cursor, pageable).stream()
+        List<MessageResponse> mainList = getMessageList(cursor, pageable).stream()
                 .map(MessageResponse::new)
                 .collect(Collectors.toList());
+
+//        mainList.forEach(f -> f.setCommentAble()
+//
+//        );
+
+        return mainList;
     }
 
     private List<Message> getMessageList(Long id, Pageable page) {
