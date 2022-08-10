@@ -27,7 +27,7 @@ public interface UserService {
 
     boolean checkPhoneNumberDuplicate(String phoneNumber);
 
-    boolean checkMemberInfo(String username, String phoneNumber);
+    boolean checkMemberInfo(UserCheckDto userCheckDto);
 
     void newPassword(String newPassword);
 

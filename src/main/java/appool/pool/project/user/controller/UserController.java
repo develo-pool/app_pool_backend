@@ -96,8 +96,8 @@ public class UserController {
     }
 
     @PostMapping("/checkMember")
-    public ResponseEntity<Boolean> checkMember(@RequestBody String username, String phoneNumber) {
-        return ResponseEntity.ok(userService.checkMemberInfo(username, phoneNumber));
+    public ResponseEntity<Boolean> checkMember(@RequestBody UserCheckDto userCheckDto) {
+        return ResponseEntity.ok(userService.checkMemberInfo(userCheckDto));
     }
 
     @PutMapping("/user/newPassword")

@@ -125,8 +125,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean checkMemberInfo(String username, String phoneNumber) {
-        return (userRepository.existsByUsername(username) && userRepository.existsByPhoneNumber(phoneNumber));
+    public boolean checkMemberInfo(UserCheckDto userCheckDto) {
+        return (userRepository.existsByUsername(userCheckDto.getUsername()) && userRepository.existsByPhoneNumber(userCheckDto.getPhoneNumber()));
     }
 
     @Override
