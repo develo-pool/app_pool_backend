@@ -6,6 +6,7 @@ import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.message.Message;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @Table(name = "POOLUSER")
+@Transactional
 public class PoolUser extends BaseTimeEntity {
 
     @Id
