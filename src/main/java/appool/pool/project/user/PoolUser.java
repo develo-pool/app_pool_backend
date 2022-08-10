@@ -4,6 +4,7 @@ import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.comment.Comment;
 import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.message.Message;
+import appool.pool.project.welcome.WelcomeMessage;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +68,9 @@ public class PoolUser extends BaseTimeEntity {
     @OneToOne(mappedBy = "poolUser")
     private BrandUser brandUser;
 
+    @OneToOne(mappedBy = "writer")
+    private WelcomeMessage welcomeMessage;
+
 
     //== 연관 관계 메서드==//
     public void addMessage(Message message) {
@@ -81,6 +85,10 @@ public class PoolUser extends BaseTimeEntity {
 
     public void addBrandUser(BrandUser brandUser) {
         this.brandUser = brandUser;
+    }
+
+    public void addWelcomeMessage(WelcomeMessage welcomeMessage) {
+        this.welcomeMessage = welcomeMessage;
     }
 
 

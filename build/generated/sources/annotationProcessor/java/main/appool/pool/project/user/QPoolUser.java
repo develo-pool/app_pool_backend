@@ -60,6 +60,8 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
 
     public final EnumPath<UserStatus> userStatus = createEnum("userStatus", UserStatus.class);
 
+    public final appool.pool.project.welcome.QWelcomeMessage welcomeMessage;
+
     public QPoolUser(String variable) {
         this(PoolUser.class, forVariable(variable), INITS);
     }
@@ -79,6 +81,7 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
     public QPoolUser(Class<? extends PoolUser> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.brandUser = inits.isInitialized("brandUser") ? new appool.pool.project.brand_user.QBrandUser(forProperty("brandUser"), inits.get("brandUser")) : null;
+        this.welcomeMessage = inits.isInitialized("welcomeMessage") ? new appool.pool.project.welcome.QWelcomeMessage(forProperty("welcomeMessage"), inits.get("welcomeMessage")) : null;
     }
 
 }
