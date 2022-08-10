@@ -1,5 +1,6 @@
 package appool.pool.project.message.service;
 
+import appool.pool.project.comment.repository.CommentRepository;
 import appool.pool.project.file.exception.FileException;
 import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.exception.MessageException;
@@ -35,6 +36,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
+    private CommentRepository commentRepository;
 
     public void write(MessageCreate messageCreate, List<MultipartFile> multipartFiles) throws FileException {
         Message message = messageCreate.toEntity();
@@ -59,15 +61,18 @@ public class MessageService {
                 .collect(Collectors.toList());
     }
 
-    public List<MessageResponse> getMainList(Long cursor, Pageable pageable) {
+    /**
+     * 메인 피드 : 내가 팔로우 한 메시지들 모아보기
+     */
+
+    public List<MessageResponse> getMainFeed(Long cursor, Pageable pageable) {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
         List<MessageResponse> mainList = getMessageList(cursor, pageable).stream()
                 .map(MessageResponse::new)
                 .collect(Collectors.toList());
 
-//        mainList.forEach(f -> f.setCommentAble()
-//
-//        );
-
+        mainList.forEach(f ->
+                f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.get().getId()) != null));
         return mainList;
     }
 
@@ -77,6 +82,58 @@ public class MessageService {
                 ? messageRepository.mainFeed(poolUser.get().getId(), page)
                 : messageRepository.mainFeedLess(poolUser.get().getId(), id, page);
     }
+
+    /**
+     * 프로필 피드 : 남의 프로필 보기
+     *  -> 만약 userId가 본인(나)일때 isWriter = true
+     */
+
+    public List<MessageResponse> getProfileFeed(Long userId, Long cursor, Pageable pageable) {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+        List<MessageResponse> mainList = getProfileList(userId, cursor, pageable).stream()
+                .map(MessageResponse::new)
+                .collect(Collectors.toList());
+
+        mainList.forEach(f -> {
+            f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.get().getId()) == null);
+            if(userId == poolUser.get().getId()) {
+                f.setIsWriter(true);
+            }
+        });
+        return mainList;
+    }
+
+    private List<Message> getProfileList(Long userId, Long id, Pageable page) {
+
+        return id.equals(0L)
+                ? messageRepository.profileFeed(userId, page)
+                : messageRepository.profileFeedLess(userId, id, page);
+    }
+
+    /**
+     * 내 프로필 피드 : 내꺼만 보기
+     */
+
+    public List<MessageResponse> getMyProfileFeed(Long cursor, Pageable pageable) {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+        List<MessageResponse> mainList = getMyProfileList(cursor, pageable).stream()
+                .map(MessageResponse::new)
+                .collect(Collectors.toList());
+
+        mainList.forEach(f ->
+                f.setIsWriter(true)
+        );
+        return mainList;
+    }
+
+    private List<Message> getMyProfileList(Long id, Pageable page) {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+        return id.equals(0L)
+                ? messageRepository.myProfileFeed(poolUser.get().getId(), page)
+                : messageRepository.myProfileFeedLess(poolUser.get().getId(), id, page);
+    }
+
+
 
     public void edit(Long id, MessageEdit messageEdit) {
         Message message = messageRepository.findById(id)
