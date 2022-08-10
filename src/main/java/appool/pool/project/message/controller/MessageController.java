@@ -49,7 +49,17 @@ public class MessageController {
 
     @GetMapping("/messages")
     public List<MessageResponse> getMainList(Long cursor) {
-        return messageService.getMainList(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
+        return messageService.getMainFeed(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
+    }
+
+    @GetMapping("/user/profile")
+    public List<MessageResponse> getMyProfile(Long cursor) {
+        return messageService.getMyProfileFeed(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
+    }
+
+    @GetMapping("/user/profile/{userId}")
+    public List<MessageResponse> getProfile(@PathVariable("userId") Long userId, Long cursor) {
+        return messageService.getProfileFeed(userId, cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
     @PatchMapping("/messages/{messageId}")
