@@ -47,7 +47,7 @@ public class UserController {
     @PutMapping("/user/password")
     @ResponseStatus(HttpStatus.OK)
     public void updatePassword(@Valid @RequestBody UpdatePasswordDto updatePasswordDto) throws Exception{
-        userService.updatePassword(updatePasswordDto.checkPassword(), updatePasswordDto.toBePassword());
+        userService.updatePassword(updatePasswordDto.toBePassword(), updatePasswordDto.username());
     }
 
     /**

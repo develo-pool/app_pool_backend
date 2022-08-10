@@ -61,14 +61,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updatePassword(String checkPassword, String toBePassword) throws Exception {
-        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-
-        if(!poolUser.matchPassword(passwordEncoder, checkPassword)) {
-            throw new PoolUserException(PoolUserExceptionType.WRONG_PASSWORD);
-        }
-
-        poolUser.updatePassword(passwordEncoder, toBePassword);
+    public void updatePassword(String toBePassword, String username) throws Exception {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(username);
+        poolUser.get().updatePassword(passwordEncoder, toBePassword);
     }
 
     @Override

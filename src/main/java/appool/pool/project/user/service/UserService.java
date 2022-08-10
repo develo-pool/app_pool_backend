@@ -13,7 +13,7 @@ public interface UserService {
 
     void update(UserUpdateDto userUpdateDto) throws Exception;
 
-    void updatePassword(String checkPassword, String toBePassword) throws Exception;
+    void updatePassword(String toBePassword, String username) throws Exception;
 
     void withdraw(String checkPassword) throws Exception;
 
