@@ -52,6 +52,9 @@ public class PoolUser extends BaseTimeEntity {
     @Column(length = 1000)
     private String refreshToken;
 
+    @Column(length = 1000)
+    private String fcmToken;
+
     @Column(name = "category")
     @ElementCollection(targetClass = String.class)
     @Builder.Default
@@ -107,6 +110,10 @@ public class PoolUser extends BaseTimeEntity {
 
     public void updateNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public void updateFCMToken(String fcmToken) {
+        this.fcmToken = fcmToken;
     }
 
 
