@@ -35,5 +35,6 @@ public interface UserService {
 
     List<BrandUserInfoDto> getFollowingUsers(Long cursor, Pageable pageable);
 
+    void saveFCMToken(String fcmToken);
 
 }

@@ -100,12 +100,6 @@ public class UserController {
         return ResponseEntity.ok(userService.checkMemberInfo(userCheckDto));
     }
 
-    @PutMapping("/user/newPassword")
-    @ResponseStatus(HttpStatus.OK)
-    public void newPassword(@Valid @RequestBody String newPassword) throws Exception{
-        userService.newPassword(newPassword);
-    }
-
     /**
      * jwt 토큰 재발급 요청
      */
@@ -118,6 +112,12 @@ public class UserController {
     @GetMapping("/followings")
     public List<BrandUserInfoDto> getFollowingUserList(Long cursor) {
         return userService.getFollowingUsers(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
+    }
+
+    @PostMapping("/fcmToken")
+    @ResponseStatus(HttpStatus.OK)
+    public void saveFCMToken(@RequestBody String fcmToken) {
+        userService.saveFCMToken(fcmToken);
     }
 
 }

@@ -160,6 +160,12 @@ public class UserServiceImpl implements UserService{
         return followingUserList;
     }
 
+    @Override
+    public void saveFCMToken(String fcmToken) {
+        PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        loginUser.updateFCMToken(fcmToken);
+    }
+
     private List<BrandUser> getFollowingList(Long id, Pageable page) {
         Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
         return id.equals(0L)
