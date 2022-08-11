@@ -57,7 +57,7 @@ class UserControllerTest {
 
     private String username = "username0000";
     private String password = "password1234@";
-    private String nickName = "doha12345";
+    private String nickName = "doha1234!";
     private String phoneNumber = "01053197659";
     private String gender = "MALE";
     private String birthday = "981029";
@@ -112,7 +112,7 @@ class UserControllerTest {
         //given
         category.add("category1");
         category.add("category2");
-        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, "doha12345", phoneNumber, gender, birthday, termAgreement, privacyAgreement, category));
+        String signUpData = objectMapper.writeValueAsString(new UserSignUpDto(username, password, "doha1234!", phoneNumber, gender, birthday, termAgreement, privacyAgreement, category));
 
         //when
         signUp(signUpData);
