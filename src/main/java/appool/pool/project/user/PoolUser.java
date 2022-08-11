@@ -33,7 +33,7 @@ public class PoolUser extends BaseTimeEntity {
     private String password; // 비밀번호
 
     @Column(unique = true)
-    private String nickName; // 회원 닉네임 (중복 불가)
+    private String nickName; // 회원 닉네임
 
     private String phoneNumber; // 휴대폰 번호
 
