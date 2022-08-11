@@ -3,10 +3,9 @@ package appool.pool.project.comment;
 import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.message.Message;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -14,6 +13,8 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "COMMENT")
+@Builder
+@AllArgsConstructor
 public class Comment extends BaseTimeEntity {
 
     @Id
@@ -34,7 +35,7 @@ public class Comment extends BaseTimeEntity {
 
     //== 연관관계 메서드 ==//
     public void confirmWriter(PoolUser poolUser) {
-        this.writer = writer;
+        this.writer = poolUser;
         writer.addComment(this);
     }
 
@@ -48,13 +49,4 @@ public class Comment extends BaseTimeEntity {
         this.body = body;
     }
 
-    //== 삭제 ==//
-
-
-    @Builder
-    public Comment(PoolUser writer, Message message, String body) {
-        this.writer = writer;
-        this.message = message;
-        this.body = body;
-    }
 }

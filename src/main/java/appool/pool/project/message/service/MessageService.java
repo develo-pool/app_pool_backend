@@ -36,7 +36,7 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
-    private CommentRepository commentRepository;
+    private final CommentRepository commentRepository;
 
     public void write(MessageCreate messageCreate, List<MultipartFile> multipartFiles) throws FileException {
         Message message = messageCreate.toEntity();
