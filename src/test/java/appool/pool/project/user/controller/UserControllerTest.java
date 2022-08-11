@@ -55,7 +55,7 @@ class UserControllerTest {
 
     private static String SIGN_UP_URL = "/signUp";
 
-    private String username = "username";
+    private String username = "username0000";
     private String password = "password1234@";
     private String nickName = "doha12345";
     private String phoneNumber = "01053197659";

@@ -35,6 +35,8 @@ public class QPoolUser extends EntityPathBase<PoolUser> {
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
 
+    public final StringPath fcmToken = createString("fcmToken");
+
     public final StringPath gender = createString("gender");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);

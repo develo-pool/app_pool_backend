@@ -1,6 +1,5 @@
 HELP.md
 .gradle
-build
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -38,23 +37,14 @@ out/
 
 ### Spring Boot ###
 *#
-*.iml
-*.ipr
-*.iws
 *.sw?
 *~
 .#*
 .*.md.html
 .DS_Store
 .attach_pid*
-.classpath
-.factorypath
-.idea
 .metadata
-.project
 .recommenders
-.settings
-.springBeans
 .vscode
 /code
 MANIFEST.MF
@@ -73,5 +63,3 @@ target
 .flattened-pom.xml
 secrets.yml
 .gradletasknamecache
-.sts4-cache
-#application-credentials.yml
