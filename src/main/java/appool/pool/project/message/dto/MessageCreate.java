@@ -3,7 +3,7 @@ package appool.pool.project.message.dto;
 import appool.pool.project.message.Message;
 import javax.validation.constraints.NotBlank;
 
-public record MessageCreate(@NotBlank(message = "제목을 입력해주세요") String title,
+public record MessageCreate(String title,
                             @NotBlank(message = "내용을 입력해주세요") String body,
                             String messageLink) {
 

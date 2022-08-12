@@ -25,7 +25,6 @@ public class Message extends BaseTimeEntity {
     @JoinColumn(name = "writer_id")
     private PoolUser writer;
 
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
