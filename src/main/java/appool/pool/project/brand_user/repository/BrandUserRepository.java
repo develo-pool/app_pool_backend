@@ -12,6 +12,8 @@ public interface BrandUserRepository extends JpaRepository<BrandUser, Long> {
 
     Optional<BrandUser> findByBrandUsername(String brandUsername);
 
+    Optional<BrandUser> findByPoolUserId(Long poolUserId);
+
     boolean existsByBrandUsername(String brandUsername);
 
     @Query(value = "SELECT * FROM brand_user ORDER BY brand_user_id DESC", nativeQuery = true)
