@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://my-rds-instance.ckalsgvhdig0.ap-northeast-2.rds.amazonaws.com:3306/my_rds_name?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://my-rds-instance.ckalsgvhdig0.ap-northeast-2.rds.amazonaws.com:3306/my_rds_name?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Seoul
     username: admin
     password: infopool
 
