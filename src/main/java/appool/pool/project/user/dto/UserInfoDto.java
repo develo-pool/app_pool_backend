@@ -12,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 public class UserInfoDto {
 
+    private Long poolUserId;
     private String username;
     private String nickName;
     private UserStatus userStatus;
