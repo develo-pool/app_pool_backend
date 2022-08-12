@@ -1,5 +1,6 @@
 package appool.pool.project.welcome.service;
 
+import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.exception.MessageException;
 import appool.pool.project.message.exception.MessageExceptionType;
@@ -26,6 +27,7 @@ public class WelcomeMessageService {
     private final WelcomeMessageRepository welcomeMessageRepository;
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
+    private final BrandUserRepository brandUserRepository;
 
     public void create(WelcomeMessageCreateDto welcomeMessageCreateDto, List<MultipartFile> multipartFiles) {
         WelcomeMessage welcomeMessage = welcomeMessageCreateDto.toEntity();
@@ -41,6 +43,10 @@ public class WelcomeMessageService {
     }
 
     public WelcomeMessageInfoDto get(Long id) {
-        return new WelcomeMessageInfoDto(welcomeMessageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
+
+        WelcomeMessageInfoDto welcomeMessageInfoDto = new WelcomeMessageInfoDto(welcomeMessageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
+        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId()).get().getBrandUsername());
+        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
+        return welcomeMessageInfoDto;
     }
 }

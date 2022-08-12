@@ -5,6 +5,7 @@ import appool.pool.project.message.Message;
 import appool.pool.project.user.dto.UserInfoDto;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,6 +20,7 @@ public class MessageResponse {
     private UserInfoDto writerDto;
     private Boolean commentAble;
     private Boolean isWriter;
+    private LocalDateTime create_date;
 
     public MessageResponse(Message message) {
         UserInfoDto userInfoDto = UserInfoDto.builder()
@@ -37,5 +39,6 @@ public class MessageResponse {
         this.writerDto = userInfoDto;
         this.commentAble = false;
         this.isWriter = false;
+        this.create_date = message.getCreateDate();
     }
 }
