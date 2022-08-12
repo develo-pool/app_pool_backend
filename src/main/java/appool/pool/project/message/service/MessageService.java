@@ -1,5 +1,6 @@
 package appool.pool.project.message.service;
 
+import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.comment.repository.CommentRepository;
 import appool.pool.project.file.exception.FileException;
 import appool.pool.project.file.service.S3Uploader;
@@ -37,6 +38,7 @@ public class MessageService {
     private final UserRepository userRepository;
     private final S3Uploader s3Uploader;
     private final CommentRepository commentRepository;
+    private final BrandUserRepository brandUserRepository;
 
     public void write(MessageCreate messageCreate, List<MultipartFile> multipartFiles) throws FileException {
         Message message = messageCreate.toEntity();
@@ -52,7 +54,10 @@ public class MessageService {
     }
 
     public MessageResponse get(Long id) {
-        return new MessageResponse(messageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
+        MessageResponse messageResponse = new MessageResponse(messageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
+        messageResponse.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId()).get().getBrandUsername());
+        messageResponse.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
+        return messageResponse;
     }
 
     public List<MessageResponse> getList(MessageSearch messageSearch) {
@@ -71,8 +76,11 @@ public class MessageService {
                 .map(MessageResponse::new)
                 .collect(Collectors.toList());
 
-        mainList.forEach(f ->
-                f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.get().getId()) != null));
+        mainList.forEach(f -> {
+            f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.get().getId()) != null);
+            f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
+            f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
+        });
         return mainList;
     }
 
@@ -99,6 +107,8 @@ public class MessageService {
             if(userId == poolUser.get().getId()) {
                 f.setIsWriter(true);
             }
+            f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
+            f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
         });
         return mainList;
     }
@@ -120,9 +130,11 @@ public class MessageService {
                 .map(MessageResponse::new)
                 .collect(Collectors.toList());
 
-        mainList.forEach(f ->
-                f.setIsWriter(true)
-        );
+        mainList.forEach(f -> {
+            f.setIsWriter(true);
+            f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(poolUser.get().getId()).get().getBrandUsername());
+            f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(poolUser.get().getId()).get().getBrandProfileImage());
+        });
         return mainList;
     }
 
