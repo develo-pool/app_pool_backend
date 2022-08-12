@@ -1,5 +1,6 @@
 package appool.pool.project.user.dto;
 
+import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.UserStatus;
 import lombok.*;
@@ -17,5 +18,6 @@ public class UserInfoDto {
     private boolean follow;
     private int userFollowerCount;
     private int userFollowingCount;
+    private BrandUserInfoDto brandUserInfoDto;
 
 }
