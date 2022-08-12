@@ -26,6 +26,7 @@ public class MessageResponse {
                 .username(message.getWriter().getUsername())
                 .nickName(message.getWriter().getNickName())
                 .userStatus(message.getWriter().getUserStatus())
+                .brandUserInfoDto(BrandUserInfoDto.builder().build())
                 .build();
 
         this.postId = message.getId();
