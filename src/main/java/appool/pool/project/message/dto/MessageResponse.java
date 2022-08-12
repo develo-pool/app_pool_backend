@@ -1,5 +1,6 @@
 package appool.pool.project.message.dto;
 
+import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.message.Message;
 import appool.pool.project.user.dto.UserInfoDto;
 import lombok.*;
@@ -21,6 +22,7 @@ public class MessageResponse {
 
     public MessageResponse(Message message) {
         UserInfoDto userInfoDto = UserInfoDto.builder()
+                .poolUserId(message.getWriter().getId())
                 .username(message.getWriter().getUsername())
                 .nickName(message.getWriter().getNickName())
                 .userStatus(message.getWriter().getUserStatus())
