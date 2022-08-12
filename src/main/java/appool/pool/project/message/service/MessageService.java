@@ -153,8 +153,6 @@ public class MessageService {
 
         checkAuthority(message, MessageExceptionType.NOT_AUTHORITY_UPDATE_MESSAGE);
 
-        messageEdit.title().ifPresent(message::updateTitle);
-        messageEdit.body().ifPresent(message::updateTitle);
         messageEdit.messageLink().ifPresent(message::updateMessageLink);
 
 //        if(message.getFilePath() != null) {

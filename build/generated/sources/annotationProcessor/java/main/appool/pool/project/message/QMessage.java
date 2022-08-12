@@ -40,8 +40,6 @@ public class QMessage extends EntityPathBase<Message> {
 
     public final StringPath messageLink = createString("messageLink");
 
-    public final StringPath title = createString("title");
-
     public final appool.pool.project.user.QPoolUser writer;
 
     public QMessage(String variable) {

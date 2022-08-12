@@ -25,8 +25,6 @@ public class Message extends BaseTimeEntity {
     @JoinColumn(name = "writer_id")
     private PoolUser writer;
 
-    private String title;
-
     @Column(nullable = false)
     private String body;
 
@@ -57,13 +55,8 @@ public class Message extends BaseTimeEntity {
 
     public MessageEditor.MessageEditorBuilder toEditor() {
         return MessageEditor.builder()
-                .title(title)
                 .body(body)
                 .messageLink(messageLink);
-    }
-
-    public void updateTitle(String title) {
-        this.title = title;
     }
 
     public void updateBody(String body) {

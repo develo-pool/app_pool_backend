@@ -11,7 +11,6 @@ import java.util.Optional;
 
 
 public record MessageEdit(
-        Optional<String> title,
         Optional<String> body,
         Optional<String> messageLink,
         Optional<MultipartFile> uploadFile){

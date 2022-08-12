@@ -13,7 +13,6 @@ import java.util.List;
 public class MessageResponse {
 
     private Long postId;
-    private String title;
     private String body;
     private String messageLink;
     private List<String> filePath;
@@ -32,7 +31,6 @@ public class MessageResponse {
                 .build();
 
         this.postId = message.getId();
-        this.title = message.getTitle();
         this.body = message.getBody();
         this.messageLink = message.getMessageLink();
         this.filePath = message.getFilePath();
