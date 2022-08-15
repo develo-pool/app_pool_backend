@@ -8,7 +8,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class FcmMessage {
-    private boolean validate_only;
+    private boolean validateOnly;
     private MessageForm messageForm;
 
     @Data
