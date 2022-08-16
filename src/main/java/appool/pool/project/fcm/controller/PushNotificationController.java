@@ -1,8 +1,16 @@
 package appool.pool.project.fcm.controller;
 
-import appool.pool.project.fcm.RequestDTO;
+import appool.pool.project.brand_user.BrandUser;
+import appool.pool.project.brand_user.repository.BrandUserRepository;
+import appool.pool.project.fcm.dto.RequestDTO;
+import appool.pool.project.fcm.dto.RequestSingleDTO;
 import appool.pool.project.fcm.service.FirebaseCloudMessageService;
-import appool.pool.project.fcm.service.PushNotificationService;
+import appool.pool.project.message.Message;
+import appool.pool.project.message.repository.MessageRepository;
+import appool.pool.project.user.PoolUser;
+import appool.pool.project.user.repository.UserRepository;
+import appool.pool.project.welcome.WelcomeMessage;
+import appool.pool.project.welcome.repository.WelcomeMessageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -11,26 +19,47 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class PushNotificationController {
 
-    private final PushNotificationService pushNotificationService;
-
     private final FirebaseCloudMessageService firebaseCloudMessageService;
+    private final UserRepository userRepository;
+    private final BrandUserRepository brandUserRepository;
+    private final MessageRepository messageRepository;
+    private final WelcomeMessageRepository welcomeMessageRepository;
 
-    @PostMapping("/api/fcm")
-    public ResponseEntity pushMessage(@RequestBody RequestDTO requestDTO) throws IOException {
-        System.out.println(requestDTO.getTargetToken() + " "
-                +requestDTO.getTitle() + " " + requestDTO.getBody());
+    @PostMapping("/api/fcm/welcome")
+    public ResponseEntity pushMessage(@RequestBody RequestSingleDTO requestSingleDTO) throws IOException {
+        PoolUser poolUser = userRepository.findById(requestSingleDTO.getPool_user_id()).get();
+        BrandUser brandUser = brandUserRepository.findByPoolUserId(requestSingleDTO.getBrand_id()).get();
+        WelcomeMessage welcomeMessage = welcomeMessageRepository.findWithWriterById(requestSingleDTO.getBrand_id()).get();
 
         firebaseCloudMessageService.sendMessageTo(
-                requestDTO.getTargetToken(),
-                requestDTO.getTitle(),
-                requestDTO.getBody(),
-                requestDTO.getImage());
+                Collections.singletonList(poolUser.getFcmToken()),
+                brandUser.getBrandUsername(),
+                welcomeMessage.getBody(),
+                welcomeMessage.getFilePath().get(0));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("api/fcm/submit")
+    public ResponseEntity pushMessages(@RequestBody RequestDTO requestDTO) throws IOException {
+
+        Message message = messageRepository.findById(requestDTO.getMessage_id()).get();
+        BrandUser brandUser = brandUserRepository.findByPoolUserId(requestDTO.getBrand_id()).get();
+
+        List<String> tokenList = userRepository.findFcmTokenList(requestDTO.getBrand_id());
+
+        firebaseCloudMessageService.sendMessageTo(
+                tokenList,
+                brandUser.getBrandUsername(),
+                message.getBody(),
+                message.getFilePath().get(0));
         return ResponseEntity.ok().build();
     }
 
