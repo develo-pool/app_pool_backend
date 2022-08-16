@@ -1,8 +1,10 @@
-package appool.pool.project.fcm;
+package appool.pool.project.fcm.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @Builder
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class FcmMessage {
     @Builder
     public static class MessageForm {
         private Notification notification;
-        private String token;
+        private List<String> token;
     }
 
     @Builder
