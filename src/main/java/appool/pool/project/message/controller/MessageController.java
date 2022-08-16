@@ -3,22 +3,17 @@ package appool.pool.project.message.controller;
 import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.dto.MessageCreate;
 import appool.pool.project.message.dto.MessageEdit;
-import appool.pool.project.message.dto.MessageSearch;
 import appool.pool.project.message.dto.MessageResponse;
 import appool.pool.project.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Response;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 
 @Slf4j
