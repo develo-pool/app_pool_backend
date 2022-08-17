@@ -16,10 +16,10 @@ public interface BrandUserRepository extends JpaRepository<BrandUser, Long> {
 
     boolean existsByBrandUsername(String brandUsername);
 
-    @Query(value = "SELECT * FROM brand_user ORDER BY brand_user_id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM brand_user WHERE pool_user_id IN (SELECT pool_user_id FROM pooluser WHERE user_status = 'BRAND_USER') ORDER BY brand_user_id DESC", nativeQuery = true)
     List<BrandUser> brandList(Pageable pageable);
 
-    @Query(value = "SELECT * FROM brand_user WHERE brand_user_id < :id ORDER BY brand_user_id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM brand_user WHERE pool_user_id IN (SELECT pool_user_id FROM pooluser WHERE user_status = 'BRAND_USER') AND brand_user_id < :id ORDER BY brand_user_id DESC", nativeQuery = true)
     List<BrandUser> brandListLess(Long id, Pageable pageable);
 
     @Query(value = "SELECT * FROM brand_user WHERE pool_user_id IN (SELECT to_user_id FROM follow WHERE from_user_id = :sessionId) ORDER BY brand_user_id DESC", nativeQuery = true)
