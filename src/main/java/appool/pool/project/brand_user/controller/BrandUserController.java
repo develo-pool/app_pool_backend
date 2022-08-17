@@ -44,8 +44,6 @@ public class BrandUserController {
         return brandUserService.getBrands(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
-
-
     @GetMapping("/brand-brandUsernames/{brandUsername}/exists")
     public ResponseEntity<Boolean> checkBrandUsernameDuplicate(@PathVariable String brandUsername) {
         return ResponseEntity.ok(brandUserService.checkBrandUsernameDuplicate(brandUsername));
