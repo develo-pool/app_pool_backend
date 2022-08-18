@@ -1,25 +1,37 @@
 package appool.pool.project.follow.service;
 
+import appool.pool.project.follow.Follow;
 import appool.pool.project.follow.repository.FollowRepository;
+import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class FollowService {
 
     private final FollowRepository followRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void follow(long fromUserId, long toUserId) {
         if(followRepository.findFollowByFromUserIdAndToUserId(fromUserId, toUserId) != null) {
             throw new RuntimeException("이미 팔로우 하였습니다.");
         }
-        followRepository.follow(fromUserId, toUserId);
+
+        Optional<PoolUser> fromUser = userRepository.findById(fromUserId);
+        Optional<PoolUser> toUser = userRepository.findById(toUserId);
+
+        Follow follow = Follow.builder()
+                .fromUser(fromUser.get())
+                .toUser(toUser.get())
+                .build();
+        followRepository.save(follow);
     }
 
     @Transactional
