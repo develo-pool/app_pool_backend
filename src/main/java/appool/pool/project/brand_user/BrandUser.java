@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
+@Transactional
 public class BrandUser extends BaseTimeEntity {
 
     @Id
@@ -49,6 +51,10 @@ public class BrandUser extends BaseTimeEntity {
 
     public void addProfileImage(String brandProfileImage) {
         this.brandProfileImage = brandProfileImage;
+    }
+
+    public void updateBrandInfo(String toBeInfo) {
+        this.brandInfo = toBeInfo;
     }
 
 }

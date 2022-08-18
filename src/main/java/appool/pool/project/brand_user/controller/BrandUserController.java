@@ -34,7 +34,7 @@ public class BrandUserController {
     }
 
     @GetMapping("/brand")
-    public ResponseEntity getMyBrandInfo(HttpServletResponse response) {
+    public ResponseEntity getMyBrandInfo() {
         BrandUserInfoDto info = brandUserService.getMyBrandInfo();
         return new ResponseEntity(info, HttpStatus.OK);
     }
@@ -47,5 +47,10 @@ public class BrandUserController {
     @GetMapping("/brand-brandUsernames/{brandUsername}/exists")
     public ResponseEntity<Boolean> checkBrandUsernameDuplicate(@PathVariable String brandUsername) {
         return ResponseEntity.ok(brandUserService.checkBrandUsernameDuplicate(brandUsername));
+    }
+
+    @PutMapping("/brand/update")
+    public void updateBrandInfo(@RequestBody String toBeInfo) {
+        brandUserService.updateBrandInfo(toBeInfo);
     }
 }
