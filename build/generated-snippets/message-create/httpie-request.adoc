@@ -1,6 +1,0 @@
-[source,bash]
-----
-$ echo '{"title":"제목입니다.","body":"본문입니다.","messageLink":"https://github.com/Lee-DoHa"}' | http POST 'https://api.pool.network/messages' \
-    'Content-Type:application/json' \
-    'Accept:application/json'
-----
