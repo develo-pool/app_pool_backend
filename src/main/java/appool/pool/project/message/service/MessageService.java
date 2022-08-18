@@ -4,6 +4,7 @@ import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.comment.repository.CommentRepository;
 import appool.pool.project.file.exception.FileException;
 import appool.pool.project.file.service.S3Uploader;
+import appool.pool.project.follow.repository.FollowRepository;
 import appool.pool.project.message.exception.MessageException;
 import appool.pool.project.message.exception.MessageExceptionType;
 import appool.pool.project.user.PoolUser;
@@ -39,6 +40,7 @@ public class MessageService {
     private final S3Uploader s3Uploader;
     private final CommentRepository commentRepository;
     private final BrandUserRepository brandUserRepository;
+    private final FollowRepository followRepository;
 
     public void write(MessageCreate messageCreate, List<MultipartFile> multipartFiles) throws FileException {
         Message message = messageCreate.toEntity();
@@ -121,10 +123,14 @@ public class MessageService {
                 .map(MessageResponse::new)
                 .collect(Collectors.toList());
 
+
+
         mainList.forEach(f -> {
             f.setCommentAble(false);
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
+            f.getWriterDto().getBrandUserInfoDto().setBrandInfo(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandInfo());
+            f.getWriterDto().setUserFollowerCount(followRepository.findFollowerCountById(f.getWriterDto().getPoolUserId()));
         });
         return mainList;
     }

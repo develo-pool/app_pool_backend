@@ -34,4 +34,5 @@ public class BrandUserInfoDto {
         this.userInfoDto = userInfoDto;
         this.poolUserId = brandUser.getPoolUser().getId();
     }
+
 }
