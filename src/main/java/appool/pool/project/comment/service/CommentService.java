@@ -43,8 +43,10 @@ public class CommentService {
                 .collect(Collectors.toList());
 
         commentList.forEach(f -> {
-            f.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandUsername());
-            f.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandProfileImage());
+            if(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).isEmpty() == false) {
+                f.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandUsername());
+                f.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandProfileImage());
+            }
         });
 
         return commentList;
@@ -60,8 +62,10 @@ public class CommentService {
         Optional<PoolUser> loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
         Comment myComment = commentRepository.findCommentByMessageIdAndWriterId(messageId, loginUser.get().getId());
         CommentResponse commentResponse = new CommentResponse(myComment);
-        commentResponse.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandUsername());
-        commentResponse.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandProfileImage());
+        if(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).isEmpty() == false) {
+            commentResponse.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandUsername());
+            commentResponse.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandProfileImage());
+        }
         return commentResponse;
     }
 

@@ -68,7 +68,7 @@ public class BrandUserService {
 
   public BrandUserInfoDto getMyBrandInfo() {
       PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      BrandUser brandUser = brandUserRepository.findByBrandUsername(findPoolUser.getBrandUser().getBrandUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+      BrandUser brandUser = brandUserRepository.findByPoolUserId(findPoolUser.getId()).get();
 
       BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
               .brandUsername(brandUser.getBrandUsername())
@@ -108,5 +108,11 @@ public class BrandUserService {
 
   public boolean checkBrandUsernameDuplicate(String brandUsername) {
       return brandUserRepository.existsByBrandUsername(brandUsername);
+  }
+
+  public void updateBrandInfo(String toBeInfo) {
+      PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+      Optional<BrandUser> brandUser = brandUserRepository.findByPoolUserId(loginUser.getId());
+      brandUser.get().updateBrandInfo(toBeInfo);
   }
 }
