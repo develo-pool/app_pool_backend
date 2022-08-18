@@ -4,9 +4,7 @@ import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.follow.repository.FollowRepository;
-import appool.pool.project.follow.service.FollowService;
 import appool.pool.project.jwt.service.JwtService;
-import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import appool.pool.project.user.dto.*;
 import appool.pool.project.user.exception.PoolUserException;
 import appool.pool.project.user.exception.PoolUserExceptionType;
@@ -15,13 +13,10 @@ import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.InvalidParameterException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -162,7 +157,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void saveFCMToken(String fcmToken) {
-        PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()))
+                .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         loginUser.updateFCMToken(fcmToken);
     }
 

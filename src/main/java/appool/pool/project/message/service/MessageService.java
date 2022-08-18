@@ -54,16 +54,12 @@ public class MessageService {
     }
 
     public MessageResponse get(Long id) {
+        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
         MessageResponse messageResponse = new MessageResponse(messageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
+        messageResponse.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(messageResponse.getPostId(), poolUser.get().getId()) == null);
         messageResponse.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId()).get().getBrandUsername());
         messageResponse.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
         return messageResponse;
-    }
-
-    public List<MessageResponse> getList(MessageSearch messageSearch) {
-        return messageRepository.getList(messageSearch).stream()
-                .map(MessageResponse::new)
-                .collect(Collectors.toList());
     }
 
     /**
@@ -77,7 +73,7 @@ public class MessageService {
                 .collect(Collectors.toList());
 
         mainList.forEach(f -> {
-            f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.get().getId()) != null);
+            f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.get().getId()) == null);
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
         });
