@@ -1,5 +1,6 @@
 package appool.pool.project.comment.service;
 
+import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.comment.Comment;
 import appool.pool.project.comment.dto.CommentCreate;
 import appool.pool.project.comment.dto.CommentResponse;
@@ -26,6 +27,7 @@ public class CommentService {
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final CommentRepository commentRepository;
+    private final BrandUserRepository brandUserRepository;
 
     public void create(CommentCreate commentCreate, Long messageId) {
         Comment comment = commentCreate.toEntity();
@@ -36,9 +38,16 @@ public class CommentService {
     }
 
     public List<CommentResponse> getList(Long messageId, Long cursor, Pageable pageable) {
-        return getCommentList(messageId, cursor, pageable).stream()
+        List<CommentResponse> commentList = getCommentList(messageId, cursor, pageable).stream()
                 .map(CommentResponse::new)
                 .collect(Collectors.toList());
+
+        commentList.forEach(f -> {
+            f.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandUsername());
+            f.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandProfileImage());
+        });
+
+        return commentList;
     }
 
     private List<Comment> getCommentList(Long messageId, Long id, Pageable pageable) {
@@ -51,6 +60,8 @@ public class CommentService {
         Optional<PoolUser> loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
         Comment myComment = commentRepository.findCommentByMessageIdAndWriterId(messageId, loginUser.get().getId());
         CommentResponse commentResponse = new CommentResponse(myComment);
+        commentResponse.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(commentResponse.getWriter().getPoolUserId()).get().getBrandUsername());
+        commentResponse.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(commentResponse.getWriter().getPoolUserId()).get().getBrandProfileImage());
         return commentResponse;
     }
 
