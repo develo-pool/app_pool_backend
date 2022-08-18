@@ -116,6 +116,26 @@ public class MessageService {
                 : messageRepository.profileFeedLess(userId, id, page);
     }
 
+    public List<MessageResponse> getProfileFeedWeb(Long userId, Long cursor, Pageable pageable) {
+        List<MessageResponse> mainList = getProfileListWeb(userId, cursor, pageable).stream()
+                .map(MessageResponse::new)
+                .collect(Collectors.toList());
+
+        mainList.forEach(f -> {
+            f.setCommentAble(false);
+            f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
+            f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
+        });
+        return mainList;
+    }
+
+    private List<Message> getProfileListWeb(Long userId, Long id, Pageable page) {
+
+        return id.equals(0L)
+                ? messageRepository.profileFeed(userId, page)
+                : messageRepository.profileFeedLess(userId, id, page);
+    }
+
     /**
      * 내 프로필 피드 : 내꺼만 보기
      */
