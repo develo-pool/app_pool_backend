@@ -23,6 +23,7 @@ public class BrandUserInfoDto {
     private String brandProfileImage;
     private UserInfoDto userInfoDto;
     private Long poolUserId;
+    private Boolean isLoginUser;
 
     public BrandUserInfoDto(BrandUser brandUser) {
         UserInfoDto userInfoDto = UserInfoDto.builder()
@@ -33,6 +34,7 @@ public class BrandUserInfoDto {
         this.brandProfileImage = brandUser.getBrandProfileImage();
         this.userInfoDto = userInfoDto;
         this.poolUserId = brandUser.getPoolUser().getId();
+        this.isLoginUser = false;
     }
 
 }

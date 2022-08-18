@@ -90,10 +90,15 @@ public class BrandUserService {
       List<BrandUserInfoDto> brandUserList = getBrandList(cursor, pageable).stream()
               .map(BrandUserInfoDto::new)
               .collect(Collectors.toList());
-      brandUserList.forEach(f -> f.setUserInfoDto(UserInfoDto.builder()
+      brandUserList.forEach(f -> {f.setUserInfoDto(UserInfoDto.builder()
                       .userFollowerCount(followRepository.findFollowerCountById(f.getPoolUserId()))
                       .follow(followRepository.findFollowByFromUserIdAndToUserId(loginUser.getId(), f.getPoolUserId())!= null)
-              .build()));
+              .build());
+
+          if(f.getPoolUserId() == loginUser.getId()) {
+              f.setIsLoginUser(true);
+          }
+      });
       return brandUserList;
 
   }
