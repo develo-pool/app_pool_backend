@@ -22,6 +22,7 @@ public class CommentResponse {
 
     public CommentResponse(Comment comment) {
         UserInfoDto userInfoDto = UserInfoDto.builder()
+                .poolUserId(comment.getWriter().getId())
                 .username(comment.getWriter().getUsername())
                 .nickName(comment.getWriter().getNickName())
                 .userStatus(comment.getWriter().getUserStatus())

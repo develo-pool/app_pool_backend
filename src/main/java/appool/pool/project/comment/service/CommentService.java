@@ -60,8 +60,8 @@ public class CommentService {
         Optional<PoolUser> loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
         Comment myComment = commentRepository.findCommentByMessageIdAndWriterId(messageId, loginUser.get().getId());
         CommentResponse commentResponse = new CommentResponse(myComment);
-        commentResponse.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(commentResponse.getWriter().getPoolUserId()).get().getBrandUsername());
-        commentResponse.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(commentResponse.getWriter().getPoolUserId()).get().getBrandProfileImage());
+        commentResponse.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandUsername());
+        commentResponse.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandProfileImage());
         return commentResponse;
     }
 
