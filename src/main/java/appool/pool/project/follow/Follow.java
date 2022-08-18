@@ -1,5 +1,6 @@
 package appool.pool.project.follow;
 
+import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.user.PoolUser;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-public class Follow {
+public class Follow extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
