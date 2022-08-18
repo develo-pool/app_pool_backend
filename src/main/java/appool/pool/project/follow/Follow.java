@@ -2,10 +2,7 @@ package appool.pool.project.follow;
 
 import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.user.PoolUser;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -13,9 +10,10 @@ import javax.persistence.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Transactional
+@AllArgsConstructor
 public class Follow extends BaseTimeEntity {
 
     @Id
