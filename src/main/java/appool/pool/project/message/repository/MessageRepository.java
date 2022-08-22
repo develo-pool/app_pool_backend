@@ -15,10 +15,10 @@ public interface MessageRepository extends JpaRepository<Message, Long>, Message
     @EntityGraph(attributePaths = {"writer"})
     Optional<Message> findWithWriterById(Long id);
 
-    @Query(value = "SELECT * FROM message WHERE writer_id IN (SELECT to_user_id FROM follow WHERE from_user_id = :sessionId) AND (SELECT create_date FROM follow WHERE from_user_id = :sessionId) < create_date ORDER BY message_id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM message WHERE writer_id IN (SELECT to_user_id FROM follow WHERE from_user_id = :sessionId) ORDER BY message_id DESC", nativeQuery = true)
     List<Message> mainFeed(long sessionId, Pageable pageable);
 
-    @Query(value = "SELECT * FROM message WHERE writer_id IN (SELECT to_user_id FROM follow WHERE from_user_id = :sessionId) AND (SELECT create_date FROM follow WHERE from_user_id = :sessionId) < create_date AND message_id < :id ORDER BY message_id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM message WHERE writer_id IN (SELECT to_user_id FROM follow WHERE from_user_id = :sessionId) AND message_id < :id ORDER BY message_id DESC", nativeQuery = true)
     List<Message> mainFeedLess(long sessionId, Long id, Pageable pageable);
 
     @Query(value = "SELECT * FROM message WHERE writer_id = :userId ORDER BY message_id DESC", nativeQuery = true)

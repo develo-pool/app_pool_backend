@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -79,7 +80,14 @@ public class MessageService {
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
         });
-        return mainList;
+
+        List<MessageResponse> result = new ArrayList<>();
+        mainList.forEach(f -> {
+            if(f.getCreate_date().isAfter(followRepository.followTime(poolUser.get().getId(), f.getWriterDto().getPoolUserId()))) {
+                result.add(f);
+            };
+        });
+        return result;
     }
 
     private List<Message> getMessageList(Long id, Pageable page) {
