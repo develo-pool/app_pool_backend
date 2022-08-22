@@ -33,6 +33,12 @@ public class BrandUserController {
         return new ResponseEntity(info, HttpStatus.OK);
     }
 
+    @GetMapping("/brand/{id}/web")
+    public ResponseEntity getBrandInfoWeb(@Valid @PathVariable("id") Long id) {
+        BrandUserInfoDto info = brandUserService.getBrandInfoWeb(id);
+        return new ResponseEntity(info, HttpStatus.OK);
+    }
+
     @GetMapping("/brand")
     public ResponseEntity getMyBrandInfo() {
         BrandUserInfoDto info = brandUserService.getMyBrandInfo();
