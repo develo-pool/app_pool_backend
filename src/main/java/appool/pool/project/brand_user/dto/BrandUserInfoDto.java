@@ -18,6 +18,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class BrandUserInfoDto {
 
+    private Long brandUserId;
     private String brandUsername;
     private String brandInfo;
     private String brandProfileImage;
@@ -29,6 +30,7 @@ public class BrandUserInfoDto {
         UserInfoDto userInfoDto = UserInfoDto.builder()
                 .build();
 
+        this.brandUserId = brandUser.getId();
         this.brandUsername = brandUser.getBrandUsername();
         this.brandInfo = brandUser.getBrandInfo();
         this.brandProfileImage = brandUser.getBrandProfileImage();
