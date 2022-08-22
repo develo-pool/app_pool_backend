@@ -6,6 +6,8 @@ import appool.pool.project.fcm.dto.RequestDTO;
 import appool.pool.project.fcm.dto.RequestSingleDTO;
 import appool.pool.project.fcm.service.FirebaseCloudMessageService;
 import appool.pool.project.message.Message;
+import appool.pool.project.message.exception.MessageException;
+import appool.pool.project.message.exception.MessageExceptionType;
 import appool.pool.project.message.repository.MessageRepository;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
@@ -37,7 +39,7 @@ public class PushNotificationController {
     public ResponseEntity pushMessage(@RequestBody RequestSingleDTO requestSingleDTO) throws IOException {
         PoolUser poolUser = userRepository.findById(requestSingleDTO.getPool_user_id()).get();
         BrandUser brandUser = brandUserRepository.findByPoolUserId(requestSingleDTO.getBrand_id()).get();
-        WelcomeMessage welcomeMessage = welcomeMessageRepository.findWithWriterById(requestSingleDTO.getBrand_id()).get();
+        WelcomeMessage welcomeMessage = welcomeMessageRepository.findWithWriterById(requestSingleDTO.getBrand_id()).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
 
         firebaseCloudMessageService.sendMessageTo(
                 Collections.singletonList(poolUser.getFcmToken()),
