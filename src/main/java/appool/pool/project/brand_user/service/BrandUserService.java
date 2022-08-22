@@ -66,6 +66,25 @@ public class BrandUserService {
       return brandUserInfoDto;
   }
 
+    public BrandUserInfoDto getBrandInfoWeb(Long id) {
+        BrandUser brandUser = brandUserRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        Optional<PoolUser> poolUser = userRepository.findById(brandUser.getPoolUser().getId());
+
+        BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
+                .brandUsername(brandUser.getBrandUsername())
+                .brandInfo(brandUser.getBrandInfo())
+                .brandProfileImage(brandUser.getBrandProfileImage())
+                .userInfoDto(
+                        UserInfoDto.builder()
+                                .follow(false)
+                                .userFollowerCount(followRepository.findFollowerCountById(poolUser.get().getId()))
+                                .build()
+                )
+                .build();
+
+        return brandUserInfoDto;
+    }
+
   public BrandUserInfoDto getMyBrandInfo() {
       PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
       BrandUser brandUser = brandUserRepository.findByPoolUserId(findPoolUser.getId()).get();
