@@ -35,7 +35,7 @@ public class WelcomeMessage extends BaseTimeEntity {
     private List<String> filePath = new ArrayList<>();
 
     public void confirmWriter(PoolUser poolUser) {
-        this.writer = writer;
+        this.writer = poolUser;
         writer.addWelcomeMessage(this);
     }
 }
