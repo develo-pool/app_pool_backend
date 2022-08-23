@@ -1,5 +1,6 @@
 package appool.pool.project.message.service;
 
+import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.comment.repository.CommentRepository;
 import appool.pool.project.file.exception.FileException;
@@ -131,8 +132,6 @@ public class MessageService {
                 .map(MessageResponse::new)
                 .collect(Collectors.toList());
 
-
-
         mainList.forEach(f -> {
             f.setCommentAble(false);
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
@@ -143,8 +142,9 @@ public class MessageService {
         return mainList;
     }
 
-    private List<Message> getProfileListWeb(Long userId, Long id, Pageable page) {
+    private List<Message> getProfileListWeb(Long brandId, Long id, Pageable page) {
 
+        Long userId = brandUserRepository.findById(brandId).get().getPoolUser().getId();
         return id.equals(0L)
                 ? messageRepository.profileFeed(userId, page)
                 : messageRepository.profileFeedLess(userId, id, page);
