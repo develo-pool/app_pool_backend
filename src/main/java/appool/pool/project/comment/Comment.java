@@ -3,8 +3,6 @@ package appool.pool.project.comment;
 import appool.pool.project.domain.BaseTimeEntity;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.message.Message;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;

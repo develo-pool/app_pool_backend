@@ -3,7 +3,6 @@ package appool.pool.project.user.dto;
 import appool.pool.project.user.PoolUser;
 
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.List;
 
 public record UserSignUpDto(@NotBlank(message = "아이디는 필수 입력 사항입니다.") String username,

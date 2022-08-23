@@ -4,7 +4,6 @@ import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.comment.Comment;
 import appool.pool.project.comment.dto.CommentCreate;
 import appool.pool.project.comment.dto.CommentResponse;
-import appool.pool.project.message.Message;
 import appool.pool.project.comment.repository.CommentRepository;
 import appool.pool.project.message.repository.MessageRepository;
 import appool.pool.project.user.PoolUser;

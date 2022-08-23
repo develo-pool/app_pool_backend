@@ -1,6 +1,5 @@
 package appool.pool.project.jwt.filter;
 
-import appool.pool.project.user.CustomUserDetails;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.jwt.service.JwtService;
 import appool.pool.project.user.repository.UserRepository;

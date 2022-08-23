@@ -1,6 +1,5 @@
 package appool.pool.project.message.service;
 
-import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.comment.repository.CommentRepository;
 import appool.pool.project.file.exception.FileException;
@@ -15,7 +14,6 @@ import appool.pool.project.message.Message;
 import appool.pool.project.message.dto.MessageEdit;
 import appool.pool.project.message.repository.MessageRepository;
 import appool.pool.project.message.dto.MessageCreate;
-import appool.pool.project.message.dto.MessageSearch;
 import appool.pool.project.message.dto.MessageResponse;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;

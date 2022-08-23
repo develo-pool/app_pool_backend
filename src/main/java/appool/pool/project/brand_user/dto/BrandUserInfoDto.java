@@ -1,16 +1,8 @@
 package appool.pool.project.brand_user.dto;
 
 import appool.pool.project.brand_user.BrandUser;
-import appool.pool.project.follow.repository.FollowRepository;
-import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.dto.UserInfoDto;
-import appool.pool.project.user.repository.UserRepository;
-import appool.pool.project.util.security.SecurityUtil;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-import java.util.Optional;
 
 @Data
 @NoArgsConstructor

@@ -2,11 +2,8 @@ package appool.pool.project.comment.dto;
 
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.comment.Comment;
-import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.dto.UserInfoDto;
-import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;

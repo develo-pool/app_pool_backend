@@ -1,6 +1,5 @@
 package appool.pool.project.welcome.controller;
 
-import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
