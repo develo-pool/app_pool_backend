@@ -24,7 +24,7 @@ public class MessageController {
 
     private final MessageService messageService;
     private final S3Uploader s3Uploader;
-    private static final int PAGE_DEFAULT_SIZE = 3;
+    private static final int PAGE_DEFAULT_SIZE = 10;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/messages")
