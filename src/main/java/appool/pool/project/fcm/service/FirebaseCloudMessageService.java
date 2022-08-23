@@ -43,7 +43,7 @@ public class FirebaseCloudMessageService {
 
     private String makeMessage(List<String> targetToken, String title, String body, String image) throws JsonParseException, JsonProcessingException, JsonProcessingException {
         FcmMessage fcmMessage = FcmMessage.builder()
-                .messageForm(FcmMessage.MessageForm.builder()
+                .message(FcmMessage.Message.builder()
                         .token(targetToken)
                         .notification(FcmMessage.Notification.builder()
                                 .title(title)

@@ -11,12 +11,12 @@ import java.util.List;
 @Data
 public class FcmMessage {
     private boolean validateOnly;
-    private MessageForm messageForm;
+    private Message message;
 
     @Data
     @AllArgsConstructor
     @Builder
-    public static class MessageForm {
+    public static class Message {
         private Notification notification;
         private List<String> token;
     }
