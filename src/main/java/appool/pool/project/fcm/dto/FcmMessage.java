@@ -18,7 +18,7 @@ public class FcmMessage {
     @Builder
     public static class Message {
         private Notification notification;
-        private List<String> token;
+        private String token;
     }
 
     @Builder

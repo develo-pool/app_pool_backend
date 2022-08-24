@@ -42,28 +42,28 @@ public class PushNotificationController {
         WelcomeMessage welcomeMessage = welcomeMessageRepository.findWithWriterById(requestSingleDTO.getBrand_id()).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
 
         firebaseCloudMessageService.sendMessageTo(
-                Collections.singletonList(poolUser.getFcmToken()),
+                poolUser.getFcmToken(),
                 brandUser.getBrandUsername(),
                 welcomeMessage.getBody(),
                 welcomeMessage.getFilePath().get(0));
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("api/fcm/submit")
-    public ResponseEntity pushMessages(@RequestBody RequestDTO requestDTO) throws IOException {
-
-        Message message = messageRepository.findById(requestDTO.getMessage_id()).get();
-        BrandUser brandUser = brandUserRepository.findByPoolUserId(requestDTO.getBrand_id()).get();
-
-        List<String> tokenList = userRepository.findFcmTokenList(requestDTO.getBrand_id());
-
-        firebaseCloudMessageService.sendMessageTo(
-                tokenList,
-                brandUser.getBrandUsername(),
-                message.getBody(),
-                message.getFilePath().get(0));
-        return ResponseEntity.ok().build();
-    }
+//    @PostMapping("api/fcm/submit")
+//    public ResponseEntity pushMessages(@RequestBody RequestDTO requestDTO) throws IOException {
+//
+//        Message message = messageRepository.findById(requestDTO.getMessage_id()).get();
+//        BrandUser brandUser = brandUserRepository.findByPoolUserId(requestDTO.getBrand_id()).get();
+//
+//        List<String> tokenList = userRepository.findFcmTokenList(requestDTO.getBrand_id());
+//
+//        firebaseCloudMessageService.sendMessageTo(
+//                tokenList,
+//                brandUser.getBrandUsername(),
+//                message.getBody(),
+//                message.getFilePath().get(0));
+//        return ResponseEntity.ok().build();
+//    }
 
 
 

@@ -22,7 +22,7 @@ public class FirebaseCloudMessageService {
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/app-pool-firebase/messages:send";
     private final ObjectMapper objectMapper;
 
-    public void sendMessageTo(List<String> targetToken, String title, String body, String image) throws IOException {
+    public void sendMessageTo(String targetToken, String title, String body, String image) throws IOException {
 
         String message = makeMessage(targetToken, title, body, image);
 
@@ -41,7 +41,7 @@ public class FirebaseCloudMessageService {
         System.out.println(response.body().string());
     }
 
-    private String makeMessage(List<String> targetToken, String title, String body, String image) throws JsonParseException, JsonProcessingException, JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String body, String image) throws JsonParseException, JsonProcessingException, JsonProcessingException {
         FcmMessage fcmMessage = FcmMessage.builder()
                 .message(FcmMessage.Message.builder()
                         .token(targetToken)
