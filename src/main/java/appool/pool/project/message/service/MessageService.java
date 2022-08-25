@@ -60,7 +60,7 @@ public class MessageService {
         MessageResponse messageResponse = new MessageResponse(messageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
         messageResponse.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(messageResponse.getPostId(), poolUser.get().getId()) == null);
         messageResponse.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId()).get().getBrandUsername());
-        messageResponse.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
+        messageResponse.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
         return messageResponse;
     }
 

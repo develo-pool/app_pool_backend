@@ -46,17 +46,11 @@ public class LoginSuccessJWTProvideHandler extends SimpleUrlAuthenticationSucces
         session.setAttribute("user", authentication.getPrincipal());
         session.setAttribute("accessToken", accessToken);
         session.setAttribute("refreshToken", refreshToken);
-
     }
 
     private String extractUsername(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return userDetails.getUsername();
     }
-
-
-
-
-
 
 }
