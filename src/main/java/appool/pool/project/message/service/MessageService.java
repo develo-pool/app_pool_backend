@@ -75,6 +75,7 @@ public class MessageService {
                 .collect(Collectors.toList());
 
         mainList.forEach(f -> {
+            f.getWriterDto().getBrandUserInfoDto().setBrandUserId(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getId());
             f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.get().getId()) == null);
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
@@ -112,6 +113,7 @@ public class MessageService {
             if(userId == poolUser.get().getId()) {
                 f.setIsWriter(true);
             }
+            f.getWriterDto().getBrandUserInfoDto().setBrandUserId(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getId());
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
         });
@@ -132,6 +134,7 @@ public class MessageService {
 
         mainList.forEach(f -> {
             f.setCommentAble(false);
+            f.getWriterDto().getBrandUserInfoDto().setBrandUserId(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getId());
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
             f.getWriterDto().getBrandUserInfoDto().setBrandInfo(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId()).get().getBrandInfo());
@@ -160,6 +163,7 @@ public class MessageService {
 
         mainList.forEach(f -> {
             f.setIsWriter(true);
+            f.getWriterDto().getBrandUserInfoDto().setBrandUserId(brandUserRepository.findByPoolUserId(poolUser.get().getId()).get().getId());
             f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(poolUser.get().getId()).get().getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(poolUser.get().getId()).get().getBrandProfileImage());
         });
