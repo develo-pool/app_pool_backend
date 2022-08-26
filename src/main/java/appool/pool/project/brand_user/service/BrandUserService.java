@@ -90,6 +90,7 @@ public class BrandUserService {
       BrandUser brandUser = brandUserRepository.findByPoolUserId(findPoolUser.getId()).get();
 
       BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
+              .brandUserId(brandUser.getId())
               .brandUsername(brandUser.getBrandUsername())
               .brandInfo(brandUser.getBrandInfo())
               .brandProfileImage(brandUser.getBrandProfileImage())
