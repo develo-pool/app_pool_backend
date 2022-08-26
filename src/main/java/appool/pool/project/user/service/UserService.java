@@ -37,4 +37,6 @@ public interface UserService {
 
     void saveFCMToken(String fcmToken);
 
+    void updateUserNickName(String toBeNickName);
+
 }

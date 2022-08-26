@@ -162,6 +162,12 @@ public class UserServiceImpl implements UserService{
         loginUser.updateFCMToken(fcmToken);
     }
 
+    @Override
+    public void updateUserNickName(String toBeNickName) {
+        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).get();
+        poolUser.updateNickName(toBeNickName);
+    }
+
     private List<BrandUser> getFollowingList(Long id, Pageable page) {
         Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
         return id.equals(0L)

@@ -120,4 +120,10 @@ public class UserController {
         userService.saveFCMToken(fcmToken);
     }
 
+
+    @PutMapping("/user/update")
+    public void updateUserNickName(@RequestBody String toBeNickname) {
+        userService.updateUserNickName(toBeNickname);
+    }
+
 }
