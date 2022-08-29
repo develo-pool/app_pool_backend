@@ -1,5 +1,7 @@
 package appool.pool.project.welcome.service;
 
+import appool.pool.project.brand_user.exception.BrandUserException;
+import appool.pool.project.brand_user.exception.BrandUserExceptionType;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.exception.MessageException;
@@ -45,8 +47,10 @@ public class WelcomeMessageService {
     public WelcomeMessageInfoDto get(Long id) {
 
         WelcomeMessageInfoDto welcomeMessageInfoDto = new WelcomeMessageInfoDto(welcomeMessageRepository.findWithWriterById(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
-        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId()).get().getBrandUsername());
-        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId()).get().getBrandProfileImage());
+        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId())
+                .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
+        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId())
+                .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
         return welcomeMessageInfoDto;
     }
 }
