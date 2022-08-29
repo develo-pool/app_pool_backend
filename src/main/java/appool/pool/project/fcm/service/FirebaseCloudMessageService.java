@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -39,6 +40,49 @@ public class FirebaseCloudMessageService {
         Response response = client.newCall(request).execute();
 
         System.out.println(response.body().string());
+    }
+
+    public void sendMessageList(List<String> targetToken, String title, String body, String image) throws IOException {
+
+        targetToken.forEach(f -> {
+            String message = null;
+            try {
+                message = makeMessage(f, title, body, image);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+            OkHttpClient client = new OkHttpClient();
+            RequestBody requestBody = RequestBody.create(message,
+                    MediaType.get("application/json; charset=utf-8"));
+            Request request = null;
+            try {
+                request = new Request.Builder()
+                        .url(API_URL)
+                        .post(requestBody)
+                        .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
+                        .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
+                        .build();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                System.out.println(response.body().string());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+
+
     }
 
     private String makeMessage(String targetToken, String title, String body, String image) throws JsonParseException, JsonProcessingException, JsonProcessingException {
