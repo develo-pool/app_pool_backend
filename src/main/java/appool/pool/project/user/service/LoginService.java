@@ -3,15 +3,11 @@ package appool.pool.project.user.service;
 import appool.pool.project.user.PoolUser;
 import appool.pool.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 @RequiredArgsConstructor
@@ -28,17 +24,5 @@ public class LoginService implements UserDetailsService {
                 .password(poolUser.getPassword())
                 .roles(poolUser.getUserStatus().name())
                 .build();
-
-    }
-
-    private UserDetails createUserDetails(PoolUser poolUser) {
-        String role = poolUser.getUserStatus().value();
-        GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
-
-        return new org.springframework.security.core.userdetails.User(
-                String.valueOf(poolUser.getId()),
-                poolUser.getPassword(),
-                Collections.singleton(grantedAuthority)
-        );
     }
 }
