@@ -3,6 +3,8 @@ package appool.pool.project.brand_user.service;
 import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.brand_user.dto.BrandUserCreateDto;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
+import appool.pool.project.brand_user.exception.BrandUserException;
+import appool.pool.project.brand_user.exception.BrandUserExceptionType;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.follow.repository.FollowRepository;
@@ -47,9 +49,9 @@ public class BrandUserService {
   }
 
   public BrandUserInfoDto getBrandInfo(Long id) {
-      BrandUser brandUser = brandUserRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      Optional<PoolUser> poolUser = userRepository.findById(brandUser.getPoolUser().getId());
-      Optional<PoolUser> loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+      BrandUser brandUser = brandUserRepository.findById(id).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
+      PoolUser poolUser = userRepository.findById(brandUser.getPoolUser().getId()).orElseThrow(() -> new PoolUserException((PoolUserExceptionType.NOT_FOUND_MEMBER)));
+      PoolUser loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
       BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
               .brandUsername(brandUser.getBrandUsername())
@@ -57,8 +59,8 @@ public class BrandUserService {
               .brandProfileImage(brandUser.getBrandProfileImage())
               .userInfoDto(
                       UserInfoDto.builder()
-                              .follow(followRepository.findFollowByFromUserIdAndToUserId(loginUser.get().getId(), poolUser.get().getId()) != null)
-                              .userFollowerCount(followRepository.findFollowerCountById(poolUser.get().getId()))
+                              .follow(followRepository.findFollowByFromUserIdAndToUserId(loginUser.getId(), poolUser.getId()) != null)
+                              .userFollowerCount(followRepository.findFollowerCountById(poolUser.getId()))
                               .build()
               )
               .build();
@@ -67,8 +69,8 @@ public class BrandUserService {
   }
 
     public BrandUserInfoDto getBrandInfoWeb(Long id) {
-        BrandUser brandUser = brandUserRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-        Optional<PoolUser> poolUser = userRepository.findById(brandUser.getPoolUser().getId());
+        BrandUser brandUser = brandUserRepository.findById(id).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
+        PoolUser poolUser = userRepository.findById(brandUser.getPoolUser().getId()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
                 .brandUsername(brandUser.getBrandUsername())
@@ -77,7 +79,7 @@ public class BrandUserService {
                 .userInfoDto(
                         UserInfoDto.builder()
                                 .follow(false)
-                                .userFollowerCount(followRepository.findFollowerCountById(poolUser.get().getId()))
+                                .userFollowerCount(followRepository.findFollowerCountById(poolUser.getId()))
                                 .build()
                 )
                 .build();
@@ -86,8 +88,8 @@ public class BrandUserService {
     }
 
   public BrandUserInfoDto getMyBrandInfo() {
-      PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      BrandUser brandUser = brandUserRepository.findByPoolUserId(findPoolUser.getId()).get();
+      PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+      BrandUser brandUser = brandUserRepository.findByPoolUserId(findPoolUser.getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
 
       BrandUserInfoDto brandUserInfoDto = BrandUserInfoDto.builder()
               .brandUserId(brandUser.getId())
@@ -105,7 +107,7 @@ public class BrandUserService {
 
 
   public List<BrandUserInfoDto> getBrands(Long cursor, Pageable pageable) {
-      PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+      PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
       List<BrandUserInfoDto> brandUserList = getBrandList(cursor, pageable).stream()
               .map(BrandUserInfoDto::new)
@@ -136,8 +138,8 @@ public class BrandUserService {
   }
 
   public void updateBrandInfo(String toBeInfo) {
-      PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      Optional<BrandUser> brandUser = brandUserRepository.findByPoolUserId(loginUser.getId());
-      brandUser.get().updateBrandInfo(toBeInfo);
+      PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+      BrandUser brandUser = brandUserRepository.findByPoolUserId(loginUser.getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
+      brandUser.updateBrandInfo(toBeInfo);
   }
 }

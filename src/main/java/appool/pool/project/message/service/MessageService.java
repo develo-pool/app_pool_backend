@@ -179,13 +179,13 @@ public class MessageService {
 
 
 
-    public void edit(Long id, MessageEdit messageEdit) {
-        Message message = messageRepository.findById(id)
-                .orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
-
-        checkAuthority(message, MessageExceptionType.NOT_AUTHORITY_UPDATE_MESSAGE);
-
-        messageEdit.messageLink().ifPresent(message::updateMessageLink);
+//    public void edit(Long id, MessageEdit messageEdit) {
+//        Message message = messageRepository.findById(id)
+//                .orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
+//
+//        checkAuthority(message, MessageExceptionType.NOT_AUTHORITY_UPDATE_MESSAGE);
+//
+//        messageEdit.messageLink().ifPresent(message::updateMessageLink);
 
 //        if(message.getFilePath() != null) {
 //            fileService.delete(message.getFilePath());
@@ -195,7 +195,7 @@ public class MessageService {
 //                multipartFile -> message.updateFilePath(fileService.save(multipartFile)),
 //                () -> message.updateFilePath(null)
 //        );
-    }
+//    }
 
     public void delete(Long id) {
         Message message = messageRepository.findById(id)

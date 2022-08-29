@@ -62,10 +62,10 @@ public class MessageController {
         return messageService.getProfileFeedWeb(userId, cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
-    @PatchMapping("/messages/{messageId}")
-    public void edit(@PathVariable Long messageId, @RequestBody @Valid MessageEdit request) {
-        messageService.edit(messageId, request);
-    }
+//    @PatchMapping("/messages/{messageId}")
+//    public void edit(@PathVariable Long messageId, @RequestBody @Valid MessageEdit request) {
+//        messageService.edit(messageId, request);
+//    }
 
     @DeleteMapping("/messages/{messageId}")
     public void delete(@PathVariable Long messageId) {
