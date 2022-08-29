@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,8 +31,6 @@ public class UserServiceImpl implements UserService{
     private final FollowRepository followRepository;
     private final BrandUserRepository brandUserRepository;
 
-
-
     @Override
     public void signUp(UserSignUpDto userSignUpDto) throws Exception {
         PoolUser poolUser = userSignUpDto.toEntity();
@@ -45,9 +42,7 @@ public class UserServiceImpl implements UserService{
         }
 
         userRepository.save(poolUser);
-
     }
-
 
     @Override
     public void update(UserUpdateDto userUpdateDto) throws Exception {
@@ -57,8 +52,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updatePassword(String toBePassword, String username) throws Exception {
-        Optional<PoolUser> poolUser = userRepository.findByUsername(username);
-        poolUser.get().updatePassword(passwordEncoder, toBePassword);
+        PoolUser poolUser = userRepository.findByUsername(username).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        poolUser.updatePassword(passwordEncoder, toBePassword);
     }
 
     @Override
@@ -86,7 +81,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserInfoDto getMyInfo() throws Exception {
-        PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         UserInfoDto userInfoDto = UserInfoDto.builder()
                 .username(findPoolUser.getUsername())
@@ -131,8 +126,7 @@ public class UserServiceImpl implements UserService{
             throw new PoolUserException(PoolUserExceptionType.TOKEN_INVALID);
         }
 
-        PoolUser poolUser = userRepository.findByRefreshToken(requestDto.getRefreshToken()).get();
-
+        PoolUser poolUser = userRepository.findByRefreshToken(requestDto.getRefreshToken()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         String accessToken = jwtService.createAccessToken(poolUser.getUsername(), poolUser.getNickName(), poolUser.getUserStatus().value());
         String refreshToken = jwtService.createRefreshToken();
@@ -142,7 +136,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<BrandUserInfoDto> getFollowingUsers(Long cursor, Pageable pageable) {
-        PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()).toString()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         List<BrandUserInfoDto> followingUserList = getFollowingList(cursor, pageable).stream()
                 .map(BrandUserInfoDto::new)
@@ -164,15 +158,15 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUserNickName(String toBeNickName) {
-        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).get();
+        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         poolUser.updateNickName(toBeNickName);
     }
 
     private List<BrandUser> getFollowingList(Long id, Pageable page) {
-        Optional<PoolUser> poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
+        PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         return id.equals(0L)
-                ? brandUserRepository.followingList(poolUser.get().getId(), page)
-                : brandUserRepository.followingListLess(poolUser.get().getId(), id, page);
+                ? brandUserRepository.followingList(poolUser.getId(), page)
+                : brandUserRepository.followingListLess(poolUser.getId(), id, page);
     }
 
 
