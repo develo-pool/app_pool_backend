@@ -4,7 +4,7 @@ import appool.pool.project.exception.BaseExceptionType;
 import org.springframework.http.HttpStatus;
 
 public enum BrandUserExceptionType implements BaseExceptionType {
-    NOT_FOUND_BRAND(701, HttpStatus.NOT_FOUND, "브랜드 정보가 없습니다.");
+    NOT_FOUND_BRAND(801, HttpStatus.NOT_FOUND, "브랜드 정보가 없습니다.");
 
     private int errorCode;
     private HttpStatus httpStatus;

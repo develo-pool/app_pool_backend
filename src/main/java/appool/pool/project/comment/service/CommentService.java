@@ -1,12 +1,19 @@
 package appool.pool.project.comment.service;
 
+import appool.pool.project.brand_user.exception.BrandUserException;
+import appool.pool.project.brand_user.exception.BrandUserExceptionType;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.comment.Comment;
 import appool.pool.project.comment.dto.CommentCreate;
 import appool.pool.project.comment.dto.CommentResponse;
 import appool.pool.project.comment.repository.CommentRepository;
+import appool.pool.project.exception.BaseExceptionType;
+import appool.pool.project.message.exception.MessageException;
+import appool.pool.project.message.exception.MessageExceptionType;
 import appool.pool.project.message.repository.MessageRepository;
 import appool.pool.project.user.PoolUser;
+import appool.pool.project.user.exception.PoolUserException;
+import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +37,8 @@ public class CommentService {
 
     public void create(CommentCreate commentCreate, Long messageId) {
         Comment comment = commentCreate.toEntity();
-        comment.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername()).get());
-        comment.confirmMessage(messageRepository.findById(messageId).get());
+        comment.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
+        comment.confirmMessage(messageRepository.findById(messageId).orElseThrow(() ->new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
 
         commentRepository.save(comment);
     }
@@ -43,8 +50,8 @@ public class CommentService {
 
         commentList.forEach(f -> {
             if(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).isEmpty() == false) {
-                f.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandUsername());
-                f.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).get().getBrandProfileImage());
+                f.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
+                f.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriter().getPoolUserId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
             }
         });
 
@@ -58,12 +65,12 @@ public class CommentService {
     }
 
     public CommentResponse getMyComment(Long messageId) {
-        Optional<PoolUser> loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername());
-        Comment myComment = commentRepository.findCommentByMessageIdAndWriterId(messageId, loginUser.get().getId());
+        PoolUser loginUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        Comment myComment = commentRepository.findCommentByMessageIdAndWriterId(messageId, loginUser.getId());
         CommentResponse commentResponse = new CommentResponse(myComment);
         if(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).isEmpty() == false) {
-            commentResponse.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandUsername());
-            commentResponse.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).get().getBrandProfileImage());
+            commentResponse.getWriter().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
+            commentResponse.getWriter().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(myComment.getWriter().getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
         }
         return commentResponse;
     }

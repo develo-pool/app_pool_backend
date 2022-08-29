@@ -100,10 +100,6 @@ public class JwtServiceImpl implements JwtService{
 
         Optional<PoolUser> poolUser = userRepository.findByUsername(username);
 
-//        response.setHeader(USERNAME_CLAIM, username);
-//        response.setHeader(NICKNAME, poolUser.get().getNickName());
-//        response.setHeader(ROLE, poolUser.get().getUserStatus().toString());
-
         Map<String, String> tokenMap = new HashMap<>();
         tokenMap.put(ACCESS_TOKEN_SUBJECT, accessToken);
         tokenMap.put(REFRESH_TOKEN_SUBJECT, refreshToken);

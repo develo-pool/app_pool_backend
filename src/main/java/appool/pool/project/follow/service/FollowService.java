@@ -3,6 +3,8 @@ package appool.pool.project.follow.service;
 import appool.pool.project.follow.Follow;
 import appool.pool.project.follow.repository.FollowRepository;
 import appool.pool.project.user.PoolUser;
+import appool.pool.project.user.exception.PoolUserException;
+import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,12 +25,12 @@ public class FollowService {
             throw new RuntimeException("이미 팔로우 하였습니다.");
         }
 
-        Optional<PoolUser> fromUser = userRepository.findById(fromUserId);
-        Optional<PoolUser> toUser = userRepository.findById(toUserId);
+        PoolUser fromUser = userRepository.findById(fromUserId).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        PoolUser toUser = userRepository.findById(toUserId).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         Follow follow = Follow.builder()
-                .fromUser(fromUser.get())
-                .toUser(toUser.get())
+                .fromUser(fromUser)
+                .toUser(toUser)
                 .build();
         followRepository.save(follow);
     }
