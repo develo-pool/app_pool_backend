@@ -20,7 +20,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private static final int PAGE_DEFAULT_SIZE = 5;
+    private static final int PAGE_DEFAULT_SIZE = 20;
 
     /**
      * 회원가입
