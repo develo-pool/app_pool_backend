@@ -20,6 +20,7 @@ public class MessageResponse {
     private Boolean commentAble;
     private Boolean isWriter;
     private LocalDateTime create_date;
+    private Integer commentCount;
 
     public MessageResponse(Message message) {
         UserInfoDto userInfoDto = UserInfoDto.builder()
@@ -38,5 +39,6 @@ public class MessageResponse {
         this.commentAble = false;
         this.isWriter = false;
         this.create_date = message.getCreateDate();
+        this.commentCount = 0;
     }
 }
