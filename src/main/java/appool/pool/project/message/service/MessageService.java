@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -69,6 +70,8 @@ public class MessageService {
         messageResponse.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId())
                 .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
 
+        messageResponse.setCommentCount(commentRepository.commentCount(id));
+
         return messageResponse;
     }
 
@@ -90,6 +93,7 @@ public class MessageService {
                     .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId())
                     .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
+            f.setCommentCount(commentRepository.commentCount(f.getPostId()));
         });
 
         List<MessageResponse> result = new ArrayList<>();
@@ -123,7 +127,7 @@ public class MessageService {
 
         mainList.forEach(f -> {
             f.setCommentAble(commentRepository.findCommentByMessageIdAndWriterId(f.getPostId(), poolUser.getId()) == null);
-            if(userId == poolUser.getId()) {
+            if(Objects.equals(userId, poolUser.getId())) {
                 f.setIsWriter(true);
             }
             f.getWriterDto().getBrandUserInfoDto().setBrandUserId(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId())
@@ -132,6 +136,7 @@ public class MessageService {
                     .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId())
                     .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
+            f.setCommentCount(commentRepository.commentCount(f.getPostId()));
         });
         return mainList;
     }
@@ -158,6 +163,7 @@ public class MessageService {
             f.getWriterDto().getBrandUserInfoDto().setBrandInfo(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId())
                     .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandInfo());
             f.getWriterDto().setUserFollowerCount(followRepository.findFollowerCountById(f.getWriterDto().getPoolUserId()));
+            f.setCommentCount(commentRepository.commentCount(f.getPostId()));
         });
         return mainList;
     }
@@ -190,6 +196,7 @@ public class MessageService {
                     .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
             f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(poolUser.getId())
                     .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
+            f.setCommentCount(commentRepository.commentCount(f.getPostId()));
         });
         return mainList;
     }
