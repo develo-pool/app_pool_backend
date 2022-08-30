@@ -16,4 +16,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long>{
 
     @Query(value = "SELECT * FROM comment WHERE message_id = :messageId AND comment_id < :id ORDER BY comment_id DESC", nativeQuery = true)
     List<Comment> commentListLess(long messageId, Long id, Pageable pageable);
+
+    @Query(value = "SELECT COUNT(*) FROM comment WHERE message_id = :messageId", nativeQuery = true)
+    int commentCount(long messageId);
 }
