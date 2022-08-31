@@ -43,15 +43,15 @@ public class MessageService {
     private final BrandUserRepository brandUserRepository;
     private final FollowRepository followRepository;
 
-    public void write(MessageCreate messageCreate, List<MultipartFile> multipartFiles) throws FileException {
+    public void write(MessageCreate messageCreate, MultipartFile multipartFiles) throws FileException {
         Message message = messageCreate.toEntity();
 
         message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
-//        if(multipartFiles != null) {
-            message.getFilePath().add(s3Uploader.getThumbnailPath(s3Uploader.uploadImage(multipartFiles).get(0)));
-//        }
+        if(multipartFiles != null) {
+            message.getFilePath().add(s3Uploader.getThumbnailPath(s3Uploader.uploadImageOne(multipartFiles)));
+        }
 
         messageRepository.save(message);
     }

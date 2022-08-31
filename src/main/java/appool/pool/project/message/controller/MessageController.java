@@ -28,7 +28,7 @@ public class MessageController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/messages")
-    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart(required = false) List<MultipartFile> multipartFiles) {
+    public void message(@ModelAttribute @Valid MessageCreate request, @RequestPart(required = false) MultipartFile multipartFiles) {
         messageService.write(request, multipartFiles);
     }
 
