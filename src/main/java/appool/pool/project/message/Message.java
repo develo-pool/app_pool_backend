@@ -28,7 +28,7 @@ public class Message extends BaseTimeEntity {
     @Column(nullable = false)
     private String body;
 
-    @Column(nullable = true, name = "filePath")
+    @Column(nullable = false, name = "filePath")
     @ElementCollection(targetClass = String.class)
     @Builder.Default
     private List<String> filePath = new ArrayList<>();
