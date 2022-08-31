@@ -70,7 +70,7 @@ public class PushNotificationController {
                 tokenList,
                 brandUser.getBrandUsername(),
                 message.getBody(),
-                message.getFilePath().get(0));
+                message.getFilePath());
         return ResponseEntity.ok().build();
     }
 
