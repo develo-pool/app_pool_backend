@@ -15,7 +15,7 @@ public class MessageResponse {
     private Long postId;
     private String body;
     private String messageLink;
-    private List<String> filePath;
+    private String filePath;
     private UserInfoDto writerDto;
     private Boolean commentAble;
     private Boolean isWriter;

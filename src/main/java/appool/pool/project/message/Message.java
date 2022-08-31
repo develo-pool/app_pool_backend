@@ -29,9 +29,7 @@ public class Message extends BaseTimeEntity {
     private String body;
 
     @Column(name = "filePath")
-    @ElementCollection(targetClass = String.class)
-    @Builder.Default
-    private List<String> filePath = new ArrayList<>();
+    private String filePath;
 
     @Column(nullable = true)
     private String messageLink;
@@ -50,6 +48,10 @@ public class Message extends BaseTimeEntity {
 
     public void addComment(Comment comment) {
         commentList.add(comment);
+    }
+
+    public void addImage(String filePath) {
+        this.filePath = filePath;
     }
 
 
