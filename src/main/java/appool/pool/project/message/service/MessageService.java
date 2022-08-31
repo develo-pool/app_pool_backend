@@ -49,9 +49,9 @@ public class MessageService {
         message.confirmWriter(userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER)));
 
-        if(multipartFiles != null) {
+//        if(multipartFiles != null) {
             message.getFilePath().add(s3Uploader.getThumbnailPath(s3Uploader.uploadImage(multipartFiles).get(0)));
-        }
+//        }
 
         messageRepository.save(message);
     }
