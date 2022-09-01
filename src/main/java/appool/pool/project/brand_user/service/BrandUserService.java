@@ -137,15 +137,12 @@ public class BrandUserService {
       return brandUserRepository.existsByBrandUsername(brandUsername);
   }
 
-  public void updateBrandInfo(String toBeInfo) {
+  public void updateBrandInfo(String toBeInfo, MultipartFile multipartFile) {
       PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
       BrandUser brandUser = brandUserRepository.findByPoolUserId(loginUser.getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
       brandUser.updateBrandInfo(toBeInfo);
-  }
-
-  public void updateBrandProfileImg(MultipartFile multipartFile) {
-      PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-      BrandUser brandUser = brandUserRepository.findByPoolUserId(loginUser.getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
-      brandUser.addProfileImage(s3Uploader.getThumbnailPath(s3Uploader.uploadImageOne(multipartFile)));
+      if(!multipartFile.isEmpty()) {
+          brandUser.addProfileImage(s3Uploader.getThumbnailPath(s3Uploader.uploadImageOne(multipartFile)));
+      }
   }
 }
