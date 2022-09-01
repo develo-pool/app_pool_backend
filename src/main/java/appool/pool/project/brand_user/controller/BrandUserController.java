@@ -2,6 +2,7 @@ package appool.pool.project.brand_user.controller;
 
 import appool.pool.project.brand_user.dto.BrandUserCreateDto;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
+import appool.pool.project.brand_user.dto.BrandUserUpdate;
 import appool.pool.project.brand_user.service.BrandUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -55,7 +56,7 @@ public class BrandUserController {
     }
 
     @PutMapping("/brand/update")
-    public void updateBrandInfo(@RequestBody String toBeInfo, @RequestPart(required = false) MultipartFile multipartFile) {
-        brandUserService.updateBrandInfo(toBeInfo, multipartFile);
+    public void updateBrandInfo(@ModelAttribute BrandUserUpdate brandUserUpdate, @RequestPart(required = false) MultipartFile multipartFile) {
+        brandUserService.updateBrandInfo(brandUserUpdate, multipartFile);
     }
 }

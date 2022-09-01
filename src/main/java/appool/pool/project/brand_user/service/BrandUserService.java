@@ -3,6 +3,7 @@ package appool.pool.project.brand_user.service;
 import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.brand_user.dto.BrandUserCreateDto;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
+import appool.pool.project.brand_user.dto.BrandUserUpdate;
 import appool.pool.project.brand_user.exception.BrandUserException;
 import appool.pool.project.brand_user.exception.BrandUserExceptionType;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
@@ -137,10 +138,10 @@ public class BrandUserService {
       return brandUserRepository.existsByBrandUsername(brandUsername);
   }
 
-  public void updateBrandInfo(String toBeInfo, MultipartFile multipartFile) {
+  public void updateBrandInfo(BrandUserUpdate brandUserUpdate, MultipartFile multipartFile) {
       PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
       BrandUser brandUser = brandUserRepository.findByPoolUserId(loginUser.getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
-      brandUser.updateBrandInfo(toBeInfo);
+      brandUser.updateBrandInfo(brandUserUpdate.getToBeInfo());
       if(!multipartFile.isEmpty()) {
           brandUser.addProfileImage(s3Uploader.getThumbnailPath(s3Uploader.uploadImageOne(multipartFile)));
       }
