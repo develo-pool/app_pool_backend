@@ -58,4 +58,9 @@ public class BrandUserController {
     public void updateBrandInfo(@RequestBody String toBeInfo) {
         brandUserService.updateBrandInfo(toBeInfo);
     }
+
+    @PutMapping("/brand/update/image")
+    public void updateBrandProfileImg(@RequestPart MultipartFile multipartFile) {
+        brandUserService.updateBrandProfileImg(multipartFile);
+    }
 }
