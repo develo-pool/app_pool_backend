@@ -142,7 +142,7 @@ public class BrandUserService {
       PoolUser loginUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
       BrandUser brandUser = brandUserRepository.findByPoolUserId(loginUser.getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
       brandUser.updateBrandInfo(brandUserUpdate.getToBeInfo());
-      if(!multipartFile.isEmpty()) {
+      if(multipartFile != null) {
           brandUser.addProfileImage(s3Uploader.getThumbnailPath(s3Uploader.uploadImageOne(multipartFile)));
       }
   }
