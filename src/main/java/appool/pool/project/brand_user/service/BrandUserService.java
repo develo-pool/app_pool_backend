@@ -76,6 +76,9 @@ public class BrandUserService {
           List<TextObject> textObjects = new ArrayList<>();
           textObjects.add(markdownText("*사용자 명(Pool_Username):*\n" + poolUser.getUsername()));
           textObjects.add(markdownText("*사용자 아이디(Pool_User_Id):*\n" + poolUser.getId()));
+          textObjects.add(markdownText("*브랜드 명(Brand_User_Id):*\n" + brandUser.getBrandUsername()));
+          textObjects.add(markdownText("*브랜드 자기소개(Brand_User_Info):*\n" + brandUser.getBrandInfo()));
+          textObjects.add(markdownText("*브랜드 카테고리(Brand_Category):*\n" + brandUser.getBrandCategory()));
           textObjects.add(markdownText("*브랜드 신청 시간:*\n" + brandUser.getCreateDate()));
 
           MethodsClient methods = Slack.getInstance().methods(token);
