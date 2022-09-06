@@ -29,7 +29,7 @@ public class BrandUserController {
     }
 
     @PostMapping("/brand/create/request")
-    public void brandRequest(@RequestBody SlackRequestDto slackRequestDto) {
+    public void brandRequest(@ModelAttribute SlackRequestDto slackRequestDto) {
         brandUserService.request(slackRequestDto);
     }
 
