@@ -3,6 +3,7 @@ package appool.pool.project.brand_user.controller;
 import appool.pool.project.brand_user.dto.BrandUserCreateDto;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.brand_user.dto.BrandUserUpdate;
+import appool.pool.project.brand_user.dto.SlackRequestDto;
 import appool.pool.project.brand_user.service.BrandUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,11 @@ public class BrandUserController {
     @ResponseStatus(HttpStatus.CREATED)
     public void submit(@Valid @ModelAttribute BrandUserCreateDto brandUserCreateDto, @RequestPart(required = false) MultipartFile multipartFile) throws Exception{
         brandUserService.submit(brandUserCreateDto, multipartFile);
+    }
+
+    @PostMapping("/brand/create/request")
+    public void brandRequest(@RequestBody SlackRequestDto slackRequestDto) {
+
     }
 
     @GetMapping("/brand/{id}")
