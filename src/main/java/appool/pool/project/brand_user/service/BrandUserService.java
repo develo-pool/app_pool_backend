@@ -4,6 +4,7 @@ import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.brand_user.dto.BrandUserCreateDto;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.brand_user.dto.BrandUserUpdate;
+import appool.pool.project.brand_user.dto.SlackRequestDto;
 import appool.pool.project.brand_user.exception.BrandUserException;
 import appool.pool.project.brand_user.exception.BrandUserExceptionType;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
@@ -15,15 +16,27 @@ import appool.pool.project.user.exception.PoolUserException;
 import appool.pool.project.user.exception.PoolUserExceptionType;
 import appool.pool.project.user.repository.UserRepository;
 import appool.pool.project.util.security.SecurityUtil;
+import com.slack.api.Slack;
+import com.slack.api.methods.MethodsClient;
+import com.slack.api.methods.SlackApiException;
+import com.slack.api.methods.request.chat.ChatPostMessageRequest;
+import com.slack.api.model.block.composition.TextObject;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
+import static com.slack.api.model.block.Blocks.*;
+import static com.slack.api.model.block.composition.BlockCompositions.markdownText;
+import static com.slack.api.model.block.composition.BlockCompositions.plainText;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +47,11 @@ public class BrandUserService {
   private final UserRepository userRepository;
   private final S3Uploader s3Uploader;
   private final FollowRepository followRepository;
+
+  @Value(value = "${slack.token}")
+  private String token;
+  @Value(value = "${slack.channel.monitor}")
+  private String channel;
 
   public void submit(BrandUserCreateDto brandUserCreateDto, MultipartFile multipartFile) throws Exception{
       BrandUser brandUser = brandUserCreateDto.toEntity();
@@ -47,6 +65,31 @@ public class BrandUserService {
       }
 
       brandUserRepository.save(brandUser);
+  }
+
+  public void request(SlackRequestDto slackRequestDto) {
+
+      PoolUser poolUser = userRepository.findByUsername(slackRequestDto.getUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+      BrandUser brandUser = brandUserRepository.findByPoolUserId(poolUser.getId()).orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
+
+      try{
+          List<TextObject> textObjects = new ArrayList<>();
+          textObjects.add(markdownText("*사용자 명(Pool_Username):*\n" + poolUser.getUsername()));
+          textObjects.add(markdownText("*사용자 아이디(Pool_User_Id):*\n" + poolUser.getId()));
+          textObjects.add(markdownText("*브랜드 신청 시간:*\n" + brandUser.getCreateDate()));
+
+          MethodsClient methods = Slack.getInstance().methods(token);
+          ChatPostMessageRequest request = ChatPostMessageRequest.builder()
+                  .channel(channel)
+                  .blocks(asBlocks(
+                          header(header -> header.text(plainText(slackRequestDto.getUsername() + "님이 브랜드 전환을 기다립니다!"))),
+                          divider(),
+                          section(section -> section.fields(textObjects))
+                  )).build();
+          methods.chatPostMessage(request);
+      } catch (SlackApiException | IOException e) {
+          new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND);
+      }
   }
 
   public BrandUserInfoDto getBrandInfo(Long id) {
