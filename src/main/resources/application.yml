@@ -21,4 +21,4 @@ file:
 slack:
   token: xoxb-2809610311684-4062997317088-XLAdHIH0Ayo33pZ4ivKVOiWP
   channel:
-    monitor: '#3-개발-홈'
+    monitor: '#4-알림봇'
