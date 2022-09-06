@@ -112,7 +112,7 @@ public class PoolUser extends BaseTimeEntity {
     }
 
     public void updateFCMToken(String fcmToken) {
-        this.fcmToken = fcmToken.replaceAll("%3A", ":");
+        this.fcmToken = fcmToken;
     }
 
 
