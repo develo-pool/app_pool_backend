@@ -47,9 +47,9 @@ public class WelcomeMessageService {
     public WelcomeMessageInfoDto get(Long id) {
 
         WelcomeMessageInfoDto welcomeMessageInfoDto = new WelcomeMessageInfoDto(welcomeMessageRepository.findByWriterId(id).orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
-        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId())
+        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(id)
                 .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
-        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(welcomeMessageInfoDto.getWriterDto().getPoolUserId())
+        welcomeMessageInfoDto.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(id)
                 .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
         return welcomeMessageInfoDto;
     }
