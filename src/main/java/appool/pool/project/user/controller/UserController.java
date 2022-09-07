@@ -1,6 +1,7 @@
 package appool.pool.project.user.controller;
 
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
+import appool.pool.project.fcm.dto.TokenDTO;
 import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import appool.pool.project.user.dto.*;
 import appool.pool.project.user.service.UserService;
@@ -115,8 +116,8 @@ public class UserController {
 
     @PostMapping("/fcmToken")
     @ResponseStatus(HttpStatus.OK)
-    public void saveFCMToken(@RequestBody String fcmToken) {
-        userService.saveFCMToken(fcmToken);
+    public void saveFCMToken(@RequestBody TokenDTO fcmToken) {
+        userService.saveFCMToken(fcmToken.getFcmToken());
     }
 
 
