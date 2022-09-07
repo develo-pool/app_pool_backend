@@ -45,7 +45,7 @@ public class PushNotificationController {
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         BrandUser brandUser = brandUserRepository.findByPoolUserId(requestSingleDTO.getBrand_id())
                 .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
-        WelcomeMessage welcomeMessage = welcomeMessageRepository.findWithWriterById(requestSingleDTO.getBrand_id())
+        WelcomeMessage welcomeMessage = welcomeMessageRepository.findByWriterId(requestSingleDTO.getBrand_id())
                 .orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
 
         firebaseCloudMessageService.sendMessageTo(
