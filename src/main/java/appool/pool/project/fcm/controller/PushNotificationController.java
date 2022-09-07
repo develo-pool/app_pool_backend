@@ -47,7 +47,7 @@ public class PushNotificationController {
                 .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
         WelcomeMessage welcomeMessage = welcomeMessageRepository.findByWriterId(requestSingleDTO.getBrand_id())
                 .orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
-        if(welcomeMessage.getFilePath().isEmpty()) {
+        if(welcomeMessage.getFilePath() == null) {
             firebaseCloudMessageService.sendMessageTo(
                     poolUser.getFcmToken(),
                     brandUser.getBrandUsername(),
