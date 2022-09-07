@@ -47,18 +47,20 @@ public class PushNotificationController {
                 .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
         WelcomeMessage welcomeMessage = welcomeMessageRepository.findByWriterId(requestSingleDTO.getBrand_id())
                 .orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
-        if(welcomeMessage.getFilePath() == null) {
+        if(welcomeMessage.getFilePath().isEmpty()) {
             firebaseCloudMessageService.sendMessageTo(
                     poolUser.getFcmToken(),
                     brandUser.getBrandUsername(),
                     welcomeMessage.getBody(),
-                    null);
+                    null,
+                    brandUser.getBrandProfileImage());
         }else {
             firebaseCloudMessageService.sendMessageTo(
                     poolUser.getFcmToken(),
                     brandUser.getBrandUsername(),
                     welcomeMessage.getBody(),
-                    welcomeMessage.getFilePath().get(0));
+                    welcomeMessage.getFilePath().get(0),
+                    brandUser.getBrandProfileImage());
         }
         return ResponseEntity.ok().build();
     }
@@ -73,19 +75,22 @@ public class PushNotificationController {
 
         List<String> tokenList = userRepository.findFcmTokenList(requestDTO.getBrand_id());
 
-        if(message.getFilePath() == null){
-            firebaseCloudMessageService.sendMessageList(
-                    tokenList,
-                    brandUser.getBrandUsername(),
-                    message.getBody(),
-                    null);
-        }else {
-            firebaseCloudMessageService.sendMessageList(
-                    tokenList,
-                    brandUser.getBrandUsername(),
-                    message.getBody(),
-                    message.getFilePath());
-        }
+
+            if(message.getFilePath() == null) {
+                firebaseCloudMessageService.sendMessageList(
+                        tokenList,
+                        brandUser.getBrandUsername(),
+                        message.getBody(),
+                        null,
+                        brandUser.getBrandProfileImage());
+            } else {
+                firebaseCloudMessageService.sendMessageList(
+                        tokenList,
+                        brandUser.getBrandUsername(),
+                        message.getBody(),
+                        message.getFilePath(),
+                        brandUser.getBrandProfileImage());
+            }
 
         return ResponseEntity.ok().build();
     }

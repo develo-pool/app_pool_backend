@@ -18,6 +18,7 @@ public class FcmMessage {
     @Builder
     public static class Message {
         private Notification notification;
+        private FcmData data;
         private String token;
     }
 
@@ -28,5 +29,12 @@ public class FcmMessage {
         private String title;
         private String body;
         private String image;
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @Data
+    public static class FcmData {
+        private String profileImage;
     }
 }

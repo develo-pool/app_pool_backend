@@ -23,9 +23,9 @@ public class FirebaseCloudMessageService {
     private final String API_URL = "https://fcm.googleapis.com/v1/projects/app-pool-firebase/messages:send";
     private final ObjectMapper objectMapper;
 
-    public void sendMessageTo(String targetToken, String title, String body, String image) throws IOException {
+    public void sendMessageTo(String targetToken, String title, String body, String image, String profileImage) throws IOException {
 
-        String message = makeMessage(targetToken, title, body, image);
+        String message = makeMessage(targetToken, title, body, image, profileImage);
 
         OkHttpClient client = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(message,
@@ -42,12 +42,12 @@ public class FirebaseCloudMessageService {
         System.out.println(response.body().string());
     }
 
-    public void sendMessageList(List<String> targetToken, String title, String body, String image) throws IOException {
+    public void sendMessageList(List<String> targetToken, String title, String body, String image, String profileImage) throws IOException {
 
         targetToken.forEach(f -> {
             String message = null;
             try {
-                message = makeMessage(f, title, body, image);
+                message = makeMessage(f, title, body, image, profileImage);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
@@ -85,7 +85,7 @@ public class FirebaseCloudMessageService {
 
     }
 
-    private String makeMessage(String targetToken, String title, String body, String image) throws JsonParseException, JsonProcessingException, JsonProcessingException {
+    private String makeMessage(String targetToken, String title, String body, String image, String profileImage) throws JsonParseException, JsonProcessingException, JsonProcessingException {
         FcmMessage fcmMessage = FcmMessage.builder()
                 .message(FcmMessage.Message.builder()
                         .token(targetToken)
@@ -94,7 +94,12 @@ public class FirebaseCloudMessageService {
                                 .body(body)
                                 .image(image)
                                 .build()
-                        ).build()).validateOnly(false).build();
+                        )
+                        .data(FcmMessage.FcmData.builder()
+                                .profileImage(profileImage)
+                                .build())
+                        .build()
+                ).validateOnly(false).build();
 
         return objectMapper.writeValueAsString(fcmMessage);
     }
