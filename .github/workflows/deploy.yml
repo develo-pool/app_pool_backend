@@ -29,7 +29,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        token: $
         submodules: recursive
         
     # (2) JDK 17 세팅
