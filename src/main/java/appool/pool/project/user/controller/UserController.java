@@ -2,7 +2,6 @@ package appool.pool.project.user.controller;
 
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
 import appool.pool.project.fcm.dto.TokenDTO;
-import appool.pool.project.login.filter.JsonUsernamePasswordAuthenticationFilter;
 import appool.pool.project.user.dto.*;
 import appool.pool.project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -124,6 +123,11 @@ public class UserController {
     @PutMapping("/user/update")
     public void updateUserNickName(@RequestBody String toBeNickname) {
         userService.updateUserNickName(toBeNickname);
+    }
+
+    @GetMapping("/")
+    public HttpStatus healthCheck() {
+        return HttpStatus.OK;
     }
 
 }
