@@ -71,6 +71,6 @@ task copyPrivate(type: Copy) {
     copy {
         from './submodule-data'
         include "*.yml, *.json"
-        into 'src/main/resource'
+        into 'src/main/resources'
     }
 }
