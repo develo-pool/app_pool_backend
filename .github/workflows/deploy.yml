@@ -25,13 +25,16 @@ jobs:
     environment: production
 
     steps:
+    
+    - name: Checkout
+      uses: actions/checkout@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        submodules: recursive
         
     # (1) 기본 체크아웃
     - name: Checkout
       uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        submodules: recursive
         
     # (2) JDK 17 세팅
     - name: Set up JDK 17
