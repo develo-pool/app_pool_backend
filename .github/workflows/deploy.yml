@@ -35,12 +35,12 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '17'
+        submodules: recursive
 
     # (3) Gradle build
     - name: Build with Gradle
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
       with:
-        submodule: recursive
         arguments: clean build -x test
 
     # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
