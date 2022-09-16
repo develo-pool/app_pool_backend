@@ -56,7 +56,7 @@ public class UserController {
     @DeleteMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public void withdraw(UserWithdrawDto userWithdrawDto) throws Exception {
-        userService.withdraw();
+        userService.withdraw(userWithdrawDto.checkPassword());
     }
 
     /**
