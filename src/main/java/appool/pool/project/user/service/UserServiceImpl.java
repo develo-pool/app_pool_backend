@@ -2,6 +2,8 @@ package appool.pool.project.user.service;
 
 import appool.pool.project.brand_user.BrandUser;
 import appool.pool.project.brand_user.dto.BrandUserInfoDto;
+import appool.pool.project.brand_user.exception.BrandUserException;
+import appool.pool.project.brand_user.exception.BrandUserExceptionType;
 import appool.pool.project.brand_user.repository.BrandUserRepository;
 import appool.pool.project.follow.repository.FollowRepository;
 import appool.pool.project.jwt.service.JwtService;
@@ -59,11 +61,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public void withdraw(String checkPassword) throws Exception {
         PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
-
         if(!poolUser.matchPassword(passwordEncoder, checkPassword)) {
             throw new PoolUserException(PoolUserExceptionType.WRONG_PASSWORD);
         }
-
         userRepository.delete(poolUser);
     }
 
