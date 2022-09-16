@@ -30,7 +30,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         token: ${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}
-        submodules: true
+        submodules: 'true'
         
     # (2) JDK 17 세팅
     - name: Set up JDK 17
