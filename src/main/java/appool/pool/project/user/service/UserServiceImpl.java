@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void withdraw(String checkPassword) throws Exception {
+    public void withdraw(String checkPassword) {
         PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         userRepository.delete(poolUser);
     }
