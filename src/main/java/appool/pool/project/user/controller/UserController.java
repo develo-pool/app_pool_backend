@@ -53,7 +53,7 @@ public class UserController {
     /**
      * 회원탈퇴
      */
-    @DeleteMapping("/withdraw")
+    @DeleteMapping("/")
     @ResponseStatus(HttpStatus.OK)
     public void withdraw() throws Exception {
         userService.withdraw();
