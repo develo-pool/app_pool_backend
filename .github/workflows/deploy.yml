@@ -13,6 +13,7 @@ env:
   S3_BUCKET_NAME: github-actions-s3-bucket
   CODE_DEPLOY_APPLICATION_NAME: my-codedeploy-app
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: my-codedeploy-deployment-group
+  secrets.GITHUB_TOKEN: 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
 
 permissions:
   contents: read
@@ -29,7 +30,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
       with:
-        token: ${{ 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 }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         submodules: true
         
     # (2) JDK 17 세팅
