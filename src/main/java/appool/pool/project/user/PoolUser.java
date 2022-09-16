@@ -67,10 +67,10 @@ public class PoolUser extends BaseTimeEntity {
     @OneToMany(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Comment> commentList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "poolUser")
+    @OneToOne(mappedBy = "poolUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private BrandUser brandUser;
 
-    @OneToOne(mappedBy = "writer")
+    @OneToOne(mappedBy = "writer", cascade = CascadeType.ALL, orphanRemoval = true)
     private WelcomeMessage welcomeMessage;
 
 
