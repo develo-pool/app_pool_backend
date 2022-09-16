@@ -2,7 +2,6 @@ package appool.pool.project.message.controller;
 
 import appool.pool.project.file.service.S3Uploader;
 import appool.pool.project.message.dto.MessageCreate;
-import appool.pool.project.message.dto.MessageEdit;
 import appool.pool.project.message.dto.MessageResponse;
 import appool.pool.project.message.service.MessageService;
 import lombok.RequiredArgsConstructor;
