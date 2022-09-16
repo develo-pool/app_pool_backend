@@ -1,0 +1,12 @@
+cloud:
+  aws:
+    s3:
+      bucket: my-file-upload-actions-s3-bucket
+      folder:
+
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    credentials:
+      instance-profile: true

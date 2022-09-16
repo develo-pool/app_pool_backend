@@ -1,4 +1,0 @@
-[submodule "app_pool_certificate"]
-	path = app_pool_certificate
-	url = https://github.com/develo-pool/app_pool_certificate
-	branch = main

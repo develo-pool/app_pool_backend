@@ -70,11 +70,11 @@ secrets.yml
 /build/bootJarMainClassName
 /build/bootRunMainClassName
 
-app-pool-firebase-firebase-adminsdk-rn3u9-3a27dcdf01.json
-application.yml
-application-aws.yml
-application-credentials.yml
-application-develop.yml
-application-jwt.yml
-application-prod.yml
-google-services.json
+#app-pool-firebase-firebase-adminsdk-rn3u9-3a27dcdf01.json
+#application.yml
+#application-aws.yml
+#application-credentials.yml
+#application-develop.yml
+#application-jwt.yml
+#application-prod.yml
+#google-services.json
