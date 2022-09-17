@@ -15,7 +15,7 @@ public interface UserService {
 
     void updatePassword(String toBePassword, String username) throws Exception;
 
-    void withdraw(String checkPassword) ;
+    void withdraw() ;
 
     UserInfoDto getInfo(Long id) throws Exception;
 

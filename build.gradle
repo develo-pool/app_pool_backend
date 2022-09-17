@@ -66,11 +66,3 @@ tasks.named('test') {
 jar {
     enabled = false
 }
-
-//task copyPrivate(type: Copy) {
-//    copy {
-//        from './submodule-data'
-//        include "*.yml, *.json"
-//        into 'src/main/resources'
-//    }
-//}
