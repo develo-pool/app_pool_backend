@@ -61,6 +61,12 @@ public class UserServiceImpl implements UserService{
     @Override
     public void withdraw() {
         PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername()).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        if(followRepository.findFollowerCountById(poolUser.getId()) > 0) {
+            followRepository.deleteFollowers(poolUser.getId());
+        }
+        if(followRepository.findFollowingCountById(poolUser.getId()) > 0) {
+            followRepository.deleteFollowings(poolUser.getId());
+        }
         userRepository.delete(poolUser);
     }
 
