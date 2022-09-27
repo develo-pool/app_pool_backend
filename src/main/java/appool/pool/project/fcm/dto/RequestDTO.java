@@ -6,5 +6,4 @@ import lombok.Data;
 public class RequestDTO {
 
     private Long brand_id;
-    private Long message_id;
 }
