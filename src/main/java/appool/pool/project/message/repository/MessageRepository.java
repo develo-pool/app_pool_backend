@@ -14,6 +14,9 @@ public interface MessageRepository extends JpaRepository<Message, Long>, Message
     @EntityGraph(attributePaths = {"writer"})
     Optional<Message> findWithWriterById(Long id);
 
+    @Query(value = "SELECT * FROM message WHERE writer_id = : id ORDER BY message_id DESC limit 1", nativeQuery = true)
+    Optional<Message> findCurrentMessage(long id);
+
     @Query(value = "SELECT * FROM message WHERE writer_id IN (SELECT to_user_id FROM follow WHERE from_user_id = :sessionId) ORDER BY message_id DESC", nativeQuery = true)
     List<Message> mainFeed(long sessionId, Pageable pageable);
 
