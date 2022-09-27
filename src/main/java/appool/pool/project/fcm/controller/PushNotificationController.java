@@ -67,10 +67,11 @@ public class PushNotificationController {
     @PostMapping("api/fcm/submit")
     public ResponseEntity pushMessages(@RequestBody RequestDTO requestDTO) throws IOException {
 
-
         BrandUser brandUser = brandUserRepository.findByPoolUserId(requestDTO.getBrand_id())
                 .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND));
-        Message message = messageRepository.findCurrentMessage(brandUser.getPoolUser().getId())
+        PoolUser poolUser = userRepository.findById(requestDTO.getBrand_id())
+                .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        Message message = messageRepository.findCurrentMessage(poolUser.getId())
                 .orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND));
 
         List<String> tokenList = userRepository.findFcmTokenList(requestDTO.getBrand_id());
