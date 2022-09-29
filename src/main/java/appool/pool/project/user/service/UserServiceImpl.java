@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService{
     public UserInfoDto getInfo(Long id) throws Exception {
         PoolUser findPoolUser = userRepository.findById(id).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
         UserInfoDto userInfoDto = UserInfoDto.builder()
+                .poolUserId(findPoolUser.getId())
                 .username(findPoolUser.getUsername())
                 .nickName(findPoolUser.getNickName())
                 .userStatus(findPoolUser.getUserStatus())
@@ -87,6 +88,7 @@ public class UserServiceImpl implements UserService{
         PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         UserInfoDto userInfoDto = UserInfoDto.builder()
+                .poolUserId(findPoolUser.getId())
                 .username(findPoolUser.getUsername())
                 .nickName(findPoolUser.getNickName())
                 .userStatus(findPoolUser.getUserStatus())
