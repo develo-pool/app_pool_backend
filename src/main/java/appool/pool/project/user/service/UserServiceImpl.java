@@ -85,7 +85,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserInfoDto getMyInfo() throws Exception {
-        PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername())).orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
+        PoolUser findPoolUser = userRepository.findByUsername((SecurityUtil.getLoginUsername()))
+                .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
 
         UserInfoDto userInfoDto = UserInfoDto.builder()
                 .poolUserId(findPoolUser.getId())

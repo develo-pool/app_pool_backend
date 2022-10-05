@@ -171,6 +171,17 @@ public class BrandUserService {
 
   }
 
+    public List<BrandUserInfoDto> getBrandsWeb(Long cursor, Pageable pageable) {
+        List<BrandUserInfoDto> brandUserList = getBrandList(cursor, pageable).stream()
+                .map(BrandUserInfoDto::new)
+                .collect(Collectors.toList());
+        brandUserList.forEach(f -> {f.setUserInfoDto(UserInfoDto.builder()
+                .userFollowerCount(followRepository.findFollowerCountById(f.getPoolUserId()))
+                .build());
+        });
+        return brandUserList;
+    }
+
   public List<BrandUser> getBrandList(Long id, Pageable page) {
       return id.equals(0L)
               ? brandUserRepository.brandList(page)
