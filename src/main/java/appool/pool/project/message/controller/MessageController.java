@@ -51,6 +51,11 @@ public class MessageController {
         return messageService.getMainFeed(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
+    @GetMapping("/messages/recommend/web")
+    public List<MessageResponse> getRecommendList(Long cursor) {
+        return messageService.getMainFeedRecommend();
+    }
+
     @GetMapping("/user/profile")
     public List<MessageResponse> getMyProfile(Long cursor) {
         return messageService.getMyProfileFeed(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
