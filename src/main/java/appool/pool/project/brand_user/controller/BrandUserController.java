@@ -61,6 +61,11 @@ public class BrandUserController {
         return brandUserService.getBrandsWeb(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
     }
 
+    @GetMapping("/brands/web/recommend")
+    public List<BrandUserInfoDto> getBrandRecommendWeb() {
+        return brandUserService.getBrandsRecommendWeb();
+    }
+
     @GetMapping("/brand-brandUsernames/{brandUsername}/exists")
     public ResponseEntity<Boolean> checkBrandUsernameDuplicate(@PathVariable String brandUsername) {
         return ResponseEntity.ok(brandUserService.checkBrandUsernameDuplicate(brandUsername));
