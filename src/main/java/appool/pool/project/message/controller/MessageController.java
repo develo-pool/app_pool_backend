@@ -41,6 +41,11 @@ public class MessageController {
         return ResponseEntity.ok(messageService.get(messageId));
     }
 
+    @GetMapping("/messages/{messageId}/web")
+    public ResponseEntity getWeb(@PathVariable Long messageId) {
+        return ResponseEntity.ok(messageService.getWeb(messageId));
+    }
+
     @GetMapping("/messages")
     public List<MessageResponse> getMainList(Long cursor) {
         return messageService.getMainFeed(cursor, PageRequest.of(0, PAGE_DEFAULT_SIZE));
