@@ -120,6 +120,26 @@ public class MessageService {
         return result;
     }
 
+    public List<MessageResponse> getMainFeedRecommend() {
+        List<Message> messages = messageRepository.messageRecommend();
+
+        List<MessageResponse> messageRecommend = messages.stream()
+                .map(MessageResponse::new)
+                .collect(Collectors.toList());
+
+        messageRecommend.forEach(f -> {
+            f.getWriterDto().getBrandUserInfoDto().setBrandUserId(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId())
+                    .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getId());
+            f.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId())
+                    .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
+            f.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(f.getWriterDto().getPoolUserId())
+                    .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
+            f.setCommentCount(commentRepository.commentCount(f.getPostId()));
+        });
+
+        return messageRecommend;
+    }
+
     private List<Message> getMessageList(Long id, Pageable page) {
         PoolUser poolUser = userRepository.findByUsername(SecurityUtil.getLoginUsername())
                 .orElseThrow(() -> new PoolUserException(PoolUserExceptionType.NOT_FOUND_MEMBER));
