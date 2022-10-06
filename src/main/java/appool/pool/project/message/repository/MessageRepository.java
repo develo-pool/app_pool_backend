@@ -34,4 +34,7 @@ public interface MessageRepository extends JpaRepository<Message, Long>, Message
 
     @Query(value = "SELECT * FROM message WHERE writer_id = :sessionId AND message_id < :id ORDER BY message_id DESC", nativeQuery = true)
     List<Message> myProfileFeedLess(long sessionId, Long id, Pageable pageable);
+
+    @Query(value = "SELECT * FROM message ORDER BY message_id DESC limit 3", nativeQuery = true)
+    List<Message> messageRecommend();
 }
