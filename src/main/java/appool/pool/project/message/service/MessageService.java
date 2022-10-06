@@ -75,6 +75,21 @@ public class MessageService {
         return messageResponse;
     }
 
+    public MessageResponse getWeb(Long id) {
+        MessageResponse messageResponse = new MessageResponse(messageRepository.findWithWriterById(id)
+                .orElseThrow(() -> new MessageException(MessageExceptionType.MESSAGE_NOT_FOUND)));
+
+        messageResponse.getWriterDto().getBrandUserInfoDto().setBrandUsername(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId())
+                .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandUsername());
+
+        messageResponse.getWriterDto().getBrandUserInfoDto().setBrandProfileImage(brandUserRepository.findByPoolUserId(messageResponse.getWriterDto().getPoolUserId())
+                .orElseThrow(() -> new BrandUserException(BrandUserExceptionType.NOT_FOUND_BRAND)).getBrandProfileImage());
+
+        messageResponse.setCommentCount(commentRepository.commentCount(id));
+
+        return messageResponse;
+    }
+
     /**
      * 메인 피드 : 내가 팔로우 한 메시지들 모아보기
      */
