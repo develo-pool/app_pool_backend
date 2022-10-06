@@ -182,6 +182,17 @@ public class BrandUserService {
         return brandUserList;
     }
 
+    public List<BrandUserInfoDto> getBrandsRecommendWeb() {
+        List<BrandUser> brandUsers = brandUserRepository.recommendBrand();
+        List<BrandUserInfoDto> brandUserRecommend = brandUsers.stream().map(BrandUserInfoDto::new).collect(Collectors.toList());
+        brandUserRecommend.forEach(f ->
+                f.setUserInfoDto(UserInfoDto.builder()
+                        .userFollowerCount(followRepository.findFollowerCountById(f.getPoolUserId()))
+                        .build()
+                ));
+        return brandUserRecommend;
+    }
+
   public List<BrandUser> getBrandList(Long id, Pageable page) {
       return id.equals(0L)
               ? brandUserRepository.brandList(page)
